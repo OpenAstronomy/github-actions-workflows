@@ -7,18 +7,17 @@ on:
         description: Any extras_requires modifier that should be used to install the package for testing
         required: false
         default: ''
+        type: string
       test_command:
         description: The command to run to test the package (will be run in a temporary directory)
         required: false
         default: ''
+        type: string
       pure_python_wheel:
         description: Whether to build a pure Python wheel - if not, separate wheels are built for each platform.
         required: false
         default: false
-
-    secrets:
-      token:
-        required: true
+        type: boolean
 
 jobs:
   build_wheels:
