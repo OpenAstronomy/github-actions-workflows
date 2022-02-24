@@ -1,0 +1,49 @@
+name: Build and publish a Python package
+
+on:
+  workflow_call:
+    inputs:
+      test_extras:
+        description: Any extras_requires modifier that should be used to install the package for testing
+        required: false
+        default: ''
+      test_command:
+        description: The command to run to test the package (will be run in a temporary directory)
+        required: false
+        default: ''
+      pure_python_wheel:
+        description: Whether to build a pure Python wheel - if not, separate wheels are built for each platform.
+        required: false
+        default: false
+
+    secrets:
+      token:
+        required: true
+
+jobs:
+  build_wheels:
+    name: Build platform-dependent wheels
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, windows-2019, macos-10.15]
+    steps:
+    - name: Run cibuildwheel
+      uses: pypa/cibuildwheel@v2.3.1
+      with:
+        output-dir: dist
+      env:
+        CIBW_TEST_EXTRAS: ${{ inputs.test_extras }}
+        CIBW_TEST_COMMAND: ${{ inputs.test_command }}
+
+  build_sdist:
+    name: Build source distribution (and wheel if a pure-Python package)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - id: build
+        uses: OpenAstronomy/action-build-sdist-and-wheel@main
+        with:
+          pure_python_wheel: ${{ inputs.pure_python_wheel }}
+          test_extras: ${{ inputs.test_extras }}
+          test_command: ${{ inputs.test_command }}
