@@ -1,0 +1,15 @@
+on: [push]
+
+jobs:
+  release:
+    uses: ./.github/workflows/publish.yml
+    with:
+      pure_python_wheel: true
+      test_extras: test
+      test_command: pytest --pyargs test_package
+  release_with_cibuildwheel:
+    uses: ./.github/workflows/publish.yml
+    with:
+      pure_python_wheel: false
+      test_extras: test
+      test_command: pytest --pyargs test_package
