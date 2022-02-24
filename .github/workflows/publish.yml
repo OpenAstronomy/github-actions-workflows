@@ -20,9 +20,11 @@ on:
         type: boolean
 
 jobs:
+
   build_wheels:
     name: Build platform-dependent wheels
     runs-on: ${{ matrix.os }}
+    if: ${{ !inputs.pure_python_wheel }}
     strategy:
       matrix:
         os: [ubuntu-20.04, windows-2019, macos-10.15]
@@ -36,13 +38,25 @@ jobs:
         CIBW_TEST_COMMAND: ${{ inputs.test_command }}
 
   build_sdist:
-    name: Build source distribution (and wheel if a pure-Python package)
+    name: Build source distribution
+    if: ${{ !inputs.pure_python_wheel }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - id: build
         uses: OpenAstronomy/action-build-sdist-and-wheel@main
         with:
-          pure_python_wheel: ${{ inputs.pure_python_wheel }}
+          test_extras: ${{ inputs.test_extras }}
+          test_command: ${{ inputs.test_command }}
+
+  build_sdist_and_wheel:
+    name: Build source and wheel distribution
+    if: ${{ inputs.pure_python_wheel }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - id: build
+        uses: OpenAstronomy/action-build-sdist-and-wheel@main
+        with:
           test_extras: ${{ inputs.test_extras }}
           test_command: ${{ inputs.test_command }}
