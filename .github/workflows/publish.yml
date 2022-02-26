@@ -18,16 +18,33 @@ on:
         required: false
         default: false
         type: boolean
+      platforms:
+        description: List of target platforms
+        required: false
+        default: 'ubuntu-20.04 windows-2019 macos-10.15'
+        type: string
 
 jobs:
 
+  generate_platform_matrix:
+    name: Generate build_wheels matrix
+    runs-on: ubuntu-latest
+    if: ${{ !inputs.pure_python_wheel }}
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - id: set-matrix
+        run: |
+          FILTER='split(" ") as $platforms | {"os": $platforms}'
+          echo "::set-output name=matrix::$( echo ${{ inputs.platforms }} | jq -R -c $FILTER )"
+
   build_wheels:
     name: Build platform-dependent wheels
+    needs: [generate_platform_matrix]
     runs-on: ${{ matrix.os }}
     if: ${{ !inputs.pure_python_wheel }}
     strategy:
-      matrix:
-        os: [ubuntu-20.04, windows-2019, macos-10.15]
+      matrix: ${{fromJSON(needs.generate_platform_matrix.outputs.matrix)}}
     steps:
     - uses: actions/checkout@v2
       with:
