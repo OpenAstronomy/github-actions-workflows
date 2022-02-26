@@ -1,4 +1,4 @@
-name: Build and publish a Python package
+name: Build and publish Python package
 
 on:
   workflow_call:
@@ -14,7 +14,7 @@ on:
         default: ''
         type: string
       pure_python_wheel:
-        description: Whether to build a pure Python wheel - if not, separate wheels are built for each platform.
+        description: Whether to build a pure Python wheel - if not, separate wheels are built for each platform
         required: false
         default: false
         type: boolean
@@ -47,7 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: build
-        uses: OpenAstronomy/action-build-sdist-and-wheel@main
+        uses: OpenAstronomy/build-python-dist@main
         with:
           test_extras: ${{ inputs.test_extras }}
           test_command: ${{ inputs.test_command }}
@@ -59,7 +59,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: build
-        uses: OpenAstronomy/action-build-sdist-and-wheel@main
+        uses: OpenAstronomy/build-python-dist@main
         with:
           test_extras: ${{ inputs.test_extras }}
           test_command: ${{ inputs.test_command }}
