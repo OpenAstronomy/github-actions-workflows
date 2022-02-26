@@ -23,6 +23,19 @@ on:
         required: false
         default: 'ubuntu-20.04 windows-2019 macos-10.15'
         type: string
+      upload_to_pypi:
+        description: Always upload to PyPI - if not, only upload tags
+        required: false
+        default: false
+        type: boolean
+      repository_url:
+        description: The PyPI repository URL to use
+        required: false
+        default: ''
+        type: string
+    secrets:
+      pypi_password:
+        required: false
 
 jobs:
 
@@ -56,6 +69,9 @@ jobs:
         env:
           CIBW_TEST_EXTRAS: ${{ inputs.test_extras }}
           CIBW_TEST_COMMAND: ${{ inputs.test_command }}
+      - uses: actions/upload-artifact@v2
+        with:
+          path: dist/*
 
   build_sdist:
     name: Build source distribution
@@ -68,6 +84,9 @@ jobs:
         with:
           test_extras: ${{ inputs.test_extras }}
           test_command: ${{ inputs.test_command }}
+      - uses: actions/upload-artifact@v2
+        with:
+          path: dist/*
 
   build_sdist_and_wheel:
     name: Build source and wheel distribution
@@ -80,3 +99,27 @@ jobs:
         with:
           test_extras: ${{ inputs.test_extras }}
           test_command: ${{ inputs.test_command }}
+          pure_python_wheel: ${{ inputs.pure_python_wheel }}
+      - uses: actions/upload-artifact@v2
+        with:
+          path: dist/*
+
+  upload_pypi:
+    name: Upload to PyPI
+    needs: [build_wheels, build_sdist, build_sdist_and_wheel]
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'push'
+        && (startsWith(github.event.ref, 'refs/tags/v') | inputs.upload_to_pypi )
+        && (needs.build_wheels.result == 'success' || needs.build_wheels.result == 'skipped')
+        && (needs.build_sdist.result == 'success' || needs.build_sdist.result == 'skipped')
+        && (needs.build_sdist_and_wheel.result == 'success' || needs.build_sdist_and_wheel.result == 'skipped')
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: artifact
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: __token__
+          password: ${{ secrets.pypi_password }}
