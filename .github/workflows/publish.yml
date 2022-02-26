@@ -46,16 +46,16 @@ jobs:
     strategy:
       matrix: ${{fromJSON(needs.generate_platform_matrix.outputs.matrix)}}
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: Run cibuildwheel
-      uses: pypa/cibuildwheel@v2.3.1
-      with:
-        output-dir: dist
-      env:
-        CIBW_TEST_EXTRAS: ${{ inputs.test_extras }}
-        CIBW_TEST_COMMAND: ${{ inputs.test_command }}
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Run cibuildwheel
+        uses: pypa/cibuildwheel@v2.3.1
+        with:
+          output-dir: dist
+        env:
+          CIBW_TEST_EXTRAS: ${{ inputs.test_extras }}
+          CIBW_TEST_COMMAND: ${{ inputs.test_command }}
 
   build_sdist:
     name: Build source distribution
