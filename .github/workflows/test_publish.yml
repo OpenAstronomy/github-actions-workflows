@@ -6,12 +6,19 @@ jobs:
   release:
     uses: ./.github/workflows/publish.yml
     with:
-      pure_python_wheel: true
       test_extras: test
       test_command: pytest --pyargs test_package
+      targets: |
+        - sdist
+        - wheels_universal
   release_with_cibuildwheel:
     uses: ./.github/workflows/publish.yml
     with:
-      pure_python_wheel: false
       test_extras: test
       test_command: pytest --pyargs test_package
+      targets: |
+        - sdist
+        - wheels_linux
+        - wheels_cp38-macosx_x86_64
+        - wheels_cp3?-win32
+        - wheels_cp38-manylinux2014-aarch64

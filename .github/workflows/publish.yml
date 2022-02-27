@@ -3,6 +3,10 @@ name: Build and publish Python package
 on:
   workflow_call:
     inputs:
+      targets:
+        description: List of build targets
+        required: true
+        type: string
       test_extras:
         description: Any extras_requires modifier that should be used to install the package for testing
         required: false
@@ -12,16 +16,6 @@ on:
         description: The command to run to test the package (will be run in a temporary directory)
         required: false
         default: ''
-        type: string
-      pure_python_wheel:
-        description: Whether to build a pure Python wheel - if not, separate wheels are built for each platform
-        required: false
-        default: false
-        type: boolean
-      platforms:
-        description: List of target platforms
-        required: false
-        default: 'ubuntu-20.04 windows-2019 macos-10.15'
         type: string
       upload_to_pypi:
         description: Always upload to PyPI - if not, only upload tags
@@ -44,36 +38,51 @@ on:
 
 jobs:
 
-  generate_platform_matrix:
-    name: Generate build_wheels matrix
+  targets:
+    name: Load build targets
     runs-on: ubuntu-latest
-    if: ${{ !inputs.pure_python_wheel }}
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      sdist: ${{ steps.set-outputs.outputs.sdist }}
+      universal: ${{ steps.set-outputs.outputs.universal }}
+      matrix: ${{ steps.set-outputs.outputs.matrix }}
     steps:
-      - id: set-matrix
-        run: |
-          FILTER='split(" ") as $platforms | {"os": $platforms}'
-          echo "::set-output name=matrix::$( echo ${{ inputs.platforms }} | jq -R -c "$FILTER" )"
+      - uses: actions/checkout@v2
+# Uncomment before merging
+#        with:
+#           repository: 'OpenAstronomy/github-actions-workflows'
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - run: python -m pip install PyYAML
+      - id: set-outputs
+        run: python tools/load_build_targets.py "${{ inputs.targets }}"
+        shell: sh
 
   build_wheels:
     name: Build platform-dependent wheels
-    needs: [generate_platform_matrix]
+    needs: [targets]
     runs-on: ${{ matrix.os }}
-    if: ${{ !inputs.pure_python_wheel }}
+    if: ${{ needs.targets.outputs.matrix != 'false' && needs.targets.outputs.universal != 'true' }}
     strategy:
-      matrix: ${{fromJSON(needs.generate_platform_matrix.outputs.matrix)}}
+      matrix: ${{fromJSON(needs.targets.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
           lfs: true
           submodules: ${{ inputs.submodules }}
+      - name: Set up QEMU
+        if: ${{ matrix.CIBW_ARCH == 'aarch64' }}
+        uses: docker/setup-qemu-action@v1
+        with:
+          platforms: all
       - name: Run cibuildwheel
         uses: pypa/cibuildwheel@v2.3.1
         with:
           output-dir: dist
         env:
+          CIBW_BUILD: ${{ matrix.CIBW_BUILD }}
+          CIBW_ARCH: ${{ matrix.CIBW_ARCH }}
           CIBW_TEST_EXTRAS: ${{ inputs.test_extras }}
           CIBW_TEST_COMMAND: ${{ inputs.test_command }}
       - uses: actions/upload-artifact@v2
@@ -82,7 +91,8 @@ jobs:
 
   build_sdist:
     name: Build source distribution
-    if: ${{ !inputs.pure_python_wheel }}
+    needs: [targets]
+    if: ${{ needs.targets.outputs.sdist == 'true' && needs.targets.outputs.universal == 'false' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -101,7 +111,8 @@ jobs:
 
   build_sdist_and_wheel:
     name: Build source and wheel distribution
-    if: ${{ inputs.pure_python_wheel }}
+    needs: [targets]
+    if: ${{ needs.targets.outputs.universal == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -114,7 +125,7 @@ jobs:
         with:
           test_extras: ${{ inputs.test_extras }}
           test_command: ${{ inputs.test_command }}
-          pure_python_wheel: ${{ inputs.pure_python_wheel }}
+          pure_python_wheel: 'true'
       - uses: actions/upload-artifact@v2
         with:
           path: dist/*
