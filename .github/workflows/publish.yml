@@ -49,7 +49,7 @@ jobs:
       - id: set-matrix
         run: |
           FILTER='split(" ") as $platforms | {"os": $platforms}'
-          echo "::set-output name=matrix::$( echo ${{ inputs.platforms }} | jq -R -c $FILTER )"
+          echo "::set-output name=matrix::$( echo ${{ inputs.platforms }} | jq -R -c "$FILTER" )"
 
   build_wheels:
     name: Build platform-dependent wheels
