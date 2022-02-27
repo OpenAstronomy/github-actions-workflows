@@ -33,6 +33,11 @@ on:
         required: false
         default: ''
         type: string
+      submodules:
+        description: Whether to checkout submodules
+        required: false
+        default: true
+        type: boolean
     secrets:
       pypi_password:
         required: false
@@ -62,6 +67,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          lfs: true
+          submodules: ${{ inputs.submodules }}
       - name: Run cibuildwheel
         uses: pypa/cibuildwheel@v2.3.1
         with:
@@ -79,6 +86,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          lfs: true
+          submodules: ${{ inputs.submodules }}
       - id: build
         uses: OpenAstronomy/build-python-dist@main
         with:
@@ -94,6 +105,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          lfs: true
+          submodules: ${{ inputs.submodules }}
       - id: build
         uses: OpenAstronomy/build-python-dist@main
         with:
