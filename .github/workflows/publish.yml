@@ -109,11 +109,11 @@ jobs:
     needs: [build_wheels, build_sdist, build_sdist_and_wheel]
     runs-on: ubuntu-latest
     if: |
-      github.event_name == 'push'
-        && (startsWith(github.event.ref, 'refs/tags/v') | inputs.upload_to_pypi )
-        && (needs.build_wheels.result == 'success' || needs.build_wheels.result == 'skipped')
-        && (needs.build_sdist.result == 'success' || needs.build_sdist.result == 'skipped')
-        && (needs.build_sdist_and_wheel.result == 'success' || needs.build_sdist_and_wheel.result == 'skipped')
+      github.event_name == 'push' &&
+      (startsWith(github.event.ref, 'refs/tags/v') || inputs.upload_to_pypi ) &&
+      needs.build_wheels.result != 'failure' &&
+      needs.build_sdist.result != 'failure' &&
+      needs.build_sdist_and_wheel.result != 'failure'
     steps:
       - uses: actions/download-artifact@v2
         with:
