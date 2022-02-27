@@ -123,3 +123,4 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.pypi_password }}
+          repository_url: ${{ inputs.repository_url }}
