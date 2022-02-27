@@ -21,4 +21,4 @@ jobs:
         - wheels_linux
         - wheels_cp38-macosx_x86_64
         - wheels_cp3?-win32
-        - wheels_cp38-manylinux2014-aarch64
+        - wheels_cp38-manylinux_aarch64
