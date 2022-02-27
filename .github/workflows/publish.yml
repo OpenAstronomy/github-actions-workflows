@@ -59,7 +59,7 @@ jobs:
         shell: sh
 
   build_wheels:
-    name: Build platform-dependent wheels
+    name: Build ${{ matrix.CIBW_BUILD }} wheels
     needs: [targets]
     runs-on: ${{ matrix.os }}
     if: ${{ needs.targets.outputs.matrix != 'false' && needs.targets.outputs.universal != 'true' }}
