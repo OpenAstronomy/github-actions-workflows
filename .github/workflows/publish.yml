@@ -17,6 +17,11 @@ on:
         required: false
         default: ''
         type: string
+      libraries:
+        description: Packages needed to build the source distribution for testing (installed using apt)
+        required: false
+        default: ''
+        type: string
       upload_to_pypi:
         description: Always upload to PyPI - if not, only upload tags
         required: false
@@ -100,6 +105,11 @@ jobs:
           fetch-depth: 0
           lfs: true
           submodules: ${{ inputs.submodules }}
+      - name: Install dependencies
+        if: ${{ inputs.libraries != '' }}
+        uses: ConorMacBride/install-package@main
+        with:
+          apt: ${{ inputs.libraries }}
       - id: build
         uses: OpenAstronomy/build-python-dist@main
         with:
