@@ -1,4 +1,5 @@
 import json
+import os
 
 import click
 import yaml
@@ -8,6 +9,9 @@ MACHINE_TYPE = {
     "macos": "macos-10.15",
     "windows": "windows-2019",
 }
+
+CIBW_BUILD = os.environ.get("CIBW_BUILD", "*")
+CIBW_ARCHS = os.environ.get("CIBW_ARCHS", "auto")
 
 
 @click.command()
@@ -38,7 +42,7 @@ def get_os(target):
 
 def get_cibw_build(target):
     if target in {"linux", "macos", "windows"}:
-        return ""
+        return CIBW_BUILD
     return target
 
 
@@ -46,7 +50,7 @@ def get_cibw_archs(target):
     for arch in ["aarch64", "arm64", "universal2"]:
         if target.endswith(arch):
             return arch
-    return ""
+    return CIBW_ARCHS
 
 
 def get_matrix_item(target):
