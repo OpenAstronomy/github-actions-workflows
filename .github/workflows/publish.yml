@@ -6,7 +6,10 @@ on:
       targets:
         description: List of build targets for cibuildwheel
         required: false
-        default: ''
+        default: |
+          - linux
+          - macos
+          - windows
         type: string
       sdist:
         description: Whether to build a source distribution
