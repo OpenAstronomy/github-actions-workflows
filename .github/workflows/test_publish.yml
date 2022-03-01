@@ -3,22 +3,25 @@ on:
   pull_request:
 
 jobs:
+  release_default:
+    uses: ./.github/workflows/publish.yml
+    with:
+      test_extras: test
+      test_command: pytest --pyargs test_package
   release:
     uses: ./.github/workflows/publish.yml
     with:
       test_extras: test
       test_command: pytest --pyargs test_package
       targets: |
-        - sdist
-        - wheels_universal
-  release_with_cibuildwheel:
+        - linux
+        - cp38-macosx_x86_64
+        - cp39-macosx_arm64
+        - cp3?-win_amd64
+        - cp39-manylinux_aarch64
+  release_sdist_only:
     uses: ./.github/workflows/publish.yml
     with:
       test_extras: test
       test_command: pytest --pyargs test_package
-      targets: |
-        - sdist
-        - wheels_linux
-        - wheels_cp38-macosx_x86_64
-        - wheels_cp3?-win32
-        - wheels_cp38-manylinux_aarch64
+      targets: ''

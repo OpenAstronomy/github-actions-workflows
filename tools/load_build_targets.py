@@ -1,14 +1,31 @@
-import sys
 import json
 
+import click
 import yaml
-
 
 MACHINE_TYPE = {
     "linux": "ubuntu-20.04",
     "macos": "macos-10.15",
     "windows": "windows-2019",
 }
+
+
+@click.command()
+@click.option("--targets", default="")
+def load_build_targets(targets):
+    """Script to load cibuildwheel targets for GitHub Actions workflow."""
+    # Load list of targets
+    targets = yaml.load(targets, Loader=yaml.BaseLoader)
+    print(json.dumps(targets, indent=2))
+
+    # Create matrix
+    matrix = {"include": []}
+    for target in targets:
+        matrix["include"].append(get_matrix_item(target))
+
+    # Output matrix
+    print(json.dumps(matrix, indent=2))
+    print(f"::set-output name=matrix::{json.dumps(matrix)}")
 
 
 def get_os(target):
@@ -25,38 +42,21 @@ def get_cibw_build(target):
     return target
 
 
-# load list of targets
-targets = yaml.load(sys.argv[1], Loader=yaml.BaseLoader)
-print(targets)
+def get_cibw_archs(target):
+    for arch in ["aarch64", "arm64", "universal2"]:
+        if target.endswith(arch):
+            return arch
+    return ""
 
-# sdist
-if "sdist" in targets:
-    print("::set-output name=sdist::true")
-else:
-    print("::set-output name=sdist::false")
 
-# universal
-if "wheels_universal" in targets:
-    print("::set-output name=universal::true")
-    print(f"::set-output name=matrix::false")
-    exit(0)
-else:
-    print("::set-output name=universal::false")
+def get_matrix_item(target):
+    return {
+        "target": target,
+        "os": get_os(target),
+        "CIBW_BUILD": get_cibw_build(target),
+        "CIBW_ARCHS": get_cibw_archs(target),
+    }
 
-# wheels
-matrix = {"include": []}
-for target in targets:
-    if not target.startswith("wheels_"):
-        continue  # Not implemented
-    target = target.removeprefix("wheels_")
-    item = {"os": get_os(target)}
-    if target not in {"linux", "macos", "windows"}:
-        item["CIBW_BUILD"] = target
-    if "aarch64" in target:
-        item["CIBW_ARCH"] = "aarch64"
-    matrix["include"].append(item)
-print(json.dumps(matrix))
-if len(matrix["include"]) == 0:
-    print(f"::set-output name=matrix::false")
-else:
-    print(f"::set-output name=matrix::{json.dumps(matrix)}")
+
+if __name__ == "__main__":
+    load_build_targets()
