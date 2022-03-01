@@ -8,7 +8,7 @@ jobs:
     with:
       libraries: |
         apt:
-          - libopenjpeg5
+          - libopenjp2-7
         brew:
           - openjpeg
       envs: |
