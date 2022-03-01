@@ -5,9 +5,9 @@ import click
 import yaml
 
 MACHINE_TYPE = {
-    "linux": "ubuntu-20.04",
-    "macos": "macos-10.15",
-    "windows": "windows-2019",
+    "linux": "ubuntu-latest",
+    "macos": "macos-latest",
+    "windows": "windows-latest",
 }
 
 CIBW_BUILD = os.environ.get("CIBW_BUILD", "*")
