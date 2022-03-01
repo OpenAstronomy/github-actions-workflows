@@ -1,0 +1,87 @@
+name: Test Python package
+
+on:
+  workflow_call:
+    inputs:
+      envs:
+        description: Array of tox environments to test
+        required: true
+        type: string
+      libraries:
+        description: Additional packages to install
+        required: false
+        default: ''
+        type: string
+      posargs:
+        description: Positional arguments for pytest
+        required: false
+        default: ''
+        type: string
+      toxargs:
+        description: Positional arguments for tox
+        required: false
+        default: ''
+        type: string
+      pytest:
+        description: Whether pytest is run
+        required: false
+        default: true
+        type: boolean
+      submodules:
+        description: Whether to checkout submodules
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+
+  envs:
+    name: Load tox environments
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-outputs.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+      # Uncomment before merging
+      #        with:
+      #           repository: 'OpenAstronomy/github-actions-workflows'
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - run: python -m pip install PyYAML click
+      - id: set-outputs
+        run: |
+          python tools/tox_matrix.py --envs "${{ inputs.envs }}" --libraries "${{ inputs.libraries }}" \
+          --posargs "${{ inputs.posargs }}" --toxargs "${{ inputs.toxargs }}" --pytest "${{ inputs.pytest }}"
+        shell: sh
+
+  tox:
+    name: ${{ matrix.name }} (${{ matrix.os }})
+    needs: [envs]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix: ${{fromJSON(needs.targets.outputs.matrix)}}
+    steps:
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          lfs: true
+          submodules: ${{ inputs.submodules }}
+
+      - name: Install dependencies
+        uses: ConorMacBride/install-library@main
+        with:
+          brew: ${{ matrix.libraries_brew }}
+          brew-cask: ${{ matrix.libraries_brew_cask }}
+          apt: ${{ matrix.libraries_apt }}
+          choco: ${{ matrix.libraries_choco }}
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python_version }}
+
+      - name: Run tox
+        run: |
+          echo python -m tox -e ${{ matrix.tox_env }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }}
+        shell: sh

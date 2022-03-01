@@ -1,0 +1,24 @@
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    uses: ./.github/workflows/tox.yml
+    with:
+      libraries: |
+        apt:
+          - libopenjpeg5
+        brew:
+          - openjpeg
+      envs: |
+        - linux: pep8
+          name: style_check
+          pytest: false
+        - macos: py37-test
+          posargs: -n=4
+          toxargs: -customarg
+        - windows: py36-docs
+          libraries:
+            choco:
+              - graphviz
