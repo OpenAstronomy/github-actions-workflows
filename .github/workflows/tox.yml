@@ -60,7 +60,7 @@ jobs:
     needs: [envs]
     runs-on: ${{ matrix.os }}
     strategy:
-      matrix: ${{fromJSON(needs.targets.outputs.matrix)}}
+      matrix: ${{fromJSON(needs.envs.outputs.matrix)}}
     steps:
 
       - uses: actions/checkout@v2
