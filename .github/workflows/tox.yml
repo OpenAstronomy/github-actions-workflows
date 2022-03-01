@@ -70,7 +70,7 @@ jobs:
           submodules: ${{ inputs.submodules }}
 
       - name: Install dependencies
-        uses: ConorMacBride/install-library@main
+        uses: ConorMacBride/install-package@main
         with:
           brew: ${{ matrix.libraries_brew }}
           brew-cask: ${{ matrix.libraries_brew_cask }}
