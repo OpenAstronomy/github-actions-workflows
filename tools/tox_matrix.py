@@ -93,7 +93,7 @@ def get_matrix_item(env, global_libraries, global_posargs, global_toxargs, globa
     if pytest:
         if platform == "windows":
             item["pytest_flag"] = (r"--junitxml=junit\test-results.xml "
-                                   r"--cov-report=xml:${Env:GITHUB_WORKSPACE}\coverage.xml")
+                                   r"--cov-report=xml:${GITHUB_WORKSPACE}\coverage.xml")
         else:
             item["pytest_flag"] = (r"--junitxml=junit/test-results.xml "
                                    r"--cov-report=xml:${GITHUB_WORKSPACE}/coverage.xml")
