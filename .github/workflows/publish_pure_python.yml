@@ -19,7 +19,7 @@ on:
         default: ''
         type: string
       upload_to_pypi:
-        description: Always upload to PyPI - if false, only upload tags
+        description: Always upload to PyPI after successful builds - if false, only upload when pushing tags
         required: false
         default: false
         type: boolean
@@ -67,9 +67,7 @@ jobs:
     name: Upload to PyPI
     needs: [build]
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'push' &&
-      (startsWith(github.event.ref, 'refs/tags/v') || inputs.upload_to_pypi )
+    if: (github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')) || inputs.upload_to_pypi
     steps:
       - uses: actions/download-artifact@v2
         with:
