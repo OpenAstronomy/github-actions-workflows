@@ -81,7 +81,7 @@ jobs:
           lfs: true
           submodules: ${{ inputs.submodules }}
       - name: Set up QEMU
-        if: ${{ matrix.CIBW_ARCH == 'aarch64' }}
+        if: ${{ matrix.CIBW_ARCHS == 'aarch64' }}
         uses: docker/setup-qemu-action@v1
         with:
           platforms: all
