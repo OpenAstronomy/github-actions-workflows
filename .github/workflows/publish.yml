@@ -1,8 +1,21 @@
-name: Build and publish a Python package
+name: Build and publish Python package
 
 on:
   workflow_call:
     inputs:
+      targets:
+        description: List of build targets for cibuildwheel
+        required: false
+        default: |
+          - linux
+          - macos
+          - windows
+        type: string
+      sdist:
+        description: Whether to build a source distribution
+        required: false
+        default: true
+        type: boolean
       test_extras:
         description: Any extras_requires modifier that should be used to install the package for testing
         required: false
@@ -13,53 +26,119 @@ on:
         required: false
         default: ''
         type: string
-      pure_python_wheel:
-        description: Whether to build a pure Python wheel - if not, separate wheels are built for each platform.
+      libraries:
+        description: Packages needed to build the source distribution for testing (installed using apt)
+        required: false
+        default: ''
+        type: string
+      upload_to_pypi:
+        description: Always upload to PyPI after successful builds - if false, only upload when pushing tags
         required: false
         default: false
         type: boolean
+      repository_url:
+        description: The PyPI repository URL to use
+        required: false
+        default: ''
+        type: string
+      submodules:
+        description: Whether to checkout submodules
+        required: false
+        default: true
+        type: boolean
+    secrets:
+      pypi_password:
+        required: false
 
 jobs:
 
-  build_wheels:
-    name: Build platform-dependent wheels
-    runs-on: ${{ matrix.os }}
-    if: ${{ !inputs.pure_python_wheel }}
-    strategy:
-      matrix:
-        os: [ubuntu-20.04, windows-2019, macos-10.15]
+  targets:
+    name: Load build targets
+    if: ${{ inputs.targets != '' }}
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-outputs.outputs.matrix }}
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: Run cibuildwheel
-      uses: pypa/cibuildwheel@v2.3.1
-      with:
-        output-dir: dist
-      env:
-        CIBW_TEST_EXTRAS: ${{ inputs.test_extras }}
-        CIBW_TEST_COMMAND: ${{ inputs.test_command }}
+      - uses: actions/checkout@v2
+        with:
+           repository: 'OpenAstronomy/github-actions-workflows'
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - run: python -m pip install PyYAML click
+      - id: set-outputs
+        run: python tools/load_build_targets.py --targets "${{ inputs.targets }}"
+        shell: sh
+
+  build_wheels:
+    name: Build ${{ matrix.target }} wheels
+    needs: [targets]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix: ${{fromJSON(needs.targets.outputs.matrix)}}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          lfs: true
+          submodules: ${{ inputs.submodules }}
+      - name: Set up QEMU
+        if: ${{ matrix.CIBW_ARCHS == 'aarch64' }}
+        uses: docker/setup-qemu-action@v1
+        with:
+          platforms: all
+      - name: Run cibuildwheel
+        uses: pypa/cibuildwheel@v2.3.1
+        with:
+          output-dir: dist
+        env:
+          CIBW_BUILD: ${{ matrix.CIBW_BUILD }}
+          CIBW_ARCHS: ${{ matrix.CIBW_ARCHS }}
+          CIBW_TEST_EXTRAS: ${{ inputs.test_extras }}
+          CIBW_TEST_COMMAND: ${{ inputs.test_command }}
+      - uses: actions/upload-artifact@v2
+        with:
+          path: dist/*
 
   build_sdist:
     name: Build source distribution
-    if: ${{ !inputs.pure_python_wheel }}
+    if: ${{ inputs.sdist }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          lfs: true
+          submodules: ${{ inputs.submodules }}
+      - name: Install dependencies
+        if: ${{ inputs.libraries != '' }}
+        uses: ConorMacBride/install-package@main
+        with:
+          apt: ${{ inputs.libraries }}
       - id: build
-        uses: OpenAstronomy/action-build-sdist-and-wheel@main
+        uses: OpenAstronomy/build-python-dist@main
         with:
           test_extras: ${{ inputs.test_extras }}
           test_command: ${{ inputs.test_command }}
+          pure_python_wheel: false
+      - uses: actions/upload-artifact@v2
+        with:
+          path: dist/*
 
-  build_sdist_and_wheel:
-    name: Build source and wheel distribution
-    if: ${{ inputs.pure_python_wheel }}
+  upload_pypi:
+    name: Upload to PyPI
+    needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
+    if: |
+      (( github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')) || inputs.upload_to_pypi ) &&
+      needs.build_wheels.result != 'failure' && needs.build_sdist.result != 'failure'
     steps:
-      - uses: actions/checkout@v2
-      - id: build
-        uses: OpenAstronomy/action-build-sdist-and-wheel@main
+      - uses: actions/download-artifact@v2
         with:
-          test_extras: ${{ inputs.test_extras }}
-          test_command: ${{ inputs.test_command }}
+          name: artifact
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: __token__
+          password: ${{ secrets.pypi_password }}
+          repository_url: ${{ inputs.repository_url }}

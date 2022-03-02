@@ -1,0 +1,80 @@
+name: Build and publish pure Python package
+
+on:
+  workflow_call:
+    inputs:
+      test_extras:
+        description: Any extras_requires modifier that should be used to install the package for testing
+        required: false
+        default: ''
+        type: string
+      test_command:
+        description: The command to run to test the package (will be run in a temporary directory)
+        required: false
+        default: ''
+        type: string
+      libraries:
+        description: Packages needed to build the source distribution for testing (installed using apt)
+        required: false
+        default: ''
+        type: string
+      upload_to_pypi:
+        description: Always upload to PyPI after successful builds - if false, only upload when pushing tags
+        required: false
+        default: false
+        type: boolean
+      repository_url:
+        description: The PyPI repository URL to use
+        required: false
+        default: ''
+        type: string
+      submodules:
+        description: Whether to checkout submodules
+        required: false
+        default: true
+        type: boolean
+    secrets:
+      pypi_password:
+        required: false
+
+jobs:
+
+  build:
+    name: Build source and wheel distribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          lfs: true
+          submodules: ${{ inputs.submodules }}
+      - name: Install dependencies
+        if: ${{ inputs.libraries != '' }}
+        uses: ConorMacBride/install-package@main
+        with:
+          apt: ${{ inputs.libraries }}
+      - id: build
+        uses: OpenAstronomy/build-python-dist@main
+        with:
+          test_extras: ${{ inputs.test_extras }}
+          test_command: ${{ inputs.test_command }}
+          pure_python_wheel: true
+      - uses: actions/upload-artifact@v2
+        with:
+          path: dist/*
+
+  upload_pypi:
+    name: Upload to PyPI
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: (github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')) || inputs.upload_to_pypi
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: artifact
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: __token__
+          password: ${{ secrets.pypi_password }}
+          repository_url: ${{ inputs.repository_url }}
