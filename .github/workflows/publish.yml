@@ -60,9 +60,8 @@ jobs:
       matrix: ${{ steps.set-outputs.outputs.matrix }}
     steps:
       - uses: actions/checkout@v2
-# Uncomment before merging
-#        with:
-#           repository: 'OpenAstronomy/github-actions-workflows'
+        with:
+           repository: 'OpenAstronomy/github-actions-workflows'
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9'
