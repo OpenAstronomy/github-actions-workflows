@@ -17,6 +17,11 @@ on:
         required: false
         default: ''
         type: string
+      toxdeps:
+        description: Tox dependencies
+        required: false
+        default: ''
+        type: string
       toxargs:
         description: Positional arguments for tox
         required: false
@@ -27,11 +32,35 @@ on:
         required: false
         default: true
         type: boolean
+      coverage:
+        description: Coverage providers to upload to
+        required: false
+        default: ''
+        type: string
+      conda:
+        description: Whether to test with conda
+        required: false
+        default: 'auto'
+        type: string
+      display:
+        description: Whether to setup a headless display
+        required: false
+        default: false
+        type: boolean
+      default_python:
+        description: Default version of Python
+        required: false
+        default: '3.x'
+        type: string
       submodules:
         description: Whether to checkout submodules
         required: false
         default: true
         type: boolean
+    secrets:
+      CODECOV_TOKEN:
+        description: Codecov upload token (for private repositories only)
+        required: false
 
 jobs:
 
@@ -52,7 +81,11 @@ jobs:
       - id: set-outputs
         run: |
           python tools/tox_matrix.py --envs "${{ inputs.envs }}" --libraries "${{ inputs.libraries }}" \
-          --posargs "${{ inputs.posargs }}" --toxargs "${{ inputs.toxargs }}" --pytest "${{ inputs.pytest }}"
+          --posargs "${{ inputs.posargs }}" --toxdeps "${{ inputs.toxdeps }}" \
+          --toxargs "${{ inputs.toxargs }}" --pytest "${{ inputs.pytest }}" \
+          --coverage "${{ inputs.coverage }}" --conda "${{ inputs.conda }}" \
+          --display "${{ inputs.display }}" \
+          --default-python "${{ inputs.default_python }}"
         shell: sh
 
   tox:
@@ -77,11 +110,33 @@ jobs:
           apt: ${{ matrix.libraries_apt }}
           choco: ${{ matrix.libraries_choco }}
 
-      - uses: actions/setup-python@v2
+      - name: Setup Python ${{ matrix.python_version }}
+        if: ${{ matrix.conda != 'true' }}
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python_version }}
 
-      - name: Run tox
-        run: |
-          echo python -m tox -e ${{ matrix.tox_env }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }}
+      - name: Setup conda
+        if: ${{ matrix.conda == 'true' }}
+        uses: s-weigand/setup-conda@v1
+        with:
+          update-conda: true
+          python-version: ${{ matrix.python_version }}
+
+      - name: Setup headless display
+        if: ${{ matrix.display == 'true' }}
+        uses: pyvista/setup-headless-display-action@v1
+
+      - name: Install tox
+        run: python -m pip install --upgrade tox ${{ matrix.toxdeps }}
         shell: sh
+
+      - name: Run tox
+        run: python -m tox -e ${{ matrix.tox_env }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }}
+        shell: sh
+
+      - name: Upload to Codecov
+        if: ${{ contains(matrix.coverage, 'codecov') }}
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
