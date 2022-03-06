@@ -13,7 +13,7 @@ on:
         default: ''
         type: string
       posargs:
-        description: Positional arguments for pytest
+        description: Positional arguments for the underlying tox test command
         required: false
         default: ''
         type: string
