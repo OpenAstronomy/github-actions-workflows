@@ -136,7 +136,7 @@ jobs:
         shell: sh
 
       - name: Upload to Codecov
-        if: ${{ contains(matrix.coverage, 'codecov') }}
+        if: ${{ contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

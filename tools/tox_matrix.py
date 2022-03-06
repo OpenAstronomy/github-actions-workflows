@@ -5,9 +5,9 @@ import click
 import yaml
 
 MACHINE_TYPE = {
-    "linux": "ubuntu-20.04",
-    "macos": "macos-10.15",
-    "windows": "windows-2019",
+    "linux": "ubuntu-latest",
+    "macos": "macos-latest",
+    "windows": "windows-latest",
 }
 
 
@@ -46,6 +46,7 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, coverag
         "posargs": posargs,
         "toxdeps": toxdeps,
         "toxargs": toxargs,
+        "pytest": pytest,
         "coverage": coverage,
         "conda": conda,
         "display": display,
@@ -56,7 +57,7 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, coverag
     for env in envs:
         matrix["include"].append(
             get_matrix_item(env, global_libraries=global_libraries, global_string_parameters=string_parameters,
-                            global_pytest=pytest, default_python=default_python)
+                            default_python=default_python)
         )
 
     # Output matrix
@@ -64,7 +65,7 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, coverag
     print(f"::set-output name=matrix::{json.dumps(matrix)}")
 
 
-def get_matrix_item(env, global_libraries, global_string_parameters, global_pytest, default_python):
+def get_matrix_item(env, global_libraries, global_string_parameters, default_python):
 
     # define spec for each matrix include (+ global_string_parameters)
     item = {
@@ -102,10 +103,7 @@ def get_matrix_item(env, global_libraries, global_string_parameters, global_pyte
     item["name"] = env.get("name", False) or item["toxenv"]
 
     # set pytest_flag
-    env_pytest = env.get("pytest")
-    pytest = global_pytest if env_pytest is None else env_pytest
-    pytest = str(pytest).lower() == "true"
-    if pytest:
+    if item["pytest"] == "true":
         if platform == "windows":
             item["pytest_flag"] = (r"--junitxml=junit\test-results.xml "
                                    r"--cov-report=xml:${GITHUB_WORKSPACE}\coverage.xml")
@@ -118,10 +116,8 @@ def get_matrix_item(env, global_libraries, global_string_parameters, global_pyte
     # set libraries
     env_libraries = env.get("libraries")
     libraries = global_libraries if env_libraries is None else env_libraries
-    item["libraries_brew"] = " ".join(libraries.get("brew", []))
-    item["libraries_brew_cask"] = " ".join(libraries.get("brew_cask", []))
-    item["libraries_apt"] = " ".join(libraries.get("apt", []))
-    item["libraries_choco"] = " ".join(libraries.get("choco", []))
+    for manager in ["brew", "brew_cask", "apt", "choco"]:
+        item[f"libraries_{manager}"] = " ".join(libraries.get(manager, []))
 
     # set "auto" conda value
     if item["conda"] == "auto":
@@ -132,6 +128,7 @@ def get_matrix_item(env, global_libraries, global_string_parameters, global_pyte
         item["toxdeps"] = ("tox-conda " + item["toxdeps"]).strip()
 
     # verify values
+    assert item["pytest"] in {"true", "false"}
     assert item["conda"] in {"true", "false"}
     assert item["display"] in {"true", "false"}
 
