@@ -100,10 +100,10 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
         major, minor = m.groups()
         item["python_version"] = f"{major}.{minor}"
     else:
-        item["python_version"] = default_python
+        item["python_version"] = env.get("default_python") or default_python
 
     # set name
-    item["name"] = env.get("name", False) or item["toxenv"]
+    item["name"] = env.get("name") or item["toxenv"]
 
     # set pytest_flag
     if item["pytest"] == "true":

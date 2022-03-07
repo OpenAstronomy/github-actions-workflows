@@ -25,23 +25,17 @@ jobs:
     uses: ./.github/workflows/tox.yml
     with:
       conda: 'true'
-      toxdeps: 'astropy'
       envs: |
+        # conda present in toxenv
         - linux: py39-inputs-conda
         - linux: py39-inputs-conda
           conda: false
           posargs: not
+        # conda not present in toxenv
         - linux: py39-inputs-con_da
         - linux: py39-inputs-con_da
           conda: auto
           posargs: not
-
-        - linux: py39-inputs-toxdeps
-          posargs: astropy
-        - linux: py39-inputs-toxdeps
-          toxdeps: sunpy
-          posargs: sunpy
-
       pytest: false
 
   test_default_python:
@@ -68,14 +62,14 @@ jobs:
         - linux: libraries
           posargs: 'rolldice -v'
         - macos: libraries
-          posargs: 'graphviz -V'
+          posargs: 'dot -V'
         - linux: libraries
           posargs: 'bcal -h'
           libraries:
             apt:
               - bcal
         - windows: libraries
-          posargs: 'graphviz -V'
+          posargs: 'dot -V'
           libraries:
             apt:
               - shouldnotinstall12345
