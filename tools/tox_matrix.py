@@ -22,8 +22,8 @@ MACHINE_TYPE = {
 @click.option("--conda", default="auto")
 @click.option("--display", default="false")
 @click.option("--default-python", default="")
-def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, coverage,
-                     conda, display, default_python):
+def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest,
+                     coverage, conda, display, default_python):
     """Script to load tox targets for GitHub Actions workflow."""
     # Load envs config
     envs = yaml.load(envs, Loader=yaml.BaseLoader)
@@ -55,17 +55,20 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, coverag
     # Create matrix
     matrix = {"include": []}
     for env in envs:
-        matrix["include"].append(
-            get_matrix_item(env, global_libraries=global_libraries, global_string_parameters=string_parameters,
-                            default_python=default_python)
-        )
+        matrix["include"].append(get_matrix_item(
+            env,
+            global_libraries=global_libraries,
+            global_string_parameters=string_parameters,
+            default_python=default_python,
+        ))
 
     # Output matrix
     print(json.dumps(matrix, indent=2))
     print(f"::set-output name=matrix::{json.dumps(matrix)}")
 
 
-def get_matrix_item(env, global_libraries, global_string_parameters, default_python):
+def get_matrix_item(env, global_libraries, global_string_parameters,
+                    default_python):
 
     # define spec for each matrix include (+ global_string_parameters)
     item = {
@@ -104,12 +107,10 @@ def get_matrix_item(env, global_libraries, global_string_parameters, default_pyt
 
     # set pytest_flag
     if item["pytest"] == "true":
-        if platform == "windows":
-            item["pytest_flag"] = (r"--junitxml=junit\test-results.xml "
-                                   r"--cov-report=xml:${GITHUB_WORKSPACE}\coverage.xml")
-        else:
-            item["pytest_flag"] = (r"--junitxml=junit/test-results.xml "
-                                   r"--cov-report=xml:${GITHUB_WORKSPACE}/coverage.xml")
+        sep = "\\" if platform == "windows" else "/"
+        item["pytest_flag"] = (
+            rf"--junitxml=junit{sep}test-results.xml "
+            rf"--cov-report=xml:${{GITHUB_WORKSPACE}}{sep}coverage.xml")
     else:
         item["pytest_flag"] = ""
 

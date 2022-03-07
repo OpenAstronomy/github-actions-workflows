@@ -3,22 +3,101 @@ on:
   pull_request:
 
 jobs:
-  test:
+  test_pyos:
+    uses: ./.github/workflows/tox.yml
+    with:
+      envs: |
+        - linux: py310-inputs-linux
+        - macos: py39-inputs-macos
+        - windows: py38-inputs-windows
+          toxargs: '-v'
+
+        - linux: py310-inputs-conda
+        - macos: py310-inputs-conda
+          conda: false
+          posargs: not
+        - windows: py310-inputs-con_da
+          conda: true
+
+      pytest: false
+
+  test_global_override:
+    uses: ./.github/workflows/tox.yml
+    with:
+      conda: 'true'
+      toxdeps: 'astropy'
+      envs: |
+        - linux: py39-inputs-conda
+        - linux: py39-inputs-conda
+          conda: false
+          posargs: not
+        - linux: py39-inputs-con_da
+        - linux: py39-inputs-con_da
+          conda: auto
+          posargs: not
+
+        - linux: py39-inputs-toxdeps
+          posargs: astropy
+        - linux: py39-inputs-toxdeps
+          toxdeps: sunpy
+          posargs: sunpy
+
+      pytest: false
+
+  test_default_python:
+    uses: ./.github/workflows/tox.yml
+    with:
+      default_python: '3.7'
+      envs: |
+        - linux: default_python
+          posargs: '7'
+        - linux: default_python
+          default_python: '3.10'
+          posargs: '10'
+      pytest: false
+
+  test_libraries:
     uses: ./.github/workflows/tox.yml
     with:
       libraries: |
         apt:
-          - libopenjp2-7
+          - rolldice
         brew:
-          - openjpeg
+          - graphviz
+      envs: |
+        - linux: libraries
+          posargs: 'rolldice -v'
+        - macos: libraries
+          posargs: 'graphviz -V'
+        - linux: libraries
+          posargs: 'bcal -h'
+          libraries:
+            apt:
+              - bcal
+        - windows: libraries
+          posargs: 'graphviz -V'
+          libraries:
+            apt:
+              - shouldnotinstall12345
+            choco:
+              - graphviz
+      pytest: false
+
+  test_venv:
+    uses: ./.github/workflows/tox.yml
+    with:
       envs: |
         - linux: pep8
           name: style_check
           pytest: false
-        - macos: py37-test
-          posargs: -n=4
-          toxargs: -customarg
-        - windows: py36-docs
-          libraries:
-            choco:
-              - graphviz
+        - linux: py310
+        - macos: py39
+        - windows: py38
+
+  test_conda:
+    uses: ./.github/workflows/tox.yml
+    with:
+      envs: |
+        - linux: py310-conda
+        - macos: py39-conda
+        - windows: py38-conda
