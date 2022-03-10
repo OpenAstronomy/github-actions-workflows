@@ -116,6 +116,8 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
 
     # set libraries
     env_libraries = env.get("libraries")
+    if isinstance(env_libraries, str) and len(env_libraries.strip()) == 0:
+        env_libraries = {}  # no libraries requested for environment
     libraries = global_libraries if env_libraries is None else env_libraries
     for manager in ["brew", "brew_cask", "apt", "choco"]:
         item[f"libraries_{manager}"] = " ".join(libraries.get(manager, []))

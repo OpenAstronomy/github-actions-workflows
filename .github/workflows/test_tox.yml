@@ -75,6 +75,10 @@ jobs:
               - shouldnotinstall12345
             choco:
               - graphviz
+        # test no libraries override
+        - linux: libraries
+          libraries: ''
+          posargs: 'rolldice -v && exit 1 || exit 0'
       pytest: false
 
   test_venv:
