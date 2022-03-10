@@ -1,3 +1,4 @@
+import os
 import json
 import re
 
@@ -5,9 +6,9 @@ import click
 import yaml
 
 MACHINE_TYPE = {
-    "linux": "ubuntu-latest",
-    "macos": "macos-latest",
-    "windows": "windows-latest",
+    "linux": os.environ.get("OA_LINUX_RUNNER", "ubuntu-latest"),
+    "macos": os.environ.get("OA_MACOS_RUNNER", "macos-latest"),
+    "windows": os.environ.get("OA_WINDOWS_RUNNER", "windows-latest"),
 }
 
 
