@@ -1,4 +1,3 @@
-import os
 import json
 import re
 
@@ -46,6 +45,7 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest,
     custom_runners = yaml.load(runner, Loader=yaml.BaseLoader)
     if isinstance(custom_runners, dict):
         runners.update(custom_runners)
+    print(json.dumps(runners, indent=2))
 
     # Default string parameters which can be overwritten by each env
     string_parameters = {
