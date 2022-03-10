@@ -131,6 +131,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       inputs.upload_to_pypi &&
+      always() &&
       needs.build_wheels.result != 'failure' && needs.build_sdist.result != 'failure'
     steps:
       - uses: actions/download-artifact@v2
