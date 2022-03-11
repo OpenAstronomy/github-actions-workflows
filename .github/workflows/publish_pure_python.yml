@@ -19,9 +19,9 @@ on:
         default: ''
         type: string
       upload_to_pypi:
-        description: Always upload to PyPI after successful builds - if false, only upload when pushing tags
+        description: A condition specifying whether to upload to PyPI
         required: false
-        default: false
+        default: (github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v'))
         type: boolean
       repository_url:
         description: The PyPI repository URL to use

@@ -262,9 +262,11 @@ Packages needed to build the source distribution for testing. Must be a string o
 Default is install nothing extra.
 
 #### upload_to_pypi
-Whether to always upload to PyPI after successful builds.
-If `false`, successful builds are only uploaded when tags are pushed.
-Default is `false`.
+A boolean indicating whether to upload to PyPI after successful builds. This defaults to
+``(github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v'))``,
+meaning that packages are only uploaded to PyPI when a tag starting with ``v`` is
+pushed. This can be set to a different condition, or ``true`` to always upload packages
+and ``false`` to never upload them.
 
 #### repository_url
 The PyPI repository URL to use.
@@ -310,9 +312,11 @@ Packages needed to build the source distribution for testing. Must be a string o
 Default is install nothing extra.
 
 #### upload_to_pypi
-Whether to always upload to PyPI after successful builds.
-If `false`, successful builds are only uploaded when tags are pushed.
-Default is `false`.
+A boolean indicating whether to upload to PyPI after successful builds. This defaults to
+``(github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v'))``,
+meaning that packages are only uploaded to PyPI when a tag starting with ``v`` is
+pushed. This can be set to a different condition, or ``true`` to always upload packages
+and ``false`` to never upload them.
 
 #### repository_url
 The PyPI repository URL to use.
