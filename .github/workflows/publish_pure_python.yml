@@ -34,7 +34,7 @@ on:
         default: true
         type: boolean
     secrets:
-      pypi_password:
+      pypi_token:
         required: false
 
 jobs:
@@ -64,5 +64,5 @@ jobs:
         if: (github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')) || inputs.upload_to_pypi
         with:
           user: __token__
-          password: ${{ secrets.pypi_password }}
+          password: ${{ secrets.pypi_token }}
           repository_url: ${{ inputs.repository_url }}
