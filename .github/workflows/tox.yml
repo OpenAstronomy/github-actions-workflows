@@ -47,6 +47,11 @@ on:
         required: false
         default: false
         type: boolean
+      runs-on:
+        description: Which runner image to use for each OS
+        required: false
+        default: ''
+        type: string
       default_python:
         description: Default version of Python
         required: false
@@ -83,7 +88,7 @@ jobs:
           --posargs "${{ inputs.posargs }}" --toxdeps "${{ inputs.toxdeps }}" \
           --toxargs "${{ inputs.toxargs }}" --pytest "${{ inputs.pytest }}" \
           --coverage "${{ inputs.coverage }}" --conda "${{ inputs.conda }}" \
-          --display "${{ inputs.display }}" \
+          --display "${{ inputs.display }}" --runs-on "${{ inputs.runs-on }}" \
           --default-python "${{ inputs.default_python }}"
         shell: sh
 
