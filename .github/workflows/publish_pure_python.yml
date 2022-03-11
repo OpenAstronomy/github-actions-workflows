@@ -72,7 +72,7 @@ jobs:
           UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && github.event_name == 'push' && startsWith(github.event.ref, inputs.upload_to_pypi) }}
       - uses: pypa/gh-action-pypi-publish@master
         name: Upload to PyPI
-        if: ${{ steps.set-upload.outputs.upload_to_pypi }}
+        if: ${{ steps.set-upload.outputs.upload_to_pypi == 'true' }}
         with:
           user: __token__
           password: ${{ secrets.pypi_token }}

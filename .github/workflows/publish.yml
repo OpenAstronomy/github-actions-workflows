@@ -144,7 +144,7 @@ jobs:
     if: |
       always() &&
       needs.targets.result == 'success' &&
-      needs.targets.outputs.upload_to_pypi &&
+      needs.targets.outputs.upload_to_pypi == 'true' &&
       needs.build_wheels.result != 'failure' &&
       needs.build_sdist.result != 'failure'
     steps:
