@@ -186,7 +186,7 @@ with:
 The version of Python to use if the tox environment name does not start with `py(2|3)[0-9]+`.
 Default is `3.x`.
 
-For example, a tox environment `py39-docs` will run on Python 3.9, while a tox environment `build_docs` will refer to the value of `default_python`. 
+For example, a tox environment `py39-docs` will run on Python 3.9, while a tox environment `build_docs` will refer to the value of `default_python`.
 
 #### submodules
 Whether to checkout submodules.
@@ -212,13 +212,13 @@ jobs:
         - linux
         - cp3?-macosx_x86_64
     secrets:
-      pypi_password: ${{ secrets.pypi_password }}
+      pypi_token: ${{ secrets.pypi_token }}
 ```
 
 ### Inputs
 
 #### targets
-List of build targets for cibuildwheel. 
+List of build targets for cibuildwheel.
 The list of targets must be specified as demonstrated by the default value below.
 Each target is built within a separate matrix job.
 
@@ -227,7 +227,7 @@ If the target is `linux`, `macos` or `windows`, cibuildwheel is run on the lates
 Any other target is assumed to be a value for the `CIBW_BUILD` environment variable (e.g. `cp3?-macosx_x86_64`).
 In this case the OS to run cibuildwheel on is extracted from the target.
 
-Targets that end with ``aarch64``, ``arm64`` and ``universal2`` are also supported without any additional configuration of cibuildwheel. 
+Targets that end with ``aarch64``, ``arm64`` and ``universal2`` are also supported without any additional configuration of cibuildwheel.
 
 ***Note:** `targets` is a **string** and must be specified as a literal block scalar using the `|`. (Without the `|`, it must also be valid YAML.)*
 
@@ -239,7 +239,7 @@ targets: |
   - windows
 ```
 
-To not build any wheels: 
+To not build any wheels:
 ```yaml
 targets: ''
 ```
@@ -276,7 +276,7 @@ Default is `true`.
 
 ### Secrets
 
-#### pypi_password
+#### pypi_token
 The authentication token to access the PyPI repository.
 
 ## Build and publish a pure Python package
@@ -291,7 +291,7 @@ jobs:
       test_extras: test
       test_command: pytest --pyargs test_package
     secrets:
-      pypi_password: ${{ secrets.pypi_password }}
+      pypi_token: ${{ secrets.pypi_token }}
 ```
 
 ### Inputs
@@ -324,5 +324,5 @@ Default is `true`.
 
 ### Secrets
 
-#### pypi_password
+#### pypi_token
 The authentication token to access the PyPI repository.
