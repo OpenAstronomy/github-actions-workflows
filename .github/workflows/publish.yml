@@ -32,10 +32,10 @@ on:
         default: ''
         type: string
       upload_to_pypi:
-        description: Always upload to PyPI after successful builds - if false, only upload when pushing tags
+        description: A condition specifying whether to upload to PyPI
         required: false
-        default: false
-        type: boolean
+        default: 'refs/tags/v'
+        type: string
       repository_url:
         description: The PyPI repository URL to use
         required: false
@@ -58,6 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-outputs.outputs.matrix }}
+      upload_to_pypi: ${{ steps.set-upload.outputs.upload_to_pypi }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -69,6 +70,17 @@ jobs:
       - id: set-outputs
         run: python tools/load_build_targets.py --targets "${{ inputs.targets }}"
         shell: sh
+      - id: set-upload
+        run: |
+          if [ $UPLOAD_TO_PYPI == "true" ] || [ $UPLOAD_TAG == "true" ];
+          then
+            echo "::set-output name=upload_to_pypi::true"
+          else
+            echo "::set-output name=upload_to_pypi::false"
+          fi
+        env:
+          UPLOAD_TO_PYPI: ${{ inputs.upload_to_pypi }}
+          UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && github.event_name == 'push' && startsWith(github.event.ref, inputs.upload_to_pypi) }}
 
   build_wheels:
     name: Build ${{ matrix.target }} wheels
@@ -127,11 +139,14 @@ jobs:
 
   upload_pypi:
     name: Upload to PyPI
-    needs: [build_wheels, build_sdist]
+    needs: [targets, build_wheels, build_sdist]
     runs-on: ubuntu-latest
     if: |
-      (( github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')) || inputs.upload_to_pypi ) &&
-      needs.build_wheels.result != 'failure' && needs.build_sdist.result != 'failure'
+      always() &&
+      needs.targets.result == 'success' &&
+      needs.targets.outputs.upload_to_pypi == 'true' &&
+      needs.build_wheels.result != 'failure' &&
+      needs.build_sdist.result != 'failure'
     steps:
       - uses: actions/download-artifact@v2
         with:

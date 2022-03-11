@@ -262,9 +262,14 @@ Packages needed to build the source distribution for testing. Must be a string o
 Default is install nothing extra.
 
 #### upload_to_pypi
-Whether to always upload to PyPI after successful builds.
-If `false`, successful builds are only uploaded when tags are pushed.
-Default is `false`.
+Whether to upload to PyPI after successful builds.
+The default is to upload to PyPI when tags that start with `v` are pushed.
+A boolean can be passed as `true` (always upload) or `false` (never upload)
+either explicitly or as a boolean expression (`${{ <expression> }}`).
+
+Alternatively, a string can be passed to match the start of a tag ref.
+For example, `'refs/tags/v'` (default) will upload tags that begin with `v`,
+and `'refs/tags/'` will upload on all pushed tags.
 
 #### repository_url
 The PyPI repository URL to use.
@@ -310,9 +315,14 @@ Packages needed to build the source distribution for testing. Must be a string o
 Default is install nothing extra.
 
 #### upload_to_pypi
-Whether to always upload to PyPI after successful builds.
-If `false`, successful builds are only uploaded when tags are pushed.
-Default is `false`.
+Whether to upload to PyPI after successful builds.
+The default is to upload to PyPI when tags that start with `v` are pushed.
+A boolean can be passed as `true` (always upload) or `false` (never upload)
+either explicitly or as a boolean expression (`${{ <expression> }}`).
+
+Alternatively, a string can be passed to match the start of a tag ref.
+For example, `'refs/tags/v'` (default) will upload tags that begin with `v`,
+and `'refs/tags/'` will upload on all pushed tags.
 
 #### repository_url
 The PyPI repository URL to use.

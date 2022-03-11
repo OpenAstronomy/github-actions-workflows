@@ -19,10 +19,10 @@ on:
         default: ''
         type: string
       upload_to_pypi:
-        description: Always upload to PyPI after successful builds - if false, only upload when pushing tags
+        description: A condition specifying whether to upload to PyPI
         required: false
-        default: false
-        type: boolean
+        default: 'refs/tags/v'
+        type: string
       repository_url:
         description: The PyPI repository URL to use
         required: false
@@ -59,9 +59,20 @@ jobs:
           test_extras: ${{ inputs.test_extras }}
           test_command: ${{ inputs.test_command }}
           pure_python_wheel: true
+      - id: set-upload
+        run: |
+          if [ $UPLOAD_TO_PYPI == "true" ] || [ $UPLOAD_TAG == "true" ];
+          then
+            echo "::set-output name=upload_to_pypi::true"
+          else
+            echo "::set-output name=upload_to_pypi::false"
+          fi
+        env:
+          UPLOAD_TO_PYPI: ${{ inputs.upload_to_pypi }}
+          UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && github.event_name == 'push' && startsWith(github.event.ref, inputs.upload_to_pypi) }}
       - uses: pypa/gh-action-pypi-publish@master
         name: Upload to PyPI
-        if: (github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')) || inputs.upload_to_pypi
+        if: ${{ steps.set-upload.outputs.upload_to_pypi == 'true' }}
         with:
           user: __token__
           password: ${{ secrets.pypi_token }}
