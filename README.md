@@ -150,16 +150,16 @@ Whether to setup a headless display.
 This uses the `pyvista/setup-headless-display-action@v1` GitHub Action.
 Default is `false`.
 
-#### runner
-Choose an alternative image for the runner to use on each OS.
+#### runs-on
+Choose an alternative image for the runner to use for each OS.
 By default, `linux` is `ubuntu-latest`, `macos` is `macos-latest` and `windows` is `windows-latest`.
-None, some or all OSes can be specified, and the global value can be overridden in each environment.
+None, some or all OS images can be specified, and the global value can be overridden in each environment.
 
 It can be defined globally:
 ```yaml
 uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@main
 with:
-  runner: |
+  runs-on: |
     linux: ubuntu-18.04
     macos: macos-10.15
     windows: windows-2019
@@ -167,11 +167,11 @@ with:
 ```yaml
 uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@main
 with:
-  runner: |
+  runs-on: |
     macos: macos-10.15
 ```
 
-***Note:** `runner` is a **string** and must be specified as a literal block scalar using the `|`. (Without the `|`, it must also be valid YAML.)*
+***Note:** `runs-on` is a **string** and must be specified as a literal block scalar using the `|`. (Without the `|`, it must also be valid YAML.)*
 
 `envs` definition:
 ```yaml
@@ -179,7 +179,7 @@ uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@main
 with:
   envs: |
     - windows: py39
-      runner: windows-2019
+      runs-on: windows-2019
 ```
 
 #### default_python

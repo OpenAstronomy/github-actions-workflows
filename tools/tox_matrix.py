@@ -15,10 +15,10 @@ import yaml
 @click.option("--coverage", default="")
 @click.option("--conda", default="auto")
 @click.option("--display", default="false")
-@click.option("--runner", default="")
+@click.option("--runs-on", default="")
 @click.option("--default-python", default="")
 def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest,
-                     coverage, conda, display, runner, default_python):
+                     coverage, conda, display, runs_on, default_python):
     """Script to load tox targets for GitHub Actions workflow."""
     # Load envs config
     envs = yaml.load(envs, Loader=yaml.BaseLoader)
@@ -37,15 +37,15 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest,
     print(json.dumps(global_libraries, indent=2))
 
     # Default images to use for runners
-    runners = {
+    default_runs_on = {
         "linux": "ubuntu-latest",
         "macos": "macos-latest",
         "windows": "windows-latest",
     }
-    custom_runners = yaml.load(runner, Loader=yaml.BaseLoader)
-    if isinstance(custom_runners, dict):
-        runners.update(custom_runners)
-    print(json.dumps(runners, indent=2))
+    custom_runs_on = yaml.load(runs_on, Loader=yaml.BaseLoader)
+    if isinstance(custom_runs_on, dict):
+        default_runs_on.update(custom_runs_on)
+    print(json.dumps(default_runs_on, indent=2))
 
     # Default string parameters which can be overwritten by each env
     string_parameters = {
@@ -65,7 +65,7 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest,
             env,
             global_libraries=global_libraries,
             global_string_parameters=string_parameters,
-            runners=runners,
+            runs_on=default_runs_on,
             default_python=default_python,
         ))
 
@@ -75,7 +75,7 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest,
 
 
 def get_matrix_item(env, global_libraries, global_string_parameters,
-                    runners, default_python):
+                    runs_on, default_python):
 
     # define spec for each matrix include (+ global_string_parameters)
     item = {
@@ -94,10 +94,10 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
         item[string_param] = default if env_value is None else env_value
 
     # set os and toxenv
-    for k, v in runners.items():
+    for k, v in runs_on.items():
         if k in env:
             platform = k
-            item["os"] = env.get("runner", v)
+            item["os"] = env.get("runs-on", v)
             item["toxenv"] = env[k]
     assert item["os"] is not None and item["toxenv"] is not None
 

@@ -11,7 +11,7 @@ jobs:
         - macos: py39-inputs-macos
         - windows: py38-inputs-windows
           toxargs: '-v'
-          runner: windows-2019
+          runs-on: windows-2019
 
         - linux: py310-inputs-conda
         - macos: py310-inputs-conda
@@ -26,7 +26,7 @@ jobs:
     uses: ./.github/workflows/tox.yml
     with:
       conda: 'true'
-      runner: |
+      runs-on: |
         linux: ubuntu-18.04
         macos: macos-10.15
       envs: |
@@ -37,7 +37,7 @@ jobs:
           posargs: not
         # conda not present in toxenv
         - linux: py39-inputs-con_da
-          runner: ubuntu-latest
+          runs-on: ubuntu-latest
         - linux: py39-inputs-con_da
           conda: auto
           posargs: not
