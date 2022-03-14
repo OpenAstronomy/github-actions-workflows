@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: encode-scripts
+        name: encode scripts in workflows
+        language: system
+        entry: python update_scripts_in_yml.py
+        always_run: true
