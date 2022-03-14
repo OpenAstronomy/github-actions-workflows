@@ -60,9 +60,6 @@ jobs:
       matrix: ${{ steps.set-outputs.outputs.matrix }}
       upload_to_pypi: ${{ steps.set-upload.outputs.upload_to_pypi }}
     steps:
-      - uses: actions/checkout@v2
-        with:
-           repository: 'OpenAstronomy/github-actions-workflows'
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9'
