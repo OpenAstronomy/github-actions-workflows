@@ -1,4 +1,5 @@
 import os
+
 from setuptools import Extension, setup
 
 setup(ext_modules=[Extension('test_package.simple',

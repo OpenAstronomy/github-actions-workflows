@@ -25,5 +25,6 @@ def base64_encode_into(script, yml_file, env_var):
     with open(os.path.join('.github', 'workflows', yml_file), 'w') as f:
         f.write(tox_yml_new)
 
+
 base64_encode_into('tox_matrix.py', 'tox.yml', 'TOX_MATRIX_SCRIPT')
 base64_encode_into('load_build_targets.py', 'publish.yml', 'LOAD_BUILD_TARGETS_SCRIPT')
