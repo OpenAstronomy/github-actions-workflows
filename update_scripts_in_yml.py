@@ -7,7 +7,7 @@ def base64_encode_into(script, yml_file, env_var):
     with open(os.path.join('tools', script), 'rb') as f:
         tox_matrix_base64 = b64encode(f.read()).decode('ascii')
 
-    with open(os.path.join('.github', 'workflows', yml_file)) as f:
+    with open(yml_file) as f:
         tox_yml = f.read()
 
     tox_yml_lines = tox_yml.splitlines()
@@ -22,7 +22,7 @@ def base64_encode_into(script, yml_file, env_var):
 
     tox_yml_new = '\n'.join(tox_yml_lines) + '\n'
 
-    with open(os.path.join('.github', 'workflows', yml_file), 'w') as f:
+    with open(yml_file, 'w') as f:
         f.write(tox_yml_new)
 
 
