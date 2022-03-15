@@ -4,7 +4,7 @@ on:
 
 jobs:
   release:
-    uses: ./publish_pure_python.yml
+    uses: ConorMacBride/github-actions-workflows/publish_pure_python.yml@move-to-root
     with:
       test_extras: test
       test_command: pytest --pyargs test_package
