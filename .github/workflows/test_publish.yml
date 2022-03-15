@@ -4,12 +4,12 @@ on:
 
 jobs:
   release_default:
-    uses: ./.github/workflows/publish.yml
+    uses: ./publish.yml
     with:
       test_extras: test
       test_command: pytest --pyargs test_package
   release:
-    uses: ./.github/workflows/publish.yml
+    uses: ./publish.yml
     with:
       test_extras: test
       test_command: pytest --pyargs test_package
@@ -20,7 +20,7 @@ jobs:
         - cp3?-win_amd64
         - cp39-manylinux_aarch64
   release_sdist_only:
-    uses: ./.github/workflows/publish.yml
+    uses: ./publish.yml
     with:
       test_extras: test
       test_command: pytest --pyargs test_package
