@@ -113,12 +113,11 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
     item["name"] = env.get("name") or item["toxenv"]
 
     # set pytest_flag
-    if item["pytest"] == "true":
+    item["pytest_flag"] = ""
+    if item["pytest"] == "true" and "codecov" in item.get("coverage", ""):
         sep = r"\\" if platform == "windows" else "/"
-        item["pytest_flag"] = (
-            rf"--cov-report=xml:${{GITHUB_WORKSPACE}}{sep}coverage.xml")
-    else:
-        item["pytest_flag"] = ""
+        item["pytest_flag"] += (
+            rf"--cov-report=xml:${{GITHUB_WORKSPACE}}{sep}coverage.xml ")
 
     # set libraries
     env_libraries = env.get("libraries")
