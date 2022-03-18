@@ -14,7 +14,7 @@ To use this template, your repository will need to have a `tox.ini` file.
 ```yaml
 jobs:
   test:
-    uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@main
+    uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
     with:
       posargs: '-n 4'
       envs: |
@@ -38,7 +38,7 @@ All of these inputs (except `submodules`) can also be specified under each tox e
 
 In the following example `test1` will pass `--arg-local` to pytest, while `test2` will pass `--arg-global` to pytest,
 ```yaml
-uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@main
+uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
 with:
   posargs: '--arg-global'
   envs: |
@@ -52,7 +52,7 @@ Array of tox environments to test.
 Required input.
 
 ```yaml
-uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@main
+uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
 with:
   envs: |
     - <os>: <toxenv>
@@ -66,7 +66,7 @@ where `<os>` is the either `linux`, `macos` or `windows`, and `<toxenv>` is the 
 Example:
 
 ```yaml
-uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@main
+uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
 with:
   envs: |
     - linux: pep8
@@ -84,7 +84,7 @@ Additional packages to install using apt (only on Linux), brew and brew cask (on
 
 Global definition:
 ```yaml
-uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@main
+uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
 with:
   libraries: |
     apt:
@@ -157,7 +157,7 @@ None, some or all OS images can be specified, and the global value can be overri
 
 It can be defined globally:
 ```yaml
-uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@main
+uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
 with:
   runs-on: |
     linux: ubuntu-18.04
@@ -165,7 +165,7 @@ with:
     windows: windows-2019
 ```
 ```yaml
-uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@main
+uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
 with:
   runs-on: |
     macos: macos-10.15
@@ -175,7 +175,7 @@ with:
 
 `envs` definition:
 ```yaml
-uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@main
+uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
 with:
   envs: |
     - windows: py39
@@ -204,7 +204,7 @@ Build, test and publish a Python source distribution and collection of platform-
 ```yaml
 jobs:
   publish:
-    uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@main
+    uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v1
     with:
       test_extras: test
       test_command: pytest --pyargs test_package
@@ -291,7 +291,7 @@ This the workflow is similar to the `publish.yml` workflow, except, instead of b
 ```yaml
 jobs:
   publish:
-    uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@main
+    uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
     with:
       test_extras: test
       test_command: pytest --pyargs test_package
