@@ -116,7 +116,6 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
     if item["pytest"] == "true":
         sep = r"\\" if platform == "windows" else "/"
         item["pytest_flag"] = (
-            rf"--junitxml=junit{sep}test-results.xml "
             rf"--cov-report=xml:${{GITHUB_WORKSPACE}}{sep}coverage.xml")
     else:
         item["pytest_flag"] = ""
