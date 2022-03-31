@@ -271,6 +271,12 @@ Alternatively, a string can be passed to match the start of a tag ref.
 For example, `'refs/tags/v'` (default) will upload tags that begin with `v`,
 and `'refs/tags/'` will upload on all pushed tags.
 
+```yaml
+uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
+with:
+  upload_to_pypi: refs/tags/
+```
+
 #### repository_url
 The PyPI repository URL to use.
 Default is the main PyPI repository.
@@ -323,6 +329,12 @@ either explicitly or as a boolean expression (`${{ <expression> }}`).
 Alternatively, a string can be passed to match the start of a tag ref.
 For example, `'refs/tags/v'` (default) will upload tags that begin with `v`,
 and `'refs/tags/'` will upload on all pushed tags.
+
+```yaml
+uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
+with:
+  upload_to_pypi: refs/tags/
+```
 
 #### repository_url
 The PyPI repository URL to use.
