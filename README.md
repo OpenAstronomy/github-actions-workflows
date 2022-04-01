@@ -188,6 +188,10 @@ Default is `3.x`.
 
 For example, a tox environment `py39-docs` will run on Python 3.9, while a tox environment `build_docs` will refer to the value of `default_python`.
 
+#### fail-fast
+Whether to cancel all in-progress jobs if any job fails.
+Default is `false`.
+
 #### submodules
 Whether to checkout submodules.
 Default is `true`.
@@ -280,6 +284,10 @@ with:
 #### repository_url
 The PyPI repository URL to use.
 Default is the main PyPI repository.
+
+#### fail-fast
+Whether to cancel all in-progress jobs if any job fails.
+Default is `true`.
 
 #### submodules
 Whether to checkout submodules.
