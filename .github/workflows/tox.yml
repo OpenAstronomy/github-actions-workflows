@@ -57,6 +57,11 @@ on:
         required: false
         default: '3.x'
         type: string
+      fail-fast:
+        description: Whether to cancel all in-progress jobs if any job fails
+        required: false
+        default: false
+        type: boolean
       submodules:
         description: Whether to checkout submodules
         required: false
@@ -98,6 +103,7 @@ jobs:
     needs: [envs]
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: ${{ inputs.fail-fast }}
       matrix: ${{fromJSON(needs.envs.outputs.matrix)}}
     steps:
 

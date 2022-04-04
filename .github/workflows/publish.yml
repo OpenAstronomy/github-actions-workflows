@@ -41,6 +41,11 @@ on:
         required: false
         default: ''
         type: string
+      fail-fast:
+        description: Whether to cancel all in-progress jobs if any job fails
+        required: false
+        default: true
+        type: boolean
       submodules:
         description: Whether to checkout submodules
         required: false
@@ -87,6 +92,7 @@ jobs:
     needs: [targets]
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: ${{ inputs.fail-fast }}
       matrix: ${{fromJSON(needs.targets.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
