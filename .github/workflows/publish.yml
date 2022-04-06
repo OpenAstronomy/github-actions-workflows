@@ -54,7 +54,7 @@ on:
       fail-fast:
         description: Whether to cancel all in-progress jobs if any job fails
         required: false
-        default: true
+        default: false
         type: boolean
       submodules:
         description: Whether to checkout submodules

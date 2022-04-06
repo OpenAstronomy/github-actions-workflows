@@ -297,7 +297,7 @@ Required if `upload_to_anaconda` is true.
 
 #### fail-fast
 Whether to cancel all in-progress jobs if any job fails.
-Default is `true`.
+Default is `false`.
 
 #### submodules
 Whether to checkout submodules.
