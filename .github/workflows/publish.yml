@@ -41,6 +41,16 @@ on:
         required: false
         default: ''
         type: string
+      upload_to_anaconda:
+        description: A condition specifying whether to upload to Anaconda.org
+        required: false
+        default: false
+        type: boolean
+      anaconda_user:
+        description: Anaconda.org user or organisation
+        required: false
+        default: ''
+        type: string
       fail-fast:
         description: Whether to cancel all in-progress jobs if any job fails
         required: false
@@ -53,6 +63,8 @@ on:
         type: boolean
     secrets:
       pypi_token:
+        required: false
+      anaconda_token:
         required: false
 
 jobs:
@@ -143,14 +155,15 @@ jobs:
         with:
           path: dist/*
 
-  upload_pypi:
-    name: Upload to PyPI
+  upload:
+    name: Upload
     needs: [targets, build_wheels, build_sdist]
     runs-on: ubuntu-latest
     if: |
       always() &&
       needs.targets.result == 'success' &&
-      needs.targets.outputs.upload_to_pypi == 'true' &&
+      ( needs.targets.outputs.upload_to_pypi == 'true' ||
+        inputs.upload_to_anaconda == 'true' ) &&
       needs.build_wheels.result != 'failure' &&
       needs.build_sdist.result != 'failure'
     steps:
@@ -159,7 +172,17 @@ jobs:
           name: artifact
           path: dist
       - uses: pypa/gh-action-pypi-publish@master
+        name: Upload to PyPI
+        if: ${{ needs.targets.outputs.upload_to_pypi == 'true' }}
         with:
           user: __token__
           password: ${{ secrets.pypi_token }}
           repository_url: ${{ inputs.repository_url }}
+      - name: Upload to Anaconda.org
+        if: ${{ inputs.upload_to_anaconda == 'true' }}
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install git+https://github.com/Anaconda-Server/anaconda-client
+          anaconda --token ${{ secrets.anaconda_token }} upload \
+            --user ${{ inputs.anaconda_user }} \
+            dist/*
