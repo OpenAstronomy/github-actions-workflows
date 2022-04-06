@@ -285,6 +285,16 @@ with:
 The PyPI repository URL to use.
 Default is the main PyPI repository.
 
+#### upload_to_anaconda
+Whether to upload to Anaconda.org after successful builds.
+The default is to not upload.
+A boolean can be passed as `true` (always upload) or `false` (never upload)
+either explicitly or as a boolean expression (`${{ <expression> }}`).
+
+#### anaconda_user
+Anaconda.org user or organisation.
+Required if `upload_to_anaconda` is true.
+
 #### fail-fast
 Whether to cancel all in-progress jobs if any job fails.
 Default is `true`.
@@ -297,6 +307,9 @@ Default is `true`.
 
 #### pypi_token
 The authentication token to access the PyPI repository.
+
+#### anaconda_token
+The authentication token to access the Anaconda.org repository.
 
 ## Build and publish a pure Python package
 
@@ -348,6 +361,16 @@ with:
 The PyPI repository URL to use.
 Default is the main PyPI repository.
 
+#### upload_to_anaconda
+Whether to upload to Anaconda.org after successful builds.
+The default is to not upload.
+A boolean can be passed as `true` (always upload) or `false` (never upload)
+either explicitly or as a boolean expression (`${{ <expression> }}`).
+
+#### anaconda_user
+Anaconda.org user or organisation.
+Required if `upload_to_anaconda` is true.
+
 #### submodules
 Whether to checkout submodules.
 Default is `true`.
@@ -356,3 +379,6 @@ Default is `true`.
 
 #### pypi_token
 The authentication token to access the PyPI repository.
+
+#### anaconda_token
+The authentication token to access the Anaconda.org repository.
