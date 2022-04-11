@@ -1,3 +1,6 @@
-from . import simple
+import os
 
-__all__ = ["simple"]
+if os.getenv("GITHUB_WORKFLOW") == ".github/workflows/test_publish.yml":
+    from . import simple
+
+    __all__ = ["simple"]
