@@ -32,3 +32,4 @@ repos:
         language: system
         entry: python update_scripts_in_yml.py
         always_run: true
+        pass_filenames: false
