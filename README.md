@@ -150,6 +150,21 @@ Whether to setup a headless display.
 This uses the `pyvista/setup-headless-display-action@v1` GitHub Action.
 Default is `false`.
 
+#### cache-path
+A list of files, directories, and wildcard patterns to cache and restore.
+Passed to [`actions/cache`](https://github.com/actions/cache) `path` input.
+Optional.
+
+#### cache-key
+An explicit key for restoring and saving the cache.
+Passed to [`actions/cache`](https://github.com/actions/cache) `key` input.
+Optional.
+
+#### cache-restore-keys
+An ordered list of keys to use for restoring the cache if no cache hit occurred for key.
+Passed to [`actions/cache`](https://github.com/actions/cache) `restore-keys` input.
+Optional.
+
 #### runs-on
 Choose an alternative image for the runner to use for each OS.
 By default, `linux` is `ubuntu-latest`, `macos` is `macos-latest` and `windows` is `windows-latest`.

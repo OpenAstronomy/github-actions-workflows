@@ -47,6 +47,21 @@ on:
         required: false
         default: false
         type: boolean
+      cache-path:
+        description: A list of files, directories, and wildcard patterns to cache and restore
+        required: false
+        default: ''
+        type: string
+      cache-key:
+        description: An explicit key for restoring and saving the cache
+        required: false
+        default: ''
+        type: string
+      cache-restore-keys:
+        description: An ordered list of keys to use for restoring the cache if no cache hit occurred for key
+        required: false
+        default: ''
+        type: string
       runs-on:
         description: Which runner image to use for each OS
         required: false
@@ -94,8 +109,9 @@ jobs:
           --posargs "${{ inputs.posargs }}" --toxdeps "${{ inputs.toxdeps }}" \
           --toxargs "${{ inputs.toxargs }}" --pytest "${{ inputs.pytest }}" \
           --coverage "${{ inputs.coverage }}" --conda "${{ inputs.conda }}" \
-          --display "${{ inputs.display }}" --runs-on "${{ inputs.runs-on }}" \
-          --default-python "${{ inputs.default_python }}"
+          --display "${{ inputs.display }}" --cache-path "${{ inputs.cache-path }}" \
+          --cache-key "${{ inputs.cache-key }}" --cache-restore-keys "${{ inputs.cache-restore-keys }}" \
+          --runs-on "${{ inputs.runs-on }}" --default-python "${{ inputs.default_python }}"
         shell: sh
 
   tox:
@@ -112,6 +128,14 @@ jobs:
           fetch-depth: 0
           lfs: true
           submodules: ${{ inputs.submodules }}
+
+      - name: Cache ${{ matrix.cache_key }}
+        if: ${{ matrix.cache-path != '' && matrix.cache-key != '' }}
+        uses: actions/cache@v3
+        with:
+          path: ${{ matrix.cache-path }}
+          key: ${{ matrix.cache-key }}
+          restore-keys: ${{ matrix.cache-restore-keys }}
 
       - name: Install dependencies
         uses: ConorMacBride/install-package@main
