@@ -150,6 +150,56 @@ Whether to setup a headless display.
 This uses the `pyvista/setup-headless-display-action@v1` GitHub Action.
 Default is `false`.
 
+#### cache-path
+A list of files, directories, and wildcard patterns to cache and restore.
+Passed to [`actions/cache`](https://github.com/actions/cache) `path` input.
+Optional.
+
+In this example, the particular set of `sample_data` and `processed_data` needed for the job are restored from the cache if the manifest file has not been modified:
+```yaml
+uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+with:
+  cache-path: |
+    sample_data/
+    processed_data/
+  envs: |
+    - linux: py39
+      cache-key: full-sample-${{ hashFiles('**/data_urls.json') }}
+    - linux: py39-compressed
+      cache-key: compressed-sample-${{ hashFiles('**/compressed_data_urls.json') }}
+```
+
+In this example, during the `core_test` job the `sample_data` is retrieved as usual and cached at the end of the job, however, during the `detailed_tests` jobs the `sample_data` is restored from the cache:
+```yaml
+jobs:
+  core_test:
+    uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+    with:
+      cache-path: sample_data/
+      cache-key: sample-${{ github.run_id }}
+      envs: |
+        - linux: py39
+  detailed_tests:
+    needs: [core_test]
+    uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+    with:
+      cache-path: sample_data/
+      cache-key: sample-${{ github.run_id }}
+      envs: |
+        - macos: py39
+        - windows: py39
+```
+
+#### cache-key
+An explicit key for restoring and saving the cache.
+Passed to [`actions/cache`](https://github.com/actions/cache) `key` input.
+Optional.
+
+#### cache-restore-keys
+An ordered list of keys to use for restoring the cache if no cache hit occurred for key.
+Passed to [`actions/cache`](https://github.com/actions/cache) `restore-keys` input.
+Optional.
+
 #### runs-on
 Choose an alternative image for the runner to use for each OS.
 By default, `linux` is `ubuntu-latest`, `macos` is `macos-latest` and `windows` is `windows-latest`.

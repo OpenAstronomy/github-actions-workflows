@@ -15,10 +15,14 @@ import yaml
 @click.option("--coverage", default="")
 @click.option("--conda", default="auto")
 @click.option("--display", default="false")
+@click.option("--cache-path", default="")
+@click.option("--cache-key", default="")
+@click.option("--cache-restore-keys", default="")
 @click.option("--runs-on", default="")
 @click.option("--default-python", default="")
 def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest,
-                     coverage, conda, display, runs_on, default_python):
+                     coverage, conda, display, cache_path, cache_key,
+                     cache_restore_keys, runs_on, default_python):
     """Script to load tox targets for GitHub Actions workflow."""
     # Load envs config
     envs = yaml.load(envs, Loader=yaml.BaseLoader)
@@ -56,6 +60,9 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest,
         "coverage": coverage,
         "conda": conda,
         "display": display,
+        "cache-path": cache_path,
+        "cache-key": cache_key,
+        "cache-restore-keys": cache_restore_keys,
     }
 
     # Create matrix
@@ -88,6 +95,9 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
         "libraries_brew_cask": None,
         "libraries_apt": None,
         "libraries_choco": None,
+        "cache-path": None,
+        "cache-key": None,
+        "cache-restore-keys": None,
     }
     for string_param, default in global_string_parameters.items():
         env_value = env.get(string_param)
