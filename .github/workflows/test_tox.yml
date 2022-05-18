@@ -104,3 +104,21 @@ jobs:
         - linux: py310-conda
         - macos: py39-conda
         - windows: py38-conda
+
+  test_cache_setup:
+    uses: ./.github/workflows/tox.yml
+    with:
+      cache-path: a/
+      cache-key: cache-${{ github.run_id }}
+      envs: |
+        - linux: cache-setup
+
+  test_cache_verify:
+    needs: [test_cache_setup]
+    uses: ./.github/workflows/tox.yml
+    with:
+      envs: |
+        - linux: cache-verify
+          cache-path: |
+            a/
+          cache-key: cache-${{ github.run_id }}
