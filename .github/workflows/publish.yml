@@ -31,6 +31,11 @@ on:
         required: false
         default: ''
         type: string
+      sdist-runs-on:
+        description: Which runner image to use to build and test the sdist
+        required: false
+        default: 'ubuntu-latest'
+        type: string
       upload_to_pypi:
         description: A condition specifying whether to upload to PyPI
         required: false
@@ -133,7 +138,7 @@ jobs:
   build_sdist:
     name: Build source distribution
     if: ${{ inputs.sdist }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.sdist-runs-on }}
     steps:
       - uses: actions/checkout@v2
         with:

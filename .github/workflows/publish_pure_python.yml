@@ -18,6 +18,11 @@ on:
         required: false
         default: ''
         type: string
+      runs-on:
+        description: Which runner image to use to build and test the sdist and wheel
+        required: false
+        default: 'ubuntu-latest'
+        type: string
       upload_to_pypi:
         description: A condition specifying whether to upload to PyPI
         required: false
@@ -53,7 +58,7 @@ jobs:
 
   build:
     name: Build source and wheel distribution
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runs-on }}
     steps:
       - uses: actions/checkout@v2
         with:
