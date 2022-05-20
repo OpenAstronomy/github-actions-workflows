@@ -302,6 +302,10 @@ targets: ''
 Whether to build a source distribution.
 Default is `true`.
 
+#### sdist-runs-on
+Choose an alternative image for the runner to use for building and testing the
+source distribution. By default, this is `ubuntu-latest`.
+
 #### test_extras
 Any `extras_requires` modifier that should be used to install the package for testing.
 Default is none.
@@ -377,6 +381,10 @@ jobs:
 ```
 
 ### Inputs
+
+#### runs-on
+Choose an alternative image for the runner to use for building and testing the
+source distribution and wheel. By default, this is `ubuntu-latest`.
 
 #### test_extras
 Any `extras_requires` modifier that should be used to install the package for testing.
