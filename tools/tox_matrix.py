@@ -112,8 +112,11 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
     assert item["os"] is not None and item["toxenv"] is not None
 
     # set python_version
+    python_version = env.get("python-version")
     m = re.search("^py(2|3)([0-9]+)", item["toxenv"])
-    if m is not None:
+    if python_version is not None:
+        item["python_version"] = python_version
+    elif m is not None:
         major, minor = m.groups()
         item["python_version"] = f"{major}.{minor}"
     else:
