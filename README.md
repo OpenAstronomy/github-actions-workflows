@@ -233,10 +233,25 @@ with:
 ```
 
 #### default_python
-The version of Python to use if the tox environment name does not start with `py(2|3)[0-9]+`.
+The version of Python to use if the tox environment name does not start with `py(2|3)[0-9]+` or `python-version` is not set for the tox environment.
 Default is `3.x`.
 
 For example, a tox environment `py39-docs` will run on Python 3.9, while a tox environment `build_docs` will refer to the value of `default_python`.
+The `default_python` can also be defined within `envs`, however, a Python version specified in the tox environment name takes priority.
+
+To force a particular Python version for a tox environment, the `python-version` can be included in the definition of the specific environment.
+The value of the `python-version` input will override both the Python version in the tox environment name and any `default_python` inputs.
+See [`actions/setup-python`](https://github.com/actions/setup-python) for a full list of supported values for `python-version`.
+In this example, the development version of Python 3.11 and the PyPy implementation of Python 3.9 will be tested:
+```yaml
+uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+with:
+  envs: |
+    - linux: py311
+      python-version: '3.11-dev'
+    - linux: pypy39
+      python-version: 'pypy-3.9'
+```
 
 #### fail-fast
 Whether to cancel all in-progress jobs if any job fails.

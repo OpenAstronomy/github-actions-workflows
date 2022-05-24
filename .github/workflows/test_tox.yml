@@ -53,6 +53,12 @@ jobs:
         - linux: default_python
           default_python: '3.10'
           posargs: '10'
+        - linux: py311-python_version
+          python-version: '3.11-dev'
+          posargs: 'CPython'
+        - linux: pypy39-python_version
+          python-version: 'pypy-3.9'
+          posargs: 'PyPy'
       pytest: false
 
   test_libraries:
