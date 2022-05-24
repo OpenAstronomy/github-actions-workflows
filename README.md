@@ -360,6 +360,7 @@ The authentication token to access the PyPI repository.
 
 #### anaconda_token
 The authentication token to access the Anaconda.org repository.
+This token should have the scope [`api:write`](https://docs.anaconda.com/anaconda-repository/2.23/user/managing-account/#generating-tokens) (allow write access to the API site).
 
 ## Build and publish a pure Python package
 
@@ -432,3 +433,4 @@ The authentication token to access the PyPI repository.
 
 #### anaconda_token
 The authentication token to access the Anaconda.org repository.
+This token should have the scope [`api:write`](https://docs.anaconda.com/anaconda-repository/2.23/user/managing-account/#generating-tokens) (allow write access to the API site).
