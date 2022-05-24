@@ -155,20 +155,6 @@ A list of files, directories, and wildcard patterns to cache and restore.
 Passed to [`actions/cache`](https://github.com/actions/cache) `path` input.
 Optional.
 
-In this example, the particular set of `sample_data` and `processed_data` needed for the job are restored from the cache if the manifest file has not been modified:
-```yaml
-uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
-with:
-  cache-path: |
-    sample_data/
-    processed_data/
-  envs: |
-    - linux: py39
-      cache-key: full-sample-${{ hashFiles('**/data_urls.json') }}
-    - linux: py39-compressed
-      cache-key: compressed-sample-${{ hashFiles('**/compressed_data_urls.json') }}
-```
-
 In this example, during the `core_test` job the `sample_data` is retrieved as usual and cached at the end of the job, however, during the `detailed_tests` jobs the `sample_data` is restored from the cache:
 ```yaml
 jobs:
@@ -188,6 +174,35 @@ jobs:
       envs: |
         - macos: py39
         - windows: py39
+```
+
+In this example, the particular set of `sample_data` and `processed_data` needed for the job are restored from the cache if the manifest file has not been modified.
+As the repository is not checked out when calling the workflow, we need to find the hash of the files in a separate job:
+```yaml
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      data-hash: ${{ steps.data-hash.outputs.hash }}
+      compressed-data-hash: ${{ steps.compressed-data-hash.outputs.hash }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: data-hash
+        run: echo "::set-output name=hash::${{ hashFiles('**/data_urls.json') }}"
+      - id: compressed-data-hash
+        run: echo "::set-output name=hash::${{ hashFiles('**/compressed_data_urls.json') }}"
+  tests:
+    needs: [setup]
+    uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+    with:
+      cache-path: |
+        sample_data/
+        processed_data/
+      envs: |
+        - linux: py39
+          cache-key: full-sample-${{ needs.setup.outputs.data-hash }}
+        - linux: py39-compressed
+          cache-key: compressed-sample-${{ needs.setup.outputs.compressed-data-hash }}
 ```
 
 #### cache-key
