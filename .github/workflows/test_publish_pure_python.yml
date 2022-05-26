@@ -9,3 +9,10 @@ jobs:
       test_extras: test
       test_command: pytest --pyargs test_package
       timeout-minutes: 5
+
+  setenv:
+    uses: ./.github/workflows/publish_pure_python.yml
+    with:
+      test_command: python -c "import os; assert os.getenv('CUSTOM_VAR') == 'custom value'"
+      env: |
+        CUSTOM_VAR: custom value
