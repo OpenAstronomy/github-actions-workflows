@@ -464,6 +464,10 @@ either explicitly or as a boolean expression (`${{ <expression> }}`).
 Anaconda.org user or organisation.
 Required if `upload_to_anaconda` is true.
 
+#### timeout-minutes
+The maximum number of minutes to let the workflow run before GitHub automatically cancels it.
+Default is `360`.
+
 #### submodules
 Whether to checkout submodules.
 Default is `true`.
