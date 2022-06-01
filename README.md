@@ -272,6 +272,10 @@ with:
 Whether to cancel all in-progress jobs if any job fails.
 Default is `false`.
 
+#### timeout-minutes
+The maximum number of minutes to let a job run before GitHub automatically cancels it.
+Default is `360`.
+
 #### submodules
 Whether to checkout submodules.
 Default is `true`.
