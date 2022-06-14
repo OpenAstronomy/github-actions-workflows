@@ -86,7 +86,7 @@ jobs:
           fi
         env:
           UPLOAD_TO_PYPI: ${{ inputs.upload_to_pypi }}
-          UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && github.event_name == 'push' && startsWith(github.event.ref, inputs.upload_to_pypi) }}
+          UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && (github.event_name == 'push' || github.even_name == 'workflow_dispatch') && startsWith(github.event.ref, inputs.upload_to_pypi) }}
       - uses: pypa/gh-action-pypi-publish@master
         name: Upload to PyPI
         if: ${{ steps.set-upload.outputs.upload_to_pypi == 'true' }}
