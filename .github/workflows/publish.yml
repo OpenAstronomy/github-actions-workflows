@@ -183,11 +183,13 @@ jobs:
           user: __token__
           password: ${{ secrets.pypi_token }}
           repository_url: ${{ inputs.repository_url }}
+      - uses: conda-incubator/setup-miniconda@v2
+        if: ${{ inputs.upload_to_anaconda }}
       - name: Upload to Anaconda.org
         if: ${{ inputs.upload_to_anaconda }}
         run: |
-          python -m pip install --upgrade pip setuptools wheel
-          python -m pip install git+https://github.com/Anaconda-Server/anaconda-client
+          conda install --yes anaconda-client
           anaconda --token ${{ secrets.anaconda_token }} upload \
             --user ${{ inputs.anaconda_user }} \
             dist/*
+        shell: bash -l {0}
