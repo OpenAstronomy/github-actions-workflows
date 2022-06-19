@@ -8,3 +8,4 @@ jobs:
     with:
       test_extras: test
       test_command: pytest --pyargs test_package
+      timeout-minutes: 5

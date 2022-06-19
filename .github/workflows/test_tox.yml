@@ -41,7 +41,9 @@ jobs:
         - linux: py39-inputs-con_da
           conda: auto
           posargs: not
+          timeout-minutes: 5
       pytest: false
+      timeout-minutes: 2
 
   test_default_python:
     uses: ./.github/workflows/tox.yml
