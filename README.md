@@ -383,6 +383,13 @@ either explicitly or as a boolean expression (`${{ <expression> }}`).
 Anaconda.org user or organisation.
 Required if `upload_to_anaconda` is true.
 
+#### anaconda_package
+Anaconda.org package.
+Required if `upload_to_anaconda` is true.
+
+#### anaconda_keep_n_latest
+If specified, keep only this number of versions (starting from the most recent) and remove older versions. This can be useful to prevent a build-up of too many files when uploading developer versions.
+
 #### fail-fast
 Whether to cancel all in-progress jobs if any job fails.
 Default is `false`.
@@ -467,6 +474,13 @@ either explicitly or as a boolean expression (`${{ <expression> }}`).
 #### anaconda_user
 Anaconda.org user or organisation.
 Required if `upload_to_anaconda` is true.
+
+#### anaconda_package
+Anaconda.org package.
+Required if `upload_to_anaconda` is true.
+
+#### anaconda_keep_n_latest
+If specified, keep only this number of versions (starting from the most recent) and remove older versions. This can be useful to prevent a build-up of too many files when uploading developer versions.
 
 #### timeout-minutes
 The maximum number of minutes to let the workflow run before GitHub automatically cancels it.

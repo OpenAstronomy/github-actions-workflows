@@ -43,6 +43,16 @@ on:
         required: false
         default: ''
         type: string
+      anaconda_package:
+        description: Anaconda.org package name
+        required: false
+        default: ''
+        type: string
+      anaconda_keep_n_latest:
+        description: If specified, only this number of the most recent versions are kept
+        required: false
+        default: -1
+        type: number
       timeout-minutes:
         description: The maximum number of minutes to let the workflow run before GitHub automatically cancels it
         required: false
@@ -100,13 +110,10 @@ jobs:
           user: __token__
           password: ${{ secrets.pypi_token }}
           repository_url: ${{ inputs.repository_url }}
-      - uses: conda-incubator/setup-miniconda@v2
-        if: ${{ inputs.upload_to_anaconda }}
-      - name: Upload to Anaconda.org
-        if: ${{ inputs.upload_to_anaconda }}
-        run: |
-          conda install --yes anaconda-client
-          anaconda --token ${{ secrets.anaconda_token }} upload \
-            --user ${{ inputs.anaconda_user }} \
-            dist/*
-        shell: bash -l {0}
+      - uses: OpenAstronomy/publish-wheels-anaconda@main
+        if: ${{ needs.targets.outputs.upload_to_anaconda == 'true' }}
+        with:
+          anaconda_user: ${{ inputs.anaconda_user }}
+          anaconda_package: ${{ inputs.anaconda_package }}
+          anaconda_token: ${{ secrets.anaconda_token }}
+          keep_n_latest: ${{ inputs.anaconda_keep_n_latest }}
