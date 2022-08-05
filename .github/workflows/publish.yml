@@ -82,7 +82,7 @@ jobs:
       matrix: ${{ steps.set-outputs.outputs.matrix }}
       upload_to_pypi: ${{ steps.set-upload.outputs.upload_to_pypi }}
     steps:
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.9'
       - run: python -m pip install PyYAML click
@@ -112,18 +112,18 @@ jobs:
       fail-fast: ${{ inputs.fail-fast }}
       matrix: ${{fromJSON(needs.targets.outputs.matrix)}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
           lfs: true
           submodules: ${{ inputs.submodules }}
       - name: Set up QEMU
         if: ${{ matrix.CIBW_ARCHS == 'aarch64' }}
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
         with:
           platforms: all
       - name: Run cibuildwheel
-        uses: pypa/cibuildwheel@v2.5.0
+        uses: pypa/cibuildwheel@v2.8.1
         with:
           output-dir: dist
         env:
@@ -131,7 +131,7 @@ jobs:
           CIBW_ARCHS: ${{ matrix.CIBW_ARCHS }}
           CIBW_TEST_EXTRAS: ${{ inputs.test_extras }}
           CIBW_TEST_COMMAND: ${{ inputs.test_command }}
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           path: dist/*
 
@@ -140,7 +140,7 @@ jobs:
     if: ${{ inputs.sdist }}
     runs-on: ${{ inputs.sdist-runs-on }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
           lfs: true
@@ -156,7 +156,7 @@ jobs:
           test_extras: ${{ inputs.test_extras }}
           test_command: ${{ inputs.test_command }}
           pure_python_wheel: false
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           path: dist/*
 
@@ -172,11 +172,11 @@ jobs:
       needs.build_wheels.result != 'failure' &&
       needs.build_sdist.result != 'failure'
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: artifact
           path: dist
-      - uses: pypa/gh-action-pypi-publish@master
+      - uses: pypa/gh-action-pypi-publish@release/v1
         name: Upload to PyPI
         if: ${{ needs.targets.outputs.upload_to_pypi == 'true' }}
         with:
