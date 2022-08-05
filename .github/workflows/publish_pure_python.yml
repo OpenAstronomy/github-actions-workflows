@@ -60,7 +60,7 @@ jobs:
     name: Build source and wheel distribution
     runs-on: ${{ inputs.runs-on }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
           lfs: true
