@@ -61,6 +61,11 @@ on:
         required: false
         default: false
         type: boolean
+      timeout-minutes:
+        description: The maximum number of minutes to let a build job run before GitHub automatically cancels it
+        required: false
+        default: 360
+        type: number
       submodules:
         description: Whether to checkout submodules
         required: false
@@ -108,6 +113,7 @@ jobs:
     name: Build ${{ matrix.target }} wheels
     needs: [targets]
     runs-on: ${{ matrix.os }}
+    timeout-minutes: ${{ inputs.timeout-minutes }}
     strategy:
       fail-fast: ${{ inputs.fail-fast }}
       matrix: ${{fromJSON(needs.targets.outputs.matrix)}}
@@ -139,6 +145,7 @@ jobs:
     name: Build source distribution
     if: ${{ inputs.sdist }}
     runs-on: ${{ inputs.sdist-runs-on }}
+    timeout-minutes: ${{ inputs.timeout-minutes }}
     steps:
       - uses: actions/checkout@v3
         with:

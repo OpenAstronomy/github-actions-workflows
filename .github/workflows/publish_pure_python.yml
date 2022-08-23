@@ -43,6 +43,11 @@ on:
         required: false
         default: ''
         type: string
+      timeout-minutes:
+        description: The maximum number of minutes to let the workflow run before GitHub automatically cancels it
+        required: false
+        default: 360
+        type: number
       submodules:
         description: Whether to checkout submodules
         required: false
@@ -59,6 +64,7 @@ jobs:
   build:
     name: Build source and wheel distribution
     runs-on: ${{ inputs.runs-on }}
+    timeout-minutes: ${{ inputs.timeout-minutes }}
     steps:
       - uses: actions/checkout@v3
         with:
