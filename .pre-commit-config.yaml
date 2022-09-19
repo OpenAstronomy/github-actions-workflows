@@ -3,8 +3,8 @@ repos:
     rev: 5.0.4
     hooks:
       - id: flake8
-  - repo: https://github.com/myint/autoflake
-    rev: v1.5.3
+  - repo: https://github.com/PyCQA/autoflake
+    rev: v1.6.0
     hooks:
       - id: autoflake
         args:
