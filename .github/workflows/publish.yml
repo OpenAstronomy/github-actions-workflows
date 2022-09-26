@@ -129,7 +129,7 @@ jobs:
         with:
           platforms: all
       - name: Run cibuildwheel
-        uses: pypa/cibuildwheel@v2.10.1
+        uses: pypa/cibuildwheel@v2.10.2
         with:
           output-dir: dist
         env:
