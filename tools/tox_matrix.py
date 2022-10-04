@@ -126,7 +126,7 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
         item["python_version"] = env.get("default_python") or default_python
 
     # set name
-    item["name"] = env.get("name") or item["toxenv"]
+    item["name"] = env.get("name") or f'{item["toxenv"]} ({item.os})'
 
     # set pytest_flag
     item["pytest_flag"] = ""
