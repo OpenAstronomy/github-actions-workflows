@@ -188,9 +188,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - id: data-hash
-        run: echo "::set-output name=hash::${{ hashFiles('**/data_urls.json') }}"
+        run: echo "hash=${{ hashFiles('**/data_urls.json') }}" >> $GITHUB_OUTPUT
       - id: compressed-data-hash
-        run: echo "::set-output name=hash::${{ hashFiles('**/compressed_data_urls.json') }}"
+        run: echo "hash=${{ hashFiles('**/compressed_data_urls.json') }}" >> $GITHUB_OUTPUT
   tests:
     needs: [setup]
     uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1

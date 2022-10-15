@@ -86,9 +86,9 @@ jobs:
         run: |
           if [ $UPLOAD_TO_PYPI == "true" ] || [ $UPLOAD_TAG == "true" ];
           then
-            echo "::set-output name=upload_to_pypi::true"
+            echo "upload_to_pypi=true" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=upload_to_pypi::false"
+            echo "upload_to_pypi=false" >> $GITHUB_OUTPUT
           fi
         env:
           UPLOAD_TO_PYPI: ${{ inputs.upload_to_pypi }}
