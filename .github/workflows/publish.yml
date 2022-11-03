@@ -201,7 +201,7 @@ jobs:
           password: ${{ secrets.pypi_token }}
           repository_url: ${{ inputs.repository_url }}
       - uses: OpenAstronomy/publish-wheels-anaconda@main
-        if: ${{ needs.targets.outputs.upload_to_anaconda == 'true' }}
+        if: ${{ inputs.upload_to_anaconda }}
         with:
           anaconda_user: ${{ inputs.anaconda_user }}
           anaconda_package: ${{ inputs.anaconda_package }}
