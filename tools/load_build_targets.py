@@ -29,7 +29,8 @@ def load_build_targets(targets):
 
     # Output matrix
     print(json.dumps(matrix, indent=2))
-    print(f"::set-output name=matrix::{json.dumps(matrix)}")
+    with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+        f.write(f"matrix={json.dumps(matrix)}\n")
 
 
 def get_os(target):

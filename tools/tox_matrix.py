@@ -1,4 +1,5 @@
 import json
+import os
 import re
 
 import click
@@ -80,7 +81,8 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest,
 
     # Output matrix
     print(json.dumps(matrix, indent=2))
-    print(f"::set-output name=matrix::{json.dumps(matrix)}")
+    with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+        f.write(f"matrix={json.dumps(matrix)}\n")
 
 
 def get_matrix_item(env, global_libraries, global_string_parameters,
