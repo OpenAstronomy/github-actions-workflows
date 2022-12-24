@@ -91,6 +91,7 @@ jobs:
         with:
           test_extras: ${{ inputs.test_extras }}
           test_command: ${{ inputs.test_command }}
+          python-version: ${{ inputs.python-version }}
           pure_python_wheel: true
       - id: set-upload
         run: |
