@@ -63,6 +63,11 @@ on:
         required: false
         default: true
         type: boolean
+      python-version:
+        description: The Python version to use for building and testing
+        required: false
+        default: '3.x'
+        type: string
     secrets:
       pypi_token:
         required: false
@@ -91,6 +96,7 @@ jobs:
         with:
           test_extras: ${{ inputs.test_extras }}
           test_command: ${{ inputs.test_command }}
+          python-version: ${{ inputs.python-version }}
           pure_python_wheel: true
       - id: set-upload
         run: |
