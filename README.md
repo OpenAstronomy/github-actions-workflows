@@ -445,6 +445,9 @@ Default is no testing.
 Packages needed to build the source distribution for testing. Must be a string of space-separated apt packages.
 Default is install nothing extra.
 
+#### python-version
+The version of Python used to test and build the package. By default, this is `3.x`.
+
 #### upload_to_pypi
 Whether to upload to PyPI after successful builds.
 The default is to upload to PyPI when tags that start with `v` are pushed.
