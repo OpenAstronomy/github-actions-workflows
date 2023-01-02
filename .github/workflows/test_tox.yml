@@ -130,3 +130,10 @@ jobs:
           cache-path: |
             a/
           cache-key: cache-${{ github.run_id }}
+
+  test_no_python_cache:
+    uses: ./.github/workflows/tox.yml
+    with:
+      python-cache: ''
+      envs: |
+        - linux: py310
