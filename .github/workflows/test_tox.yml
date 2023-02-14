@@ -75,7 +75,7 @@ jobs:
         - linux: libraries
           posargs: 'rolldice -v'
         - macos: libraries
-          posargs: 'opj_compress -h'
+          posargs: 'which opj_compress'
         - linux: libraries
           posargs: 'bcal -h'
           libraries:
