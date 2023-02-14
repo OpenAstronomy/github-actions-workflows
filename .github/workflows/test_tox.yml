@@ -113,6 +113,17 @@ jobs:
         - macos: py39-conda
         - windows: py38-conda
 
+  test_setenv:
+    uses: ./.github/workflows/tox.yml
+    with:
+      setenv: |
+        MY_VAR: global_value
+      envs: |
+        - linux: setenv-local
+          setenv: |
+            MY_VAR: local_value
+        - macos: setenv-global
+
   test_cache_setup:
     uses: ./.github/workflows/tox.yml
     with:
