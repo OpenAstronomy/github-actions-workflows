@@ -70,12 +70,12 @@ jobs:
         apt:
           - rolldice
         brew:
-          - graphviz
+          - openjpeg
       envs: |
         - linux: libraries
           posargs: 'rolldice -v'
         - macos: libraries
-          posargs: 'dot -V'
+          posargs: 'which opj_compress'
         - linux: libraries
           posargs: 'bcal -h'
           libraries:
