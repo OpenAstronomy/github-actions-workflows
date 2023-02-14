@@ -349,6 +349,24 @@ The command to run to test the package.
 Will be run in a temporary directory.
 Default is no testing.
 
+#### env
+A map of environment variables to be available when building and testing.
+Default is none.
+
+Due to [GitHub Actions limitations](https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
+this is the only way to pass environment variables from your workflow file into the publishing job.
+
+```yaml
+uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v1
+with:
+  env: |
+    VAR1: test
+    VAR2: |
+      first line
+      seconds line
+    VAR3: testing
+```
+
 #### libraries
 Packages needed to build the source distribution for testing. Must be a string of space-separated apt packages.
 Default is install nothing extra.
@@ -364,7 +382,7 @@ For example, `'refs/tags/v'` (default) will upload tags that begin with `v`,
 and `'refs/tags/'` will upload on all pushed tags.
 
 ```yaml
-uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
+uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v1
 with:
   upload_to_pypi: refs/tags/
 ```
@@ -440,6 +458,24 @@ Default is none.
 The command to run to test the package.
 Will be run in a temporary directory.
 Default is no testing.
+
+#### env
+A map of environment variables to be available when building and testing.
+Default is none.
+
+Due to [GitHub Actions limitations](https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations)
+this is the only way to pass environment variables from your workflow file into the publishing job.
+
+```yaml
+uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
+with:
+  env: |
+    VAR1: test
+    VAR2: |
+      first line
+      seconds line
+    VAR3: testing
+```
 
 #### libraries
 Packages needed to build the source distribution for testing. Must be a string of space-separated apt packages.
