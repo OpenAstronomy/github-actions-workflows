@@ -15,6 +15,7 @@ import yaml
 @click.option("--pytest", default="true")
 @click.option("--coverage", default="")
 @click.option("--conda", default="auto")
+@click.option("--setenv", default="")
 @click.option("--display", default="false")
 @click.option("--cache-path", default="")
 @click.option("--cache-key", default="")
@@ -23,7 +24,7 @@ import yaml
 @click.option("--default-python", default="")
 @click.option("--timeout-minutes", default="360")
 def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest,
-                     coverage, conda, display, cache_path, cache_key,
+                     coverage, conda, setenv, display, cache_path, cache_key,
                      cache_restore_keys, runs_on, default_python, timeout_minutes):
     """Script to load tox targets for GitHub Actions workflow."""
     # Load envs config
@@ -61,6 +62,7 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest,
         "pytest": pytest,
         "coverage": coverage,
         "conda": conda,
+        "setenv": setenv,
         "display": display,
         "cache-path": cache_path,
         "cache-key": cache_key,

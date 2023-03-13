@@ -145,6 +145,37 @@ Options are `'auto'` (default), `'true'` and `'false'`.
 If `'auto'`, conda will be used if the tox environment names contains "conda".
 For example, `'auto'` would enable conda for tox environments named `py39-conda`, `conda-test` or even `py38-secondary`.
 
+#### setenv
+A map of environment variables to be available when testing.
+Default is none.
+
+Global definition:
+```yaml
+uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+with:
+  setenv: |
+    VAR1: test
+    VAR2: |
+      first line
+      seconds line
+    VAR3: testing
+```
+
+***Note:** `setenv` is a **string** and must be specified as a literal block scalar using the `|`. (Without the `|`, it must also be valid YAML.)*
+
+`envs` definition:
+```yaml
+with:
+  envs: |
+    - linux: py39
+      setenv: |
+        VAR1: test
+        VAR2: |
+          first line
+          seconds line
+        VAR3: testing
+```
+
 #### display
 Whether to setup a headless display.
 This uses the `pyvista/setup-headless-display-action@v1` GitHub Action.

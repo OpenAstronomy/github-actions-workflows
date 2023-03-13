@@ -29,5 +29,6 @@ def base64_encode_into(script, yml_file, env_var):
 
 base64_encode_into('tox_matrix.py', 'tox.yml', 'TOX_MATRIX_SCRIPT')
 base64_encode_into('load_build_targets.py', 'publish.yml', 'LOAD_BUILD_TARGETS_SCRIPT')
+base64_encode_into('set_env.py', 'tox.yml', 'SET_ENV_SCRIPT')
 base64_encode_into('set_env.py', 'publish.yml', 'SET_ENV_SCRIPT')
 base64_encode_into('set_env.py', 'publish_pure_python.yml', 'SET_ENV_SCRIPT')
