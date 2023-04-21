@@ -190,8 +190,7 @@ jobs:
         run: python -m pip install --upgrade tox ${{ matrix.toxdeps }}
         shell: sh
 
-      - name: Run tox
-        run: python -m tox -e ${{ matrix.toxenv }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }}
+      - run: python -m tox -e ${{ matrix.toxenv }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }}
         shell: sh
 
       - name: Upload to Codecov
