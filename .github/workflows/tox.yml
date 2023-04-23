@@ -194,7 +194,8 @@ jobs:
         shell: sh
 
       - name: Upload to Codecov
-        if: ${{ contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
+        # Even if tox fails, upload coverage
+        if: ${{ (success() || failure()) && contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
