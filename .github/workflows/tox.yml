@@ -185,10 +185,15 @@ jobs:
 
       - name: Setup conda
         if: ${{ matrix.conda == 'true' }}
-        uses: s-weigand/setup-conda@v1
+        uses: mamba-org/provision-with-micromamba@v15
         with:
-          update-conda: true
-          python-version: ${{ matrix.python_version }}
+          environment-file: false
+          environment-name: 'test'
+          extra-specs: |
+            python=${{ matrix.python_version }}
+          channels: conda-forge
+          cache-env: true
+          cache-downloads: true
 
       - id: set-env
         if: ${{ matrix.setenv != '' }}
