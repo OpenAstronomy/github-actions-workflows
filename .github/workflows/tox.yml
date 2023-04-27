@@ -190,8 +190,12 @@ jobs:
         run: python -m pip install --upgrade tox ${{ matrix.toxdeps }}
         shell: sh
 
-      - run: python -m tox -e ${{ matrix.toxenv }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }}
+      - run: python -m tox -e ${{ matrix.toxenv }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }} --junitxml results.xml
         shell: sh
+
+      - uses: test-summary/action@v2
+        with:
+          paths: results.xml
 
       - name: Upload to Codecov
         # Even if tox fails, upload coverage
