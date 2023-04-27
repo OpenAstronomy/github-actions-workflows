@@ -1,6 +1,12 @@
 on:
   push:
+    paths:
+      - .github/workflows/tox.yml
+      - .github/workflows/test_tox.yml
   pull_request:
+    paths:
+      - .github/workflows/tox.yml
+      - .github/workflows/test_tox.yml
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
