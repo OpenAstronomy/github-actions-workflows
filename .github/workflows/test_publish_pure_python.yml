@@ -1,6 +1,12 @@
 on:
   push:
+    paths:
+      - .github/workflows/publish_pure_python.yml
+      - .github/workflows/test_publish_pure_python.yml
   pull_request:
+    paths:
+      - .github/workflows/publish_pure_python.yml
+      - .github/workflows/test_publish_pure_python.yml
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
