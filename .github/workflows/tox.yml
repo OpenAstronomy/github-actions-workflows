@@ -195,7 +195,7 @@ jobs:
 
       - uses: test-summary/action@v2
         with:
-          paths: results.xml
+          paths: "**/results.xml"
 
       - name: Upload to Codecov
         # Even if tox fails, upload coverage
