@@ -151,3 +151,10 @@ jobs:
           cache-path: |
             a/
           cache-key: cache-${{ github.run_id }}
+
+  test_pytest_args:
+    uses: ./.github/workflows/tox.yml
+    with:
+      envs: |
+        - linux: py310-linux
+          pytest_results_summary: true

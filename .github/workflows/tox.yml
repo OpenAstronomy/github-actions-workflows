@@ -195,7 +195,7 @@ jobs:
         run: python -m pip install --upgrade tox ${{ matrix.toxdeps }}
         shell: sh
 
-      - run: python -m tox -e ${{ matrix.toxenv }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }} ${{ fromJSON('["--junitxml results.xml", ""]')[matrix.pytest_results_summary] }}
+      - run: python -m tox -e ${{ matrix.toxenv }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }} ${{ fromJSON('["--junitxml results.xml", ""]')[matrix.pytest_results_summary == 'true' && matrix.pytest == 'true'] }}
         shell: sh
 
       - if: ${{ (success() || failure()) && matrix.pytest_results_summary == 'true' && matrix.pytest == 'true' }}
