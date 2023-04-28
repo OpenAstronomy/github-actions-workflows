@@ -32,7 +32,7 @@ on:
         required: false
         default: true
         type: boolean
-      pytest_results_summary:
+      pytest-results-summary:
         description: Whether to report test summary
         required: false
         default: false

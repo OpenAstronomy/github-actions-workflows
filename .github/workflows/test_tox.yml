@@ -157,4 +157,4 @@ jobs:
     with:
       envs: |
         - linux: py310-linux
-          pytest_results_summary: true
+          pytest-results-summary: true
