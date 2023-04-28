@@ -129,7 +129,11 @@ This determines if additional pytest positional arguments should be passed to to
 These arguments are to assist with saving test coverage reports.
 Default is `true`.
 
-Coverage will not be uploaded if this is `false`.
+#### pytest-results-summary
+Whether test results from pytest are shown in the [`$GITHUB_STEP_SUMMARY`](https://github.blog/2022-05-09-supercharging-github-actions-with-job-summaries/).
+Default is `false`.
+
+This option has no effect if `pytest` is `false`.
 
 #### coverage
 A space separated list of coverage providers to upload to.
@@ -137,6 +141,8 @@ Currently only `codecov` is supported.
 Default is to not upload coverage reports.
 
 See also, `CODECOV_TOKEN` secret.
+
+This option has no effect if `pytest` is `false`.
 
 #### conda
 Whether to test within a conda environment using `tox-conda`.
