@@ -13,6 +13,7 @@ import yaml
 @click.option("--toxdeps", default="")
 @click.option("--toxargs", default="")
 @click.option("--pytest", default="true")
+@click.option("--pytest-results-summary", default="false")
 @click.option("--coverage", default="")
 @click.option("--conda", default="auto")
 @click.option("--setenv", default="")
@@ -23,7 +24,7 @@ import yaml
 @click.option("--runs-on", default="")
 @click.option("--default-python", default="")
 @click.option("--timeout-minutes", default="360")
-def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest,
+def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, pytest_results_summary,
                      coverage, conda, setenv, display, cache_path, cache_key,
                      cache_restore_keys, runs_on, default_python, timeout_minutes):
     """Script to load tox targets for GitHub Actions workflow."""
@@ -60,6 +61,7 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest,
         "toxdeps": toxdeps,
         "toxargs": toxargs,
         "pytest": pytest,
+        "pytest-results-summary": pytest_results_summary,
         "coverage": coverage,
         "conda": conda,
         "setenv": setenv,
@@ -134,10 +136,12 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
 
     # set pytest_flag
     item["pytest_flag"] = ""
+    sep = r"\\" if platform == "windows" else "/"
     if item["pytest"] == "true" and "codecov" in item.get("coverage", ""):
-        sep = r"\\" if platform == "windows" else "/"
         item["pytest_flag"] += (
             rf"--cov-report=xml:${{GITHUB_WORKSPACE}}{sep}coverage.xml ")
+    if item["pytest"] == "true" and item["pytest-results-summary"] == "true":
+        item["pytest_flag"] += rf"--junitxml ${{GITHUB_WORKSPACE}}{sep}results.xml "
 
     # set libraries
     env_libraries = env.get("libraries")
