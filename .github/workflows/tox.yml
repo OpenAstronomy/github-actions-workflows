@@ -198,7 +198,7 @@ jobs:
       - run: python -m tox -e ${{ matrix.toxenv }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }}
         shell: sh
 
-      - if: ${{ (success() || failure()) && matrix.pytest_results_summary == 'true' && matrix.pytest == 'true' }}
+      - if: ${{ (success() || failure()) && matrix.pytest-results-summary == 'true' && matrix.pytest == 'true' }}
         uses: test-summary/action@v2
         with:
           paths: "**/results.xml"
