@@ -26,6 +26,7 @@ exclude_patterns = []
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 import sys
+
 sys.path.insert(0, '../')
 
 # Set the master doc to the index file
