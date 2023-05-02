@@ -6,9 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'OpenAstronomy'
-copyright = '2023, Juan Luis Cano Rodríguez'
-author = 'Juan Luis Cano Rodríguez'
+project = 'OpenAstronomy GitHub Actions Workflows'
+copyright = '2023, OpenAstronomy developers'
+author = 'OpenAstronomy developers'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
