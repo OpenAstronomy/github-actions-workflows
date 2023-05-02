@@ -38,9 +38,9 @@ to run cibuildwheel on is extracted from the target.
 Targets that end with ``aarch64``, ``arm64`` and ``universal2`` are also
 supported without any additional configuration of cibuildwheel.
 
-**Note:** *``targets`` is a* **string** *and must be specified as a
+**Note:** ``targets`` is a *string* and must be specified as a
 literal block scalar using the ``|``. (Without the ``|``, it must also
-be valid YAML.)*
+be valid YAML.)
 
 Default is:
 
@@ -187,6 +187,4 @@ anaconda_token
 ^^^^^^^^^^^^^^
 
 The authentication token to access the Anaconda.org repository. This
-token should have the scope
-```api:write`` <https://docs.anaconda.com/anaconda-repository/2.23/user/managing-account/#generating-tokens>`__
-(allow write access to the API site).
+token should have the scope ``api:write`` (allow write access to the API site).

@@ -145,6 +145,4 @@ anaconda_token
 ^^^^^^^^^^^^^^
 
 The authentication token to access the Anaconda.org repository. This
-token should have the scope
-```api:write`` <https://docs.anaconda.com/anaconda-repository/2.23/user/managing-account/#generating-tokens>`__
-(allow write access to the API site).
+token should have the scope ``api:write`` (allow write access to the API site).
