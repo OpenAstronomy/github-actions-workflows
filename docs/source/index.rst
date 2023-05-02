@@ -12,11 +12,3 @@ Welcome to OpenAstronomy's documentation!
    test-python-package
    build-and-publish-python-package
    build-and-publish-pure-python-package
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
