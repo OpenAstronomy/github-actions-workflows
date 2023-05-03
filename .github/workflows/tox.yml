@@ -123,6 +123,7 @@ jobs:
           python tox_matrix.py --envs "${{ inputs.envs }}" --libraries "${{ inputs.libraries }}" \
           --posargs "${{ inputs.posargs }}" --toxdeps "${{ inputs.toxdeps }}" \
           --toxargs "${{ inputs.toxargs }}" --pytest "${{ inputs.pytest }}" \
+          --pytest-results-summary "${{ inputs.pytest-results-summary }}" \
           --coverage "${{ inputs.coverage }}" --conda "${{ inputs.conda }}" \
           --setenv "${{ inputs.setenv }}" \
           --display "${{ inputs.display }}" --cache-path "${{ inputs.cache-path }}" \
