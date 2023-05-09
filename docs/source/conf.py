@@ -21,7 +21,23 @@ exclude_patterns = []
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'pydata_sphinx_theme'
+html_theme_options = {
+    'logo': {
+        'image_light': 'https://openastronomy.org/img/logo/logoOA_svg.png',
+        'image_dark': 'https://openastronomy.org/img/logo/logoOA_white_svg.png',
+        'text': 'GitHub Actions Workflows',
+        'alt_text': 'OpenAstronomy',
+    },
+    'icon_links': [
+        {
+            'name': 'GitHub',
+            'url': 'https://github.com/OpenAstronomy/github-actions-workflows',
+            'icon': 'fa-brands fa-square-github',
+            'type': 'fontawesome',
+        },
+    ],
+}
 
 # Set the master doc to the index file
 master_doc = 'index'
