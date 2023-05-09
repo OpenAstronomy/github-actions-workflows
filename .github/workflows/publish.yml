@@ -143,6 +143,18 @@ jobs:
         uses: docker/setup-qemu-action@v2
         with:
           platforms: all
+      - name: Configure cibuildwheel
+        shell: bash
+        run: |
+          if [ -n "${{ inputs.test_extras }}" ];
+          then
+            echo "CIBW_TEST_EXTRAS=${{ inputs.test_extras }}" >> $GITHUB_ENV
+          fi
+          if [ -n "${{ inputs.test_command }}" ];
+          then
+            echo "CIBW_TEST_COMMAND=${{ inputs.test_command }}" >> $GITHUB_ENV
+          fi
+          cat $GITHUB_ENV
       - uses: actions/setup-python@v4
         if: ${{ inputs.env != '' }}
         with:
@@ -164,8 +176,6 @@ jobs:
         env:
           CIBW_BUILD: ${{ matrix.CIBW_BUILD }}
           CIBW_ARCHS: ${{ matrix.CIBW_ARCHS }}
-          CIBW_TEST_EXTRAS: ${{ inputs.test_extras }}
-          CIBW_TEST_COMMAND: ${{ inputs.test_command }}
       - uses: actions/upload-artifact@v3
         with:
           path: dist/*

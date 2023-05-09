@@ -73,12 +73,14 @@ test_extras
 
 Any ``extras_requires`` modifier that should be used to install the
 package for testing. Default is none.
+If not set, cibuildwheel will use any ``test-extras`` configured in ``pyproject.toml``.
 
 test_command
 ^^^^^^^^^^^^
 
 The command to run to test the package. Will be run in a temporary
 directory. Default is no testing.
+If not set, cibuildwheel will use any ``test-command`` configured in ``pyproject.toml``.
 
 env
 ^^^
