@@ -61,9 +61,9 @@ Array of tox environments to test. Required input.
 where ``<os>`` is the either ``linux``, ``macos`` or ``windows``, and
 ``<toxenv>`` is the name of the tox environment to run.
 
-**Note:** *``envs`` is a* **string** *and must be specified as a literal
+**Note:** ``envs`` is a *string* and must be specified as a literal
 block scalar using the ``|``. (Without the ``|``, it must also be valid
-YAML.)*
+YAML.)
 
 Example:
 
@@ -105,9 +105,9 @@ Global definition:
        choco:
          - package5
 
-**Note:** *``libraries`` is a* **string** *and must be specified as a
+**Note:** ``libraries`` is a *string* and must be specified as a
 literal block scalar using the ``|``. (Without the ``|``, it must also
-be valid YAML.)*
+be valid YAML.)
 
 ``envs`` definition:
 
@@ -149,7 +149,7 @@ pytest-results-summary
 ^^^^^^^^^^^^^^^^^^^^^^
 
 Whether test results from pytest are shown in the
-```$GITHUB_STEP_SUMMARY`` <https://github.blog/2022-05-09-supercharging-github-actions-with-job-summaries/>`__.
+`$GITHUB_STEP_SUMMARY <https://github.blog/2022-05-09-supercharging-github-actions-with-job-summaries/>`__.
 Default is ``false``.
 
 This option has no effect if ``pytest`` is ``false``.
@@ -194,9 +194,9 @@ Global definition:
          seconds line
        VAR3: testing
 
-**Note:** *``setenv`` is a* **string** *and must be specified as a
+**Note:** ``setenv`` is a *string* and must be specified as a
 literal block scalar using the ``|``. (Without the ``|``, it must also
-be valid YAML.)*
+be valid YAML.)
 
 ``envs`` definition:
 
@@ -224,7 +224,7 @@ cache-path
 
 A list of files, directories, and wildcard patterns to cache and
 restore. Passed to
-```actions/cache`` <https://github.com/actions/cache>`__ ``path`` input.
+https://github.com/actions/cache ``path`` input.
 Optional.
 
 In this example, during the ``core_test`` job the ``sample_data`` is
@@ -288,7 +288,7 @@ cache-key
 ^^^^^^^^^
 
 An explicit key for restoring and saving the cache. Passed to
-```actions/cache`` <https://github.com/actions/cache>`__ ``key`` input.
+https://github.com/actions/cache ``key`` input.
 Optional.
 
 cache-restore-keys
@@ -296,7 +296,7 @@ cache-restore-keys
 
 An ordered list of keys to use for restoring the cache if no cache hit
 occurred for key. Passed to
-```actions/cache`` <https://github.com/actions/cache>`__
+https://github.com/actions/cache
 ``restore-keys`` input. Optional.
 
 runs-on
@@ -326,9 +326,9 @@ It can be defined globally:
      runs-on: |
        macos: macos-10.15
 
-**Note:** *``runs-on`` is a* **string** *and must be specified as a
+**Note:** ``runs-on`` is a *string* and must be specified as a
 literal block scalar using the ``|``. (Without the ``|``, it must also
-be valid YAML.)*
+be valid YAML.)
 
 ``envs`` definition:
 
@@ -358,7 +358,7 @@ To force a particular Python version for a tox environment, the
 environment. The value of the ``python-version`` input will override
 both the Python version in the tox environment name and any
 ``default_python`` inputs. See
-```actions/setup-python`` <https://github.com/actions/setup-python>`__
+https://github.com/actions/setup-python
 for a full list of supported values for ``python-version``. In this
 example, the development version of Python 3.11 and the PyPy
 implementation of Python 3.9 will be tested:

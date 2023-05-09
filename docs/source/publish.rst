@@ -1,30 +1,72 @@
-Build and publish a pure Python package
----------------------------------------
+Build and publish a Python package
+----------------------------------
 
-This the workflow is similar to the ``publish.yml`` workflow, except,
-instead of building wheels using cibuildwheel, a pure Python wheel and a
-source distribution are build, tested and published instead.
+Build, test and publish a Python source distribution and collection of
+platform-dependent wheels.
 
 .. code:: yaml
 
    jobs:
      publish:
-       uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
+       uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v1
        with:
          test_extras: test
          test_command: pytest --pyargs test_package
+         targets: |
+           - linux
+           - cp3?-macosx_x86_64
        secrets:
          pypi_token: ${{ secrets.pypi_token }}
 
 Inputs
 ~~~~~~
 
-runs-on
+targets
 ^^^^^^^
 
+List of build targets for cibuildwheel. The list of targets must be
+specified as demonstrated by the default value below. Each target is
+built within a separate matrix job.
+
+If the target is ``linux``, ``macos`` or ``windows``, cibuildwheel is
+run on the latest version of that OS.
+
+Any other target is assumed to be a value for the ``CIBW_BUILD``
+environment variable (e.g. ``cp3?-macosx_x86_64``). In this case the OS
+to run cibuildwheel on is extracted from the target.
+
+Targets that end with ``aarch64``, ``arm64`` and ``universal2`` are also
+supported without any additional configuration of cibuildwheel.
+
+**Note:** ``targets`` is a *string* and must be specified as a
+literal block scalar using the ``|``. (Without the ``|``, it must also
+be valid YAML.)
+
+Default is:
+
+.. code:: yaml
+
+   targets: |
+     - linux
+     - macos
+     - windows
+
+To not build any wheels:
+
+.. code:: yaml
+
+   targets: ''
+
+sdist
+^^^^^
+
+Whether to build a source distribution. Default is ``true``.
+
+sdist-runs-on
+^^^^^^^^^^^^^
+
 Choose an alternative image for the runner to use for building and
-testing the source distribution and wheel. By default, this is
-``ubuntu-latest``.
+testing the source distribution. By default, this is ``ubuntu-latest``.
 
 test_extras
 ^^^^^^^^^^^
@@ -51,7 +93,7 @@ file into the publishing job.
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v1
    with:
      env: |
        VAR1: test
@@ -67,12 +109,6 @@ Packages needed to build the source distribution for testing. Must be a
 string of space-separated apt packages. Default is install nothing
 extra.
 
-python-version
-^^^^^^^^^^^^^^
-
-The version of Python used to test and build the package. By default,
-this is ``3.x``.
-
 upload_to_pypi
 ^^^^^^^^^^^^^^
 
@@ -87,7 +123,7 @@ with ``v``, and ``'refs/tags/'`` will upload on all pushed tags.
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v1
    with:
      upload_to_pypi: refs/tags/
 
@@ -122,10 +158,16 @@ If specified, keep only this number of versions (starting from the most
 recent) and remove older versions. This can be useful to prevent a
 build-up of too many files when uploading developer versions.
 
+fail-fast
+^^^^^^^^^
+
+Whether to cancel all in-progress jobs if any job fails. Default is
+``false``.
+
 timeout-minutes
 ^^^^^^^^^^^^^^^
 
-The maximum number of minutes to let the workflow run before GitHub
+The maximum number of minutes to let a build job run before GitHub
 automatically cancels it. Default is ``360``.
 
 submodules
@@ -145,6 +187,4 @@ anaconda_token
 ^^^^^^^^^^^^^^
 
 The authentication token to access the Anaconda.org repository. This
-token should have the scope
-```api:write`` <https://docs.anaconda.com/anaconda-repository/2.23/user/managing-account/#generating-tokens>`__
-(allow write access to the API site).
+token should have the scope ``api:write`` (allow write access to the API site).
