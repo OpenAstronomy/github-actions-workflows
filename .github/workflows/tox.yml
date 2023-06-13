@@ -189,7 +189,9 @@ jobs:
         with:
           environment-name: test
           create-args: >-
+            conda
             python=${{ matrix.python_version }}
+            tox
           cache-environment: true
           cache-downloads: true
 
