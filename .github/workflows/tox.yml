@@ -151,6 +151,9 @@ jobs:
     strategy:
       fail-fast: ${{ inputs.fail-fast }}
       matrix: ${{fromJSON(needs.envs.outputs.matrix)}}
+    defaults:
+      run:
+        shell: bash -l {0}
     steps:
 
       - uses: actions/checkout@v4
@@ -192,6 +195,7 @@ jobs:
             conda
             python=${{ matrix.python_version }}
             tox
+          init-shell: bash
           cache-environment: true
           cache-downloads: true
 
