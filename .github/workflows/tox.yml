@@ -97,6 +97,11 @@ on:
         required: false
         default: true
         type: boolean
+      checkout_ref:
+        description: The ref to checkout
+        required: false
+        default: ''
+        type: string
     secrets:
       CODECOV_TOKEN:
         description: Codecov upload token (for private repositories only)
@@ -147,6 +152,7 @@ jobs:
           fetch-depth: 0
           lfs: true
           submodules: ${{ inputs.submodules }}
+          ref: ${{ inputs.checkout_ref }}
 
       - name: Cache ${{ matrix.cache_key }}
         if: ${{ matrix.cache-path != '' && matrix.cache-key != '' }}
