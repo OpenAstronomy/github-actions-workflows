@@ -73,6 +73,11 @@ on:
         required: false
         default: '3.x'
         type: string
+      checkout_ref:
+        description: The ref to checkout
+        required: false
+        default: ''
+        type: string
     secrets:
       pypi_token:
         required: false
@@ -105,6 +110,7 @@ jobs:
           fetch-depth: 0
           lfs: true
           submodules: ${{ inputs.submodules }}
+          ref: ${{ inputs.checkout_ref }}
       - name: Install dependencies
         if: ${{ inputs.libraries != '' }}
         uses: ConorMacBride/install-package@main

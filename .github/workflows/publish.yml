@@ -86,6 +86,11 @@ on:
         required: false
         default: true
         type: boolean
+      checkout_ref:
+        description: The ref to checkout
+        required: false
+        default: ''
+        type: string
     secrets:
       pypi_token:
         required: false
@@ -138,6 +143,7 @@ jobs:
           fetch-depth: 0
           lfs: true
           submodules: ${{ inputs.submodules }}
+          ref: ${{ inputs.checkout_ref }}
       - name: Set up QEMU
         if: ${{ matrix.CIBW_ARCHS == 'aarch64' }}
         uses: docker/setup-qemu-action@v2
