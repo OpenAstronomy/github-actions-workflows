@@ -82,7 +82,9 @@ The command to run to test the package. Will be run in a temporary
 directory. Default is no testing.
 If not set, cibuildwheel will use any ``test-command`` configured in ``pyproject.toml``.
 
-If you need quotes in the command, please use single quotes, not double quotes.
+This input will be treated as a string in double quotes similar to an environment variable
+by some workflows; therefore if you need quotes within the command, please use
+single quotes, not double quotes.
 
 env
 ^^^
