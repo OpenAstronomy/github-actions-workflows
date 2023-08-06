@@ -156,9 +156,16 @@ jobs:
           then
             echo "CIBW_TEST_EXTRAS=${{ inputs.test_extras }}" >> $GITHUB_ENV
           fi
-          if [ -n "${{ inputs.test_command }}" ];
+          set +e
+          IFS='' read -r -d '' test_command <<"EOF"
+          ${{ inputs.test_command }}
+          EOF
+          set -e
+          if [ -n "$test_command" ];
           then
-            echo "CIBW_TEST_COMMAND=${{ inputs.test_command }}" >> $GITHUB_ENV
+            echo "CIBW_TEST_COMMAND<<EOF" >> $GITHUB_ENV
+            echo $(echo $test_command | tr -d '\n') >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
           fi
           cat $GITHUB_ENV
       - uses: actions/setup-python@v4
