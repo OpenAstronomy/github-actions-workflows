@@ -299,6 +299,43 @@ occurred for key. Passed to
 https://github.com/actions/cache
 ``restore-keys`` input. Optional.
 
+artifact-path
+^^^^^^^^^^^^^
+
+A list of files, directories, and wildcard patterns to upload as
+artifacts. Passed to https://github.com/actions/upload-artifact
+``path`` input. Optional.
+
+It can be defined globally:
+
+.. code:: yaml
+
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   with:
+     artifact-path: path/output/bin/
+
+.. code:: yaml
+
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   with:
+     artifact-path: |
+       path/output/bin/
+       path/output/test-results
+       !path/**/*.tmp
+
+``envs`` definition:
+
+.. code:: yaml
+
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   with:
+     envs: |
+       - windows: py39
+         artifact-path: |
+           path/output/bin/
+           path/output/test-results
+           !path/**/*.tmp
+
 runs-on
 ^^^^^^^
 

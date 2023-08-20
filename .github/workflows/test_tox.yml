@@ -152,6 +152,24 @@ jobs:
             a/
           cache-key: cache-${{ github.run_id }}
 
+  test_artifact_upload:
+    uses: ./.github/workflows/tox.yml
+    with:
+      envs: |
+        - linux: artifact-upload
+          pytest: false
+          artifact-path: test.txt
+
+  test_artifact_download:
+    needs: [test_artifact_upload]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: artifact-upload-(ubuntu-latest)
+          path: .
+      - run: python -c "assert open('test.txt').read().strip() == 'hello world'"
+
   test_pytest_args:
     uses: ./.github/workflows/tox.yml
     with:
