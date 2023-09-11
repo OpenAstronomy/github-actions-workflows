@@ -153,7 +153,7 @@ jobs:
       matrix: ${{fromJSON(needs.envs.outputs.matrix)}}
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           lfs: true
