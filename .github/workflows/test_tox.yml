@@ -176,3 +176,9 @@ jobs:
       envs: |
         - linux: py310-linux
           pytest-results-summary: true
+
+  test_prereleases:
+    uses: ./.github/workflows/tox.yml
+    with:
+      envs: |
+        - linux: py312
