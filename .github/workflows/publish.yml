@@ -190,6 +190,8 @@ jobs:
           CIBW_BUILD: ${{ matrix.CIBW_BUILD }}
           CIBW_ARCHS: ${{ matrix.CIBW_ARCHS }}
       - uses: actions/upload-artifact@v3
+        if: |
+          needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda
         with:
           path: dist/*
 
@@ -230,6 +232,8 @@ jobs:
           test_command: ${{ inputs.test_command }}
           pure_python_wheel: false
       - uses: actions/upload-artifact@v3
+        if: |
+          needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda
         with:
           path: dist/*
 
