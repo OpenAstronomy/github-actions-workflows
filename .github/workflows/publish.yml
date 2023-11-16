@@ -197,6 +197,7 @@ jobs:
 
   build_sdist:
     name: Build source distribution
+    needs: [targets]
     if: ${{ inputs.sdist }}
     runs-on: ${{ inputs.sdist-runs-on }}
     timeout-minutes: ${{ inputs.timeout-minutes }}
