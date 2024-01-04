@@ -26,10 +26,10 @@ jobs:
       test_command: pytest --pyargs test_package
       targets: |
         - linux
-        - cp38-macosx_x86_64
-        - cp39-macosx_arm64
+        - cp311-macosx_x86_64
+        - cp312-macosx_arm64
         - cp3?-win_amd64
-        - cp39-manylinux_aarch64
+        - cp312-manylinux_aarch64
       timeout-minutes: 30
   release_sdist_only:
     uses: ./.github/workflows/publish.yml

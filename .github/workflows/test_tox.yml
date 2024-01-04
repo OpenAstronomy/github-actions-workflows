@@ -17,17 +17,17 @@ jobs:
     uses: ./.github/workflows/tox.yml
     with:
       envs: |
-        - linux: py310-inputs-linux
-        - macos: py39-inputs-macos
-        - windows: py38-inputs-windows
+        - linux: py312-inputs-linux
+        - macos: py311-inputs-macos
+        - windows: py310-inputs-windows
           toxargs: '-v'
           runs-on: windows-2019
 
-        - linux: py310-inputs-conda
-        - macos: py310-inputs-conda
+        - linux: py312-inputs-conda
+        - macos: py312-inputs-conda
           conda: false
           posargs: not
-        - windows: py310-inputs-con_da
+        - windows: py312-inputs-con_da
           conda: true
 
       pytest: false
@@ -37,18 +37,18 @@ jobs:
     with:
       conda: 'true'
       runs-on: |
-        linux: ubuntu-18.04
-        macos: macos-10.15
+        linux: ubuntu-20.04
+        macos: macos-11
       envs: |
         # conda present in toxenv
-        - linux: py39-inputs-conda
-        - linux: py39-inputs-conda
+        - linux: py311-inputs-conda
+        - linux: py311-inputs-conda
           conda: false
           posargs: not
         # conda not present in toxenv
-        - linux: py39-inputs-con_da
+        - linux: py311-inputs-con_da
           runs-on: ubuntu-latest
-        - linux: py39-inputs-con_da
+        - linux: py311-inputs-con_da
           conda: auto
           posargs: not
           timeout-minutes: 5
@@ -58,18 +58,18 @@ jobs:
   test_default_python:
     uses: ./.github/workflows/tox.yml
     with:
-      default_python: '3.7'
+      default_python: '3.9'
       envs: |
         - linux: default_python
-          posargs: '7'
+          posargs: '9'
         - linux: default_python
-          default_python: '3.10'
-          posargs: '10'
-        - linux: py311-python_version
-          python-version: '3.11-dev'
+          default_python: '3.12'
+          posargs: '12'
+        - linux: py313-python_version
+          python-version: '3.13-dev'
           posargs: 'CPython'
-        - linux: pypy39-python_version
-          python-version: 'pypy-3.9'
+        - linux: pypy310-python_version
+          python-version: 'pypy-3.10'
           posargs: 'PyPy'
       pytest: false
 
@@ -111,17 +111,17 @@ jobs:
         - linux: pep8
           name: style_check
           pytest: false
-        - linux: py310
-        - macos: py39
-        - windows: py38
+        - linux: py312
+        - macos: py311
+        - windows: py310
 
   test_conda:
     uses: ./.github/workflows/tox.yml
     with:
       envs: |
-        - linux: py310-conda
-        - macos: py39-conda
-        - windows: py38-conda
+        - linux: py312-conda
+        - macos: py311-conda
+        - windows: py310-conda
 
   test_setenv:
     uses: ./.github/workflows/tox.yml
@@ -174,7 +174,7 @@ jobs:
     uses: ./.github/workflows/tox.yml
     with:
       envs: |
-        - linux: py310-linux
+        - linux: py312-linux
           pytest-results-summary: true
 
   test_prereleases:
