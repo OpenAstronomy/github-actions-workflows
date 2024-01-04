@@ -164,7 +164,7 @@ jobs:
     needs: [test_artifact_upload]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: artifact-upload-(ubuntu-latest)
           path: .
