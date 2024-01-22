@@ -162,7 +162,7 @@ jobs:
 
       - name: Cache ${{ matrix.cache_key }}
         if: ${{ matrix.cache-path != '' && matrix.cache-key != '' }}
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ matrix.cache-path }}
           key: ${{ matrix.cache-key }}
