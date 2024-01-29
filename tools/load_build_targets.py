@@ -1,5 +1,6 @@
 import json
 import os
+import re
 
 import click
 import yaml
@@ -54,12 +55,19 @@ def get_cibw_archs(target):
     return CIBW_ARCHS
 
 
+def get_artifact_name(target):
+    artifact_name = re.sub(r"[\\ /:<>|*?\"']", "-", target)
+    artifact_name = re.sub(r"-+", "-", artifact_name)
+    return artifact_name
+
+
 def get_matrix_item(target):
     return {
         "target": target,
         "os": get_os(target),
         "CIBW_BUILD": get_cibw_build(target),
         "CIBW_ARCHS": get_cibw_archs(target),
+        "artifact-name": get_artifact_name(target),
     }
 
 
