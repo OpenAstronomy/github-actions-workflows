@@ -10,6 +10,7 @@ MACHINE_TYPE = {
     "macos": "macos-latest",
     "windows": "windows-latest",
 }
+M1_RUNNER = "macos-14"
 
 CIBW_BUILD = os.environ.get("CIBW_BUILD", "*")
 CIBW_ARCHS = os.environ.get("CIBW_ARCHS", "auto")
@@ -36,6 +37,8 @@ def load_build_targets(targets):
 
 def get_os(target):
     if "macos" in target:
+        if get_cibw_archs(target) in {"arm64", "universal2"}:
+            return M1_RUNNER
         return MACHINE_TYPE["macos"]
     if "win" in target:
         return MACHINE_TYPE["windows"]
