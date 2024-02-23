@@ -94,7 +94,7 @@ jobs:
       - uses: actions/setup-python@v5
         if: ${{ inputs.env != '' }}
         with:
-          python-version: '3.9'
+          python-version: '3.12'
       - id: set-env
         if: ${{ inputs.env != '' }}
         run: |
