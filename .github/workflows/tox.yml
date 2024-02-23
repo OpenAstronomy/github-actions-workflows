@@ -122,7 +122,7 @@ jobs:
     steps:
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.12'
       - run: python -m pip install PyYAML click
       - run: echo $TOX_MATRIX_SCRIPT | base64 --decode > tox_matrix.py
         env:

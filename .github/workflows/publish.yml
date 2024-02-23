@@ -109,7 +109,7 @@ jobs:
     steps:
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.12'
       - run: python -m pip install PyYAML click
       - run: echo $LOAD_BUILD_TARGETS_SCRIPT | base64 --decode > load_build_targets.py
         env:
@@ -171,7 +171,7 @@ jobs:
       - uses: actions/setup-python@v5
         if: ${{ inputs.env != '' }}
         with:
-          python-version: '3.9'
+          python-version: '3.12'
       - id: set-env
         if: ${{ inputs.env != '' }}
         run: |
@@ -206,7 +206,7 @@ jobs:
       - uses: actions/setup-python@v5
         if: ${{ inputs.env != '' }}
         with:
-          python-version: '3.9'
+          python-version: '3.12'
       - id: set-env
         if: ${{ inputs.env != '' }}
         run: |
