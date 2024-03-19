@@ -151,6 +151,9 @@ jobs:
     strategy:
       fail-fast: ${{ inputs.fail-fast }}
       matrix: ${{fromJSON(needs.envs.outputs.matrix)}}
+    defaults:
+      run:
+        shell: bash -l {0}
     steps:
 
       - uses: actions/checkout@v4
@@ -185,10 +188,16 @@ jobs:
 
       - name: Setup conda
         if: ${{ matrix.conda == 'true' }}
-        uses: s-weigand/setup-conda@v1
+        uses: mamba-org/setup-micromamba@v1
         with:
-          update-conda: true
-          python-version: ${{ matrix.python_version }}
+          environment-name: test
+          create-args: >-
+            conda
+            python=${{ matrix.python_version }}
+            tox
+          init-shell: bash
+          cache-environment: true
+          cache-downloads: true
 
       - id: set-env
         if: ${{ matrix.setenv != '' }}
