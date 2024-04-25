@@ -5,6 +5,8 @@ import re
 import click
 import yaml
 
+from packaging.version import Version, InvalidVersion
+
 
 @click.command()
 @click.option("--envs", default="")
@@ -134,6 +136,14 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
         item["python_version"] = f"{major}.{minor}"
     else:
         item["python_version"] = env.get("default_python") or default_python
+
+    # if Python is <3.10 we can't use macos-latest which is arm64
+    try:
+        if Version(item["python_version"]) < Version('3.10') and item["os"] == "macos-latest":
+            item["os"] = "macos-12"
+    except InvalidVersion:
+        # python_version might be for example 'pypy-3.10' which won't parse
+        pass
 
     # set name
     item["name"] = env.get("name") or f'{item["toxenv"]} ({item["os"]})'
