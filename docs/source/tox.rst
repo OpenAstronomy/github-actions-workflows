@@ -130,7 +130,9 @@ toxdeps
 ^^^^^^^
 
 Additional tox dependencies. This string is included at the end of the
-``pip install`` command when installing tox. Default is none.
+``pip install`` command when installing tox. Default is none. For example,
+to leverage the caching benefits offered by ``tox-uv`` you can specify
+``toxdeps: tox-uv``.
 
 toxargs
 ^^^^^^^
