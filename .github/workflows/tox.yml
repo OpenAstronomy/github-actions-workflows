@@ -223,9 +223,38 @@ jobs:
         with:
           paths: "**/results.xml"
 
-      - name: Upload to Codecov
+      - name: Upload coverage to artifacts
         # Even if tox fails, upload coverage
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage_${{ matrix.toxenv }}
+          path: coverage.xml
+          if-no-files-found: error
+
+  upload-codecov:
+    needs: [tox]
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    name: Upload Coverage
+    steps:
+
+      - name: Download coverage artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: coverage
+          pattern: coverage_*
+          merge-multiple: false
+
+      - name: Display structure of downloaded files
+        run: ls -R
+
+      - name: Upload report to Codecov
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          directory: coverage
+          handle_no_reports_found: false
+          fail_ci_if_error: true
+          verbose: true
