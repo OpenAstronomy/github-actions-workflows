@@ -115,7 +115,17 @@ extra.
   These libraries are only installed on the host Linux machine.
   To install libraries or packages within the build environment, alter the
   ``cibuildwheel`` configuration to add an install command before the build,
-  such as by setting the ``CIBW_BEFORE_BUILD_MACOS`` environment variable:
+  such as adding an entry to the ``tool.cibuildwheel`` table in ``pyproject.toml``:
+
+  .. code:: toml
+
+    [tool.cibuildwheel.linux]
+    before-build = "apt install libfftw3-dev"
+
+    [tool.cibuildwheel.macos]
+    before-build = "brew install fftw"
+
+  or by setting the ``CIBW_BEFORE_BUILD_MACOS`` environment variable:
 
   .. code:: yaml
 
@@ -130,16 +140,6 @@ extra.
           targets: |
             - cp3*-manylinux_x86_64
             - cp3*-macosx_x86_64
-
-  or by adding an entry to the ``tool.cibuildwheel`` table in ``pyproject.toml``:
-
-  .. code:: toml
-
-    [tool.cibuildwheel.linux]
-    before-build = "apt install libfftw3-dev"
-
-    [tool.cibuildwheel.macos]
-    before-build = "brew install fftw"
 
 upload_to_pypi
 ^^^^^^^^^^^^^^
