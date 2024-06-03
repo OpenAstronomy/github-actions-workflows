@@ -130,7 +130,9 @@ toxdeps
 ^^^^^^^
 
 Additional tox dependencies. This string is included at the end of the
-``pip install`` command when installing tox. Default is none.
+``pip install`` command when installing tox. Default is none. For example,
+to leverage the `uv <https://github.com/astral-sh/uv>`__ package manager you can specify
+``toxdeps: tox-uv`` to use the `tox-uv <https://github.com/tox-dev/tox-uv>`__ plugin.
 
 toxargs
 ^^^^^^^
