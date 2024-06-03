@@ -4,8 +4,7 @@ import re
 
 import click
 import yaml
-
-from packaging.version import Version, InvalidVersion
+from packaging.version import InvalidVersion, Version
 
 
 @click.command()
