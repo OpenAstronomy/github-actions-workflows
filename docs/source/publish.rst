@@ -125,7 +125,7 @@ extra.
     [tool.cibuildwheel.macos]
     before-build = "brew install fftw"
 
-  or by setting the ``CIBW_BEFORE_BUILD_MACOS`` environment variable:
+  or by [setting a ``CIBW_BEFORE_BUILD_*`` environment variable](https://cibuildwheel.pypa.io/en/stable/options/#before-build):
 
   .. code:: yaml
 
