@@ -109,7 +109,7 @@ on:
         type: string
     secrets:
       CODECOV_TOKEN:
-        description: Codecov upload token (for private repositories only)
+        description: Codecov upload token
         required: false
 
 jobs:
