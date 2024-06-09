@@ -191,6 +191,9 @@ jobs:
         uses: mamba-org/setup-micromamba@v1
         with:
           environment-name: test
+          condarc: |
+            channels:
+              - conda-forge
           create-args: >-
             conda
             python=${{ matrix.python_version }}
