@@ -159,7 +159,7 @@ This option has no effect if ``pytest`` is ``false``.
 coverage
 ^^^^^^^^
 
-A space separated list of coverage providers to upload to, either 
+A space separated list of coverage providers to upload to, either
 ``codecov`` or ``github``. Default is to not upload coverage
 reports.
 
