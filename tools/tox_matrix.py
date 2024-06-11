@@ -176,14 +176,16 @@ def get_matrix_item(
     # set pytest_flag
     item["pytest_flag"] = ""
     sep = r"\\" if platform == "windows" else "/"
-    if item["pytest"] == "true" and (
-        "codecov" in item.get("coverage", "") or "github" in item.get("coverage", "")
-    ):
-        item["pytest_flag"] += (
-            rf"--cov-report=xml:${{GITHUB_WORKSPACE}}{sep}coverage.xml "
-        )
-    if item["pytest"] == "true" and item["pytest-results-summary"] == "true":
-        item["pytest_flag"] += rf"--junitxml ${{GITHUB_WORKSPACE}}{sep}results.xml "
+    if item["pytest"] == "true":
+        if "codecov" in item.get("coverage", ""):
+            item["pytest_flag"] += (
+                rf"--cov --cov-report=xml:${{GITHUB_WORKSPACE}}{sep}coverage.xml "
+            )
+        elif "github" in item.get("coverage", ""):
+            item["pytest_flag"] += "--cov "
+
+        if item["pytest-results-summary"] == "true":
+            item["pytest_flag"] += rf"--junitxml ${{GITHUB_WORKSPACE}}{sep}results.xml "
 
     # set libraries
     env_libraries = env.get("libraries")
