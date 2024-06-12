@@ -232,7 +232,7 @@ jobs:
 
       - name: Display structure of existing files
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'github') && matrix.pytest == 'true' }}
-        run: ls
+        run: ls -a
 
       - name: Upload coverage data to GitHub
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'github') && matrix.pytest == 'true' }}
