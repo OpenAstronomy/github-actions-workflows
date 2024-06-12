@@ -230,6 +230,10 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
+      - name: Display structure of existing files
+        if: ${{ (success() || failure()) && contains(matrix.coverage, 'github') && matrix.pytest == 'true' }}
+        run: ls
+
       - name: Upload coverage data to GitHub
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'github') && matrix.pytest == 'true' }}
         uses: actions/upload-artifact@v4
