@@ -235,7 +235,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: .coverage.${{ matrix.os }}-${{ matrix.toxenv }}
-          path: coverage.xml
+          path: .coverage
           if-no-files-found: error
 
   coverage:
@@ -253,6 +253,7 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
       - uses: actions/setup-python@v5
+        if: ${{ hashFiles('.coverage.*') != '' }}
         with:
           python-version: "3.12"
       - run: python -Im pip install --upgrade coverage[toml]
