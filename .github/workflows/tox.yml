@@ -238,7 +238,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: .coverage.${{ matrix.os }}-${{ matrix.toxenv }}
-          path: .coverage.${{ matrix.os }}-${{ matrix.toxenv }}
+          path: coverage.xml
+          if-no-files-found: error
 
   coverage:
     name: test coverage
@@ -252,6 +253,8 @@ jobs:
         with:
           pattern: .coverage.*
           merge-multiple: true
+      - name: Display structure of downloaded files
+        run: ls -R
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
