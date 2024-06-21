@@ -251,7 +251,7 @@ jobs:
           path: .coverage.${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
 
   coverage:
-    name: test coverage
+    name: report coverage
     needs:
       - tox
     runs-on: ubuntu-latest
