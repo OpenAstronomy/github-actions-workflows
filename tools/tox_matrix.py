@@ -26,26 +26,9 @@ from packaging.version import InvalidVersion, Version
 @click.option("--runs-on", default="")
 @click.option("--default-python", default="")
 @click.option("--timeout-minutes", default="360")
-def load_tox_targets(
-    envs,
-    libraries,
-    posargs,
-    toxdeps,
-    toxargs,
-    pytest,
-    pytest_results_summary,
-    coverage,
-    conda,
-    setenv,
-    display,
-    cache_path,
-    cache_key,
-    cache_restore_keys,
-    artifact_path,
-    runs_on,
-    default_python,
-    timeout_minutes,
-):
+def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, pytest_results_summary,
+                     coverage, conda, setenv, display, cache_path, cache_key,
+                     cache_restore_keys, artifact_path, runs_on, default_python, timeout_minutes):
     """Script to load tox targets for GitHub Actions workflow."""
     # Load envs config
     envs = yaml.load(envs, Loader=yaml.BaseLoader)
@@ -95,15 +78,13 @@ def load_tox_targets(
     # Create matrix
     matrix = {"include": []}
     for env in envs:
-        matrix["include"].append(
-            get_matrix_item(
-                env,
-                global_libraries=global_libraries,
-                global_string_parameters=string_parameters,
-                runs_on=default_runs_on,
-                default_python=default_python,
-            )
-        )
+        matrix["include"].append(get_matrix_item(
+            env,
+            global_libraries=global_libraries,
+            global_string_parameters=string_parameters,
+            runs_on=default_runs_on,
+            default_python=default_python,
+        ))
 
     # Output matrix
     print(json.dumps(matrix, indent=2))
@@ -111,9 +92,9 @@ def load_tox_targets(
         f.write(f"matrix={json.dumps(matrix)}\n")
 
 
-def get_matrix_item(
-    env, global_libraries, global_string_parameters, runs_on, default_python
-):
+def get_matrix_item(env, global_libraries, global_string_parameters,
+                    runs_on, default_python):
+
     # define spec for each matrix include (+ global_string_parameters)
     item = {
         "os": None,
@@ -157,10 +138,7 @@ def get_matrix_item(
 
     # if Python is <3.10 we can't use macos-latest which is arm64
     try:
-        if (
-            Version(item["python_version"]) < Version("3.10")
-            and item["os"] == "macos-latest"
-        ):
+        if Version(item["python_version"]) < Version('3.10') and item["os"] == "macos-latest":
             item["os"] = "macos-12"
     except InvalidVersion:
         # python_version might be for example 'pypy-3.10' which won't parse
