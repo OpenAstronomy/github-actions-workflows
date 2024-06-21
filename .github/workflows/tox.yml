@@ -117,11 +117,7 @@ jobs:
   envs:
     name: Load tox environments
     runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-outputs.outputs.matrix }}
     steps:
-      - name: workflow inputs
-        run: echo "${{ toJSON(inputs) }}"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -144,6 +140,8 @@ jobs:
           --runs-on "${{ inputs.runs-on }}" --default-python "${{ inputs.default_python }}" \
           --timeout-minutes "${{ inputs.timeout-minutes }}"
         shell: sh
+    outputs:
+      matrix: ${{ steps.set-outputs.outputs.matrix }}
 
   tox:
     name: ${{ matrix.name }}
@@ -233,24 +231,28 @@ jobs:
 
       - if: ${{ (success() || failure()) && contains(matrix.coverage, 'github') && matrix.pytest == 'true' }}
         run: |
-          mv .coverage .coverage.${{ runner.os }}-${{ matrix.toxenv }}
+          mv .coverage .coverage.${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
           ls -la .
 
       - name: Upload coverage data to GitHub
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'github') && matrix.pytest == 'true' }}
         uses: actions/upload-artifact@v4
         with:
-          name: .coverage.${{ runner.os }}-${{ matrix.toxenv }}
-          path: .coverage.${{ runner.os }}-${{ matrix.toxenv }}
+          name: .coverage.${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
+          path: .coverage.${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
 
   coverage:
     name: test coverage
     needs:
       - tox
-    if: inputs.coverage == 'github'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+          submodules: ${{ inputs.submodules }}
+          ref: ${{ inputs.checkout_ref }}
       - uses: actions/download-artifact@v4
         with:
           pattern: .coverage.*
@@ -258,6 +260,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+        continue-on-error: true
       - run: python -Im pip install --upgrade coverage[toml]
+        continue-on-error: true
       - run: python -Im coverage combine
-      - run: python -Im coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
+        continue-on-error: true
+      - run: python -Im coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
+        continue-on-error: true
