@@ -120,6 +120,8 @@ jobs:
     outputs:
       matrix: ${{ steps.set-outputs.outputs.matrix }}
     steps:
+      - name: workflow inputs
+        run: echo "${{ toJSON(inputs) }}"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
