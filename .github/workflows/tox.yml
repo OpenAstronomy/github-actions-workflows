@@ -231,15 +231,15 @@ jobs:
 
       - if: ${{ (success() || failure()) && contains(matrix.coverage, 'github') && matrix.pytest == 'true' }}
         run: |
-          mv .coverage .coverage.${{ matrix.os }}-${{ matrix.toxenv }}
+          mv .coverage .coverage.${{ runner.os }}-${{ matrix.toxenv }}
           ls -la .
 
       - name: Upload coverage data to GitHub
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'github') && matrix.pytest == 'true' }}
         uses: actions/upload-artifact@v4
         with:
-          name: .coverage.${{ matrix.os }}-${{ matrix.toxenv }}
-          path: .coverage.${{ matrix.os }}-${{ matrix.toxenv }}
+          name: .coverage.${{ runner.os }}-${{ matrix.toxenv }}
+          path: .coverage.${{ runner.os }}-${{ matrix.toxenv }}
 
   coverage:
     name: test coverage
