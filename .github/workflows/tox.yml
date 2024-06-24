@@ -251,7 +251,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
           lfs: true
           submodules: ${{ inputs.submodules }}
           ref: ${{ inputs.checkout_ref }}
@@ -259,13 +258,22 @@ jobs:
         with:
           pattern: .coverage.*
           merge-multiple: true
-      - uses: actions/setup-python@v5
+      - id: check_downloaded_files
+        run: |
+          [ "$(ls -A .coverage*)" ] && exit 0 || exit 1
+        continue-on-error: true
+      - if: steps.check_downloaded_files.outcome == 'success'
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-        continue-on-error: true
-      - run: python -Im pip install --upgrade coverage[toml]
-        continue-on-error: true
-      - run: python -Im coverage combine
-        continue-on-error: true
-      - run: python -Im coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
-        continue-on-error: true
+      - if: steps.check_downloaded_files.outcome == 'success'
+        name: generate coverage report
+        run: |
+          python -Im pip install --upgrade coverage[toml]
+          python -Im coverage combine
+          python -Im coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
+      - if: steps.check_downloaded_files.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: .coverage
+          path: .coverage
