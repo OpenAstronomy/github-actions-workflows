@@ -233,7 +233,7 @@ jobs:
       - if: ${{ (success() || failure()) && contains(matrix.coverage, 'github') && matrix.pytest == 'true' }}
         name: add run info to coverage filename
         run: |
-          ls -la .
+          find ~ -name .coverage
           mv .coverage .coverage.${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
         shell: sh
 
