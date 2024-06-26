@@ -238,9 +238,10 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - if: ${{ (success() || failure()) && contains(matrix.coverage, 'github') && matrix.pytest == 'true' }}
+        name: add run info to coverage filename
         run: |
-          mv .coverage .coverage.${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
           ls -la .
+          mv .coverage .coverage.${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
         shell: sh
 
       - name: Upload coverage data to GitHub
