@@ -239,17 +239,15 @@ jobs:
 
       - if: ${{ (success() || failure()) && contains(matrix.coverage, 'github') && matrix.pytest == 'true' }}
         name: add run info to coverage filename
-        run: |
-          find ~ -name .coverage
-          mv .coverage .coverage.${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
+        run: mv $(find ~ -name .coverage) .coverage.${{ github.sha }}-${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
         shell: sh
 
       - name: Upload coverage data to GitHub
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'github') && matrix.pytest == 'true' }}
         uses: actions/upload-artifact@v4
         with:
-          name: .coverage.${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
-          path: .coverage.${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
+          name: .coverage.${{ github.sha }}-${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
+          path: .coverage.${{ github.sha }}-${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
 
   coverage:
     name: report coverage
