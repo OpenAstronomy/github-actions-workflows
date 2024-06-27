@@ -242,8 +242,8 @@ jobs:
           name: .coverage.${{ github.sha }}-${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
           path: .coverage.${{ github.sha }}-${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
 
-  coverage:
-    name: report coverage
+  report_overall_test_coverage:
+    name: report overall test coverage
     needs:
       - tox
     runs-on: ubuntu-latest
