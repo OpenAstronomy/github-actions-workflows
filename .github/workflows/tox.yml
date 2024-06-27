@@ -243,9 +243,9 @@ jobs:
           path: .coverage.${{ github.sha }}-${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
 
   report_overall_test_coverage:
+    needs: [ tox ]
+    if: always()
     name: report overall test coverage
-    needs:
-      - tox
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
