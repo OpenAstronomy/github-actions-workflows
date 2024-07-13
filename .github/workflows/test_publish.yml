@@ -30,7 +30,19 @@ jobs:
         - cp311-macosx_x86_64
         - cp312-macosx_arm64
         - cp3?-win_amd64
-        - cp312-manylinux_aarch64
+      timeout-minutes: 30
+  release-double:
+    uses: ./.github/workflows/publish.yml
+    with:
+      upload_to_anaconda: true
+      anaconda_user: none
+      anaconda_package: none
+      anaconda_keep_n_latest: 1
+      sdist: false
+      test_extras: test
+      test_command: pytest --pyargs test_package
+      targets: |
+        - cp3{10,11,12}-manylinux_aarch64
       timeout-minutes: 30
   release_sdist_only:
     uses: ./.github/workflows/publish.yml
