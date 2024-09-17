@@ -1,0 +1,35 @@
+name: Sync OpenAstronomy Workflows from upstream
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run every Saturday at 0900 UTC
+    - cron: '0 9 * * 6'
+
+jobs:
+  sync-workflows:
+    if: github.repository != 'OpenAstronomy/github-actions-workflows'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout target repository
+        uses: actions/checkout@v3
+        with:
+          # Checkout the repository where the workflow is running
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up git
+        run: |
+          git config --global user.name "${{ secrets.GITHUB_ACTOR }}"
+          git config --global user.email "${{ secrets.GITHUB_ACTOR }}@users.noreply.github.com"
+
+      - name: Pull from OpenAstronomy/github-actions-workflows main branch
+        run: |
+          git remote add upstream https://github.com/OpenAstronomy/github-actions-workflows.git
+          git fetch upstream main
+          git merge upstream/main
+
+      - name: Push changes to the target repository
+        run: |
+          git push origin main
