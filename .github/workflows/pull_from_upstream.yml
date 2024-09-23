@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout target repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           # Checkout the repository where the workflow is running
           ref: main
