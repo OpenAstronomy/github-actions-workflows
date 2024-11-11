@@ -72,7 +72,7 @@ def get_matrix_item(target):
         target = extra_target_args.pop("target")
     return {
         "target": target,
-        "os": get_os(target),
+        "runs-on": get_os(target),
         "CIBW_BUILD": get_cibw_build(target),
         "CIBW_ARCHS": get_cibw_archs(target),
         "artifact-name": get_artifact_name(target),
