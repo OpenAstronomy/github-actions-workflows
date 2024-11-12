@@ -150,7 +150,7 @@ jobs:
         run: |
           echo "uname_m=$(uname -m)" >> "$GITHUB_OUTPUT"
       - name: Set up QEMU
-        if: ${{ runner.os == 'Linux' && (matrix.CIBW_ARCHS != 'auto' || matrix.CIBW_ARCHS != steps.uname_m.outputs.uname_m) }}
+        if: ${{ runner.os == 'Linux' && (matrix.CIBW_ARCHS != 'auto' && matrix.CIBW_ARCHS != steps.uname_m.outputs.uname_m) }}
         uses: docker/setup-qemu-action@v3
         with:
           platforms: all

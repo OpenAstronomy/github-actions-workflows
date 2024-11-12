@@ -32,7 +32,7 @@ jobs:
         - cp3?-win_amd64
         - cp312-manylinux_aarch64
         - cp313-manylinux_x86_64
-        - target: cp311-manylinux_x86_64
+        - target: cp311-manylinux_ppc64le
           runs-on: ubuntu-latest
       timeout-minutes: 30
   release_sdist_only:
