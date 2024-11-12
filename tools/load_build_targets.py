@@ -53,7 +53,7 @@ def get_cibw_build(target):
 
 
 def get_cibw_archs(target):
-    for arch in ["aarch64", "arm64", "universal2"]:
+    for arch in ["aarch64", "ppc64le", "s390x", "armv7l", "arm64", "universal2"]:
         if target.endswith(arch):
             return arch
     return CIBW_ARCHS
