@@ -141,6 +141,7 @@ jobs:
           user: __token__
           password: ${{ secrets.pypi_token }}
           repository-url: ${{ inputs.repository_url }}
+          attestations: false  # https://github.com/pypi/warehouse/issues/11096
       - uses: OpenAstronomy/publish-wheels-anaconda@main
         if: ${{ inputs.upload_to_anaconda }}
         with:
