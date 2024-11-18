@@ -235,6 +235,6 @@ jobs:
       - name: Upload to Codecov
         # Even if tox fails, upload coverage
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
