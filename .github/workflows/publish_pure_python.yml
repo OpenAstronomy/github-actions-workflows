@@ -91,7 +91,7 @@ jobs:
     runs-on: ${{ inputs.runs-on }}
     timeout-minutes: ${{ inputs.timeout-minutes }}
     steps:
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
         if: ${{ inputs.env != '' }}
         with:
           python-version: '3.12'
@@ -105,7 +105,7 @@ jobs:
         shell: sh
         env:
           SET_ENV_SCRIPT: aW1wb3J0IGpzb24KaW1wb3J0IG9zCmltcG9ydCBzeXMKCmltcG9ydCB5YW1sCgpHSVRIVUJfRU5WID0gb3MuZ2V0ZW52KCJHSVRIVUJfRU5WIikKaWYgR0lUSFVCX0VOViBpcyBOb25lOgogICAgcmFpc2UgVmFsdWVFcnJvcigiR0lUSFVCX0VOViBub3Qgc2V0LiBNdXN0IGJlIHJ1biBpbnNpZGUgR2l0SHViIEFjdGlvbnMuIikKCkRFTElNSVRFUiA9ICJFT0YiCgoKZGVmIHNldF9lbnYoZW52KToKCiAgICBlbnYgPSB5YW1sLmxvYWQoZW52LCBMb2FkZXI9eWFtbC5CYXNlTG9hZGVyKQogICAgcHJpbnQoanNvbi5kdW1wcyhlbnYsIGluZGVudD0yKSkKCiAgICBpZiBub3QgaXNpbnN0YW5jZShlbnYsIGRpY3QpOgogICAgICAgIHRpdGxlID0gImBlbnZgIG11c3QgYmUgbWFwcGluZyIKICAgICAgICBtZXNzYWdlID0gZiJgZW52YCBtdXN0IGJlIG1hcHBpbmcgb2YgZW52IHZhcmlhYmxlcyB0byB2YWx1ZXMsIGdvdCB0eXBlIHt0eXBlKGVudil9IgogICAgICAgIHByaW50KGYiOjplcnJvciB0aXRsZT17dGl0bGV9Ojp7bWVzc2FnZX0iKQogICAgICAgIGV4aXQoMSkKCiAgICBmb3IgaywgdiBpbiBlbnYuaXRlbXMoKToKCiAgICAgICAgaWYgbm90IGlzaW5zdGFuY2Uodiwgc3RyKToKICAgICAgICAgICAgdGl0bGUgPSAiYGVudmAgdmFsdWVzIG11c3QgYmUgc3RyaW5ncyIKICAgICAgICAgICAgbWVzc2FnZSA9IGYiYGVudmAgdmFsdWVzIG11c3QgYmUgc3RyaW5ncywgYnV0IHZhbHVlIG9mIHtrfSBoYXMgdHlwZSB7dHlwZSh2KX0iCiAgICAgICAgICAgIHByaW50KGYiOjplcnJvciB0aXRsZT17dGl0bGV9Ojp7bWVzc2FnZX0iKQogICAgICAgICAgICBleGl0KDEpCgogICAgICAgIHYgPSB2LnNwbGl0KCJcbiIpCgogICAgICAgIHdpdGggb3BlbihHSVRIVUJfRU5WLCAiYSIpIGFzIGY6CiAgICAgICAgICAgIGlmIGxlbih2KSA9PSAxOgogICAgICAgICAgICAgICAgZi53cml0ZShmIntrfT17dlswXX1cbiIpCiAgICAgICAgICAgIGVsc2U6CiAgICAgICAgICAgICAgICBmb3IgbGluZSBpbiB2OgogICAgICAgICAgICAgICAgICAgIGFzc2VydCBsaW5lLnN0cmlwKCkgIT0gREVMSU1JVEVSCiAgICAgICAgICAgICAgICBmLndyaXRlKGYie2t9PDx7REVMSU1JVEVSfVxuIikKICAgICAgICAgICAgICAgIGZvciBsaW5lIGluIHY6CiAgICAgICAgICAgICAgICAgICAgZi53cml0ZShmIntsaW5lfVxuIikKICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7REVMSU1JVEVSfVxuIikKCiAgICAgICAgcHJpbnQoZiJ7a30gd3JpdHRlbiB0byBHSVRIVUJfRU5WIikKCgppZiBfX25hbWVfXyA9PSAiX19tYWluX18iOgogICAgc2V0X2VudihzeXMuYXJndlsxXSkK
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
           lfs: true
@@ -113,11 +113,11 @@ jobs:
           ref: ${{ inputs.checkout_ref }}
       - name: Install dependencies
         if: ${{ inputs.libraries != '' }}
-        uses: ConorMacBride/install-package@main
+        uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30  # v1.1.0
         with:
           apt: ${{ inputs.libraries }}
       - id: build
-        uses: OpenAstronomy/build-python-dist@main
+        uses: OpenAstronomy/build-python-dist@bbb0e1c5b132893999ea56d77bd4b526e0097c7d  # v1.0.1
         with:
           test_extras: ${{ inputs.test_extras }}
           test_command: ${{ inputs.test_command }}
@@ -134,14 +134,14 @@ jobs:
         env:
           UPLOAD_TO_PYPI: ${{ inputs.upload_to_pypi }}
           UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'release' || github.event_name == 'create') && startsWith(github.ref, inputs.upload_to_pypi) }}
-      - uses: pypa/gh-action-pypi-publish@release/v1
+      - uses: pypa/gh-action-pypi-publish@15c56dba361d8335944d31a2ecd17d700fc7bcbc  # v1.12.2
         name: Upload to PyPI
         if: ${{ steps.set-upload.outputs.upload_to_pypi == 'true' }}
         with:
           user: __token__
           password: ${{ secrets.pypi_token }}
           repository-url: ${{ inputs.repository_url }}
-      - uses: OpenAstronomy/publish-wheels-anaconda@main
+      - uses: OpenAstronomy/publish-wheels-anaconda@612ea808f79152bd52a019316f684a12bbe8ba33  # main
         if: ${{ inputs.upload_to_anaconda }}
         with:
           anaconda_user: ${{ inputs.anaconda_user }}

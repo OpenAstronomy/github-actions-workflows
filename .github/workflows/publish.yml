@@ -107,7 +107,7 @@ jobs:
       matrix: ${{ steps.set-outputs.outputs.matrix }}
       upload_to_pypi: ${{ steps.set-upload.outputs.upload_to_pypi }}
     steps:
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
         with:
           python-version: '3.12'
       - run: python -m pip install PyYAML click
@@ -138,7 +138,7 @@ jobs:
       fail-fast: ${{ inputs.fail-fast }}
       matrix: ${{fromJSON(needs.targets.outputs.matrix)}}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
           lfs: true
@@ -151,7 +151,7 @@ jobs:
           echo "uname_m=$(uname -m)" >> "$GITHUB_OUTPUT"
       - name: Set up QEMU
         if: ${{ runner.os == 'Linux' && (matrix.CIBW_ARCHS != 'auto' && matrix.CIBW_ARCHS != steps.uname_m.outputs.uname_m) }}
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@49b3bc8e6bdd4a60e6116a5414239cba5943d3cf  # v3.2.0
         with:
           platforms: all
       - name: Configure cibuildwheel
@@ -173,7 +173,7 @@ jobs:
             echo "EOF" >> $GITHUB_ENV
           fi
           cat $GITHUB_ENV
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
         if: ${{ inputs.env != '' }}
         with:
           python-version: '3.12'
@@ -188,13 +188,13 @@ jobs:
         env:
           SET_ENV_SCRIPT: aW1wb3J0IGpzb24KaW1wb3J0IG9zCmltcG9ydCBzeXMKCmltcG9ydCB5YW1sCgpHSVRIVUJfRU5WID0gb3MuZ2V0ZW52KCJHSVRIVUJfRU5WIikKaWYgR0lUSFVCX0VOViBpcyBOb25lOgogICAgcmFpc2UgVmFsdWVFcnJvcigiR0lUSFVCX0VOViBub3Qgc2V0LiBNdXN0IGJlIHJ1biBpbnNpZGUgR2l0SHViIEFjdGlvbnMuIikKCkRFTElNSVRFUiA9ICJFT0YiCgoKZGVmIHNldF9lbnYoZW52KToKCiAgICBlbnYgPSB5YW1sLmxvYWQoZW52LCBMb2FkZXI9eWFtbC5CYXNlTG9hZGVyKQogICAgcHJpbnQoanNvbi5kdW1wcyhlbnYsIGluZGVudD0yKSkKCiAgICBpZiBub3QgaXNpbnN0YW5jZShlbnYsIGRpY3QpOgogICAgICAgIHRpdGxlID0gImBlbnZgIG11c3QgYmUgbWFwcGluZyIKICAgICAgICBtZXNzYWdlID0gZiJgZW52YCBtdXN0IGJlIG1hcHBpbmcgb2YgZW52IHZhcmlhYmxlcyB0byB2YWx1ZXMsIGdvdCB0eXBlIHt0eXBlKGVudil9IgogICAgICAgIHByaW50KGYiOjplcnJvciB0aXRsZT17dGl0bGV9Ojp7bWVzc2FnZX0iKQogICAgICAgIGV4aXQoMSkKCiAgICBmb3IgaywgdiBpbiBlbnYuaXRlbXMoKToKCiAgICAgICAgaWYgbm90IGlzaW5zdGFuY2Uodiwgc3RyKToKICAgICAgICAgICAgdGl0bGUgPSAiYGVudmAgdmFsdWVzIG11c3QgYmUgc3RyaW5ncyIKICAgICAgICAgICAgbWVzc2FnZSA9IGYiYGVudmAgdmFsdWVzIG11c3QgYmUgc3RyaW5ncywgYnV0IHZhbHVlIG9mIHtrfSBoYXMgdHlwZSB7dHlwZSh2KX0iCiAgICAgICAgICAgIHByaW50KGYiOjplcnJvciB0aXRsZT17dGl0bGV9Ojp7bWVzc2FnZX0iKQogICAgICAgICAgICBleGl0KDEpCgogICAgICAgIHYgPSB2LnNwbGl0KCJcbiIpCgogICAgICAgIHdpdGggb3BlbihHSVRIVUJfRU5WLCAiYSIpIGFzIGY6CiAgICAgICAgICAgIGlmIGxlbih2KSA9PSAxOgogICAgICAgICAgICAgICAgZi53cml0ZShmIntrfT17dlswXX1cbiIpCiAgICAgICAgICAgIGVsc2U6CiAgICAgICAgICAgICAgICBmb3IgbGluZSBpbiB2OgogICAgICAgICAgICAgICAgICAgIGFzc2VydCBsaW5lLnN0cmlwKCkgIT0gREVMSU1JVEVSCiAgICAgICAgICAgICAgICBmLndyaXRlKGYie2t9PDx7REVMSU1JVEVSfVxuIikKICAgICAgICAgICAgICAgIGZvciBsaW5lIGluIHY6CiAgICAgICAgICAgICAgICAgICAgZi53cml0ZShmIntsaW5lfVxuIikKICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7REVMSU1JVEVSfVxuIikKCiAgICAgICAgcHJpbnQoZiJ7a30gd3JpdHRlbiB0byBHSVRIVUJfRU5WIikKCgppZiBfX25hbWVfXyA9PSAiX19tYWluX18iOgogICAgc2V0X2VudihzeXMuYXJndlsxXSkK
       - name: Run cibuildwheel
-        uses: pypa/cibuildwheel@v2.21.3
+        uses: pypa/cibuildwheel@ee63bf16da6cddfb925f542f2c7b59ad50e93969  # v2.22.0
         with:
           output-dir: dist
         env:
           CIBW_BUILD: ${{ matrix.CIBW_BUILD }}
           CIBW_ARCHS: ${{ matrix.CIBW_ARCHS }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
         if: |
           needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda
         with:
@@ -208,7 +208,7 @@ jobs:
     runs-on: ${{ inputs.sdist-runs-on }}
     timeout-minutes: ${{ inputs.timeout-minutes }}
     steps:
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
         if: ${{ inputs.env != '' }}
         with:
           python-version: '3.12'
@@ -222,23 +222,23 @@ jobs:
         shell: sh
         env:
           SET_ENV_SCRIPT: aW1wb3J0IGpzb24KaW1wb3J0IG9zCmltcG9ydCBzeXMKCmltcG9ydCB5YW1sCgpHSVRIVUJfRU5WID0gb3MuZ2V0ZW52KCJHSVRIVUJfRU5WIikKaWYgR0lUSFVCX0VOViBpcyBOb25lOgogICAgcmFpc2UgVmFsdWVFcnJvcigiR0lUSFVCX0VOViBub3Qgc2V0LiBNdXN0IGJlIHJ1biBpbnNpZGUgR2l0SHViIEFjdGlvbnMuIikKCkRFTElNSVRFUiA9ICJFT0YiCgoKZGVmIHNldF9lbnYoZW52KToKCiAgICBlbnYgPSB5YW1sLmxvYWQoZW52LCBMb2FkZXI9eWFtbC5CYXNlTG9hZGVyKQogICAgcHJpbnQoanNvbi5kdW1wcyhlbnYsIGluZGVudD0yKSkKCiAgICBpZiBub3QgaXNpbnN0YW5jZShlbnYsIGRpY3QpOgogICAgICAgIHRpdGxlID0gImBlbnZgIG11c3QgYmUgbWFwcGluZyIKICAgICAgICBtZXNzYWdlID0gZiJgZW52YCBtdXN0IGJlIG1hcHBpbmcgb2YgZW52IHZhcmlhYmxlcyB0byB2YWx1ZXMsIGdvdCB0eXBlIHt0eXBlKGVudil9IgogICAgICAgIHByaW50KGYiOjplcnJvciB0aXRsZT17dGl0bGV9Ojp7bWVzc2FnZX0iKQogICAgICAgIGV4aXQoMSkKCiAgICBmb3IgaywgdiBpbiBlbnYuaXRlbXMoKToKCiAgICAgICAgaWYgbm90IGlzaW5zdGFuY2Uodiwgc3RyKToKICAgICAgICAgICAgdGl0bGUgPSAiYGVudmAgdmFsdWVzIG11c3QgYmUgc3RyaW5ncyIKICAgICAgICAgICAgbWVzc2FnZSA9IGYiYGVudmAgdmFsdWVzIG11c3QgYmUgc3RyaW5ncywgYnV0IHZhbHVlIG9mIHtrfSBoYXMgdHlwZSB7dHlwZSh2KX0iCiAgICAgICAgICAgIHByaW50KGYiOjplcnJvciB0aXRsZT17dGl0bGV9Ojp7bWVzc2FnZX0iKQogICAgICAgICAgICBleGl0KDEpCgogICAgICAgIHYgPSB2LnNwbGl0KCJcbiIpCgogICAgICAgIHdpdGggb3BlbihHSVRIVUJfRU5WLCAiYSIpIGFzIGY6CiAgICAgICAgICAgIGlmIGxlbih2KSA9PSAxOgogICAgICAgICAgICAgICAgZi53cml0ZShmIntrfT17dlswXX1cbiIpCiAgICAgICAgICAgIGVsc2U6CiAgICAgICAgICAgICAgICBmb3IgbGluZSBpbiB2OgogICAgICAgICAgICAgICAgICAgIGFzc2VydCBsaW5lLnN0cmlwKCkgIT0gREVMSU1JVEVSCiAgICAgICAgICAgICAgICBmLndyaXRlKGYie2t9PDx7REVMSU1JVEVSfVxuIikKICAgICAgICAgICAgICAgIGZvciBsaW5lIGluIHY6CiAgICAgICAgICAgICAgICAgICAgZi53cml0ZShmIntsaW5lfVxuIikKICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7REVMSU1JVEVSfVxuIikKCiAgICAgICAgcHJpbnQoZiJ7a30gd3JpdHRlbiB0byBHSVRIVUJfRU5WIikKCgppZiBfX25hbWVfXyA9PSAiX19tYWluX18iOgogICAgc2V0X2VudihzeXMuYXJndlsxXSkK
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
           lfs: true
           submodules: ${{ inputs.submodules }}
       - name: Install dependencies
         if: ${{ inputs.libraries != '' }}
-        uses: ConorMacBride/install-package@main
+        uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30  # v1.1.0
         with:
           apt: ${{ inputs.libraries }}
       - id: build
-        uses: OpenAstronomy/build-python-dist@main
+        uses: OpenAstronomy/build-python-dist@bbb0e1c5b132893999ea56d77bd4b526e0097c7d  # v1.0.1
         with:
           test_extras: ${{ inputs.test_extras }}
           test_command: ${{ inputs.test_command }}
           pure_python_wheel: false
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
         if: |
           needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda
         with:
@@ -257,19 +257,19 @@ jobs:
       needs.build_wheels.result != 'failure' &&
       needs.build_sdist.result != 'failure'
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16  # v4.1.8
         with:
           pattern: dist-*
           path: dist
           merge-multiple: true
-      - uses: pypa/gh-action-pypi-publish@release/v1
+      - uses: pypa/gh-action-pypi-publish@15c56dba361d8335944d31a2ecd17d700fc7bcbc  # v1.12.2
         name: Upload to PyPI
         if: ${{ needs.targets.outputs.upload_to_pypi == 'true' }}
         with:
           user: __token__
           password: ${{ secrets.pypi_token }}
           repository-url: ${{ inputs.repository_url }}
-      - uses: OpenAstronomy/publish-wheels-anaconda@main
+      - uses: OpenAstronomy/publish-wheels-anaconda@612ea808f79152bd52a019316f684a12bbe8ba33  # main
         if: ${{ inputs.upload_to_anaconda }}
         with:
           anaconda_user: ${{ inputs.anaconda_user }}

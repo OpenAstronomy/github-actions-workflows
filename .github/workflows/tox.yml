@@ -120,7 +120,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-outputs.outputs.matrix }}
     steps:
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
         with:
           python-version: '3.12'
       - run: python -m pip install PyYAML click packaging
@@ -156,7 +156,7 @@ jobs:
         shell: bash -l {0}
     steps:
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
           lfs: true
@@ -165,14 +165,14 @@ jobs:
 
       - name: Cache ${{ matrix.cache_key }}
         if: ${{ matrix.cache-path != '' && matrix.cache-key != '' }}
-        uses: actions/cache@v4
+        uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a  # v4.1.2
         with:
           path: ${{ matrix.cache-path }}
           key: ${{ matrix.cache-key }}
           restore-keys: ${{ matrix.cache-restore-keys }}
 
       - name: Install dependencies
-        uses: ConorMacBride/install-package@main
+        uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30  # v1.1.0
         with:
           brew: ${{ matrix.libraries_brew }}
           brew-cask: ${{ matrix.libraries_brew_cask }}
@@ -181,14 +181,14 @@ jobs:
 
       - name: Setup Python ${{ matrix.python_version }}
         if: ${{ matrix.conda != 'true' }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
         with:
           python-version: ${{ matrix.python_version }}
           allow-prereleases: true
 
       - name: Setup conda
         if: ${{ matrix.conda == 'true' }}
-        uses: mamba-org/setup-micromamba@v2
+        uses: mamba-org/setup-micromamba@06375d89d211a1232ef63355742e9e2e564bc7f7  # v2.0.2
         with:
           environment-name: test
           condarc: |
@@ -214,7 +214,7 @@ jobs:
 
       - name: Setup headless display
         if: ${{ matrix.display == 'true' }}
-        uses: pyvista/setup-headless-display-action@v2
+        uses: pyvista/setup-headless-display-action@4cf5c603091e085da8830e1480355ff03f3e171b  # v2
 
       - name: Install tox
         run: python -m pip install --upgrade tox ${{ matrix.toxdeps }}
@@ -222,19 +222,19 @@ jobs:
       - run: python -m tox -e ${{ matrix.toxenv }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }}
 
       - if: ${{ (success() || failure()) && matrix.artifact-path != '' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
         with:
           name: ${{ matrix.artifact-name }}
           path: ${{ matrix.artifact-path }}
 
       - if: ${{ (success() || failure()) && matrix.pytest-results-summary == 'true' && matrix.pytest == 'true' }}
-        uses: test-summary/action@v2
+        uses: test-summary/action@31493c76ec9e7aa675f1585d3ed6f1da69269a86  # v2.4
         with:
           paths: "**/results.xml"
 
       - name: Upload to Codecov
         # Even if tox fails, upload coverage
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@015f24e6818733317a2da2edd6290ab26238649a  # v5.0.7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
