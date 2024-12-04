@@ -239,7 +239,7 @@ jobs:
 
       - if: ${{ (success() || failure()) && contains(matrix.coverage, 'github') && matrix.pytest == 'true' }}
         name: add run info to coverage filename
-        run: mv $(find ~ -name .coverage) .coverage.${{ github.sha }}-${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
+        run: mv $(find . -name .coverage) .coverage.${{ github.sha }}-${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
         shell: sh
 
       - name: Upload coverage data to GitHub
