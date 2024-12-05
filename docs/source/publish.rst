@@ -35,8 +35,9 @@ Any other target is assumed to be a value for the ``CIBW_BUILD``
 environment variable (e.g. ``cp3?-macosx_x86_64``). In this case the OS
 to run cibuildwheel on is extracted from the target.
 
-Targets that end with ``aarch64``, ``arm64`` and ``universal2`` are also
-supported without any additional configuration of cibuildwheel.
+Targets which end with non-native architectures such as ``aarch64`` on linux or
+``x86_64`` on macos are supported and will be emulated (on linux) or cross
+compiled.
 
 **Note:** ``targets`` is a *string* and must be specified as a
 literal block scalar using the ``|``. (Without the ``|``, it must also
@@ -56,6 +57,15 @@ To not build any wheels:
 .. code:: yaml
 
    targets: ''
+
+For additional configuration extra arguments can be passed by making a target a dictionary.
+An example of this is specifying the runner for a target, such as building macos x86_64 wheels on native x86_64 runners:
+
+.. code:: yaml
+
+    targets:
+      - target: cp311-macosx_x86_64
+          runs-on: macos-13
 
 sdist
 ^^^^^
