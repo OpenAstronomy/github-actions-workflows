@@ -20,6 +20,7 @@ jobs:
       envs: |
         - linux: py312-inputs-linux
         - macos: py311-inputs-macos
+        - macos: py39-inputs-macos
         - windows: py310-inputs-windows
           toxargs: '-v'
           runs-on: windows-2019

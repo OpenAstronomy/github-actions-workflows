@@ -139,7 +139,7 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
     # if Python is <3.10 we can't use macos-latest which is arm64
     try:
         if Version(item["python_version"]) < Version('3.10') and item["os"] == "macos-latest":
-            item["os"] = "macos-12"
+            item["os"] = "macos-13"
     except InvalidVersion:
         # python_version might be for example 'pypy-3.10' which won't parse
         pass
