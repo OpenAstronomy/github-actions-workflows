@@ -7,10 +7,9 @@ import yaml
 
 MACHINE_TYPE = {
     "linux": "ubuntu-latest",
-    "macos": "macos-12",
+    "macos": "macos-latest",
     "windows": "windows-latest",
 }
-M1_RUNNER = "macos-14"
 
 CIBW_BUILD = os.environ.get("CIBW_BUILD", "*")
 CIBW_ARCHS = os.environ.get("CIBW_ARCHS", "auto")
@@ -37,10 +36,7 @@ def load_build_targets(targets):
 
 def get_os(target):
     if "macos" in target:
-        if get_cibw_archs(target) in {"arm64", "universal2"}:
-            return M1_RUNNER
-        else:
-            return MACHINE_TYPE["macos"]
+        return MACHINE_TYPE["macos"]
     if "win" in target:
         return MACHINE_TYPE["windows"]
     return MACHINE_TYPE["linux"]
@@ -53,9 +49,29 @@ def get_cibw_build(target):
 
 
 def get_cibw_archs(target):
-    for arch in ["aarch64", "ppc64le", "s390x", "armv7l", "arm64", "universal2"]:
-        if target.endswith(arch):
-            return arch
+    """
+    Handle non-native architectures
+
+    cibw allows running non-native builds on various platforms:
+    https://cibuildwheel.pypa.io/en/stable/options/#archs
+
+    This logic overrides the "auto" flag based on OS and a list of supported
+    non-native arch if a non-native arch is given for a particular platform in
+    targets, rather than the user having to do this manually.
+    """
+    platform_archs = {
+        # We now cross compile x86_64 on arm64, although it is techincically
+        # still possible to get native x86_64 runner with macos-13, it's time to
+        # move on.
+        "macos": ["universal2", "x86_64"],
+        # This is a list of supported eumulated arches on linux
+        "linux": ["aarch64", "ppc64le", "s390x", "armv7l"],
+    }
+    for platform, archs in platform_archs.items():
+        if platform in target:
+            for arch in archs:
+                if target.endswith(arch):
+                    return arch
     return CIBW_ARCHS
 
 
