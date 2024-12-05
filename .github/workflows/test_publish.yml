@@ -28,7 +28,10 @@ jobs:
       targets: |
         - linux
         - cp311-macosx_x86_64
+        - target: cp311-macosx_x86_64
+          runs-on: macos-13
         - cp312-macosx_arm64
+        - cp313-macosx_universal2
         - cp3?-win_amd64
         - cp312-manylinux_aarch64
         - cp313-manylinux_x86_64
