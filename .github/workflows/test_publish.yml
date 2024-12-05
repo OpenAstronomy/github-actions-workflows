@@ -27,7 +27,7 @@ jobs:
       test_command: pytest --pyargs test_package
       targets: |
         - linux
-        - cp311-macosx_x86_64
+        - cp311-macosx
         - target: cp311-macosx_x86_64
           runs-on: macos-13
         - cp312-macosx_arm64

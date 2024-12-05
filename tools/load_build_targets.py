@@ -60,9 +60,7 @@ def get_cibw_archs(target):
     targets, rather than the user having to do this manually.
     """
     platform_archs = {
-        # We now cross compile x86_64 on arm64, although it is techincically
-        # still possible to get native x86_64 runner with macos-13, it's time to
-        # move on.
+        # We now cross compile x86_64 on arm64 by default
         "macos": ["universal2", "x86_64"],
         # This is a list of supported eumulated arches on linux
         "linux": ["aarch64", "ppc64le", "s390x", "armv7l"],
@@ -72,6 +70,11 @@ def get_cibw_archs(target):
             for arch in archs:
                 if target.endswith(arch):
                     return arch
+
+    # If no explict arch has been specified build both arm64 and x86_64 on macos
+    if "macos" in target:
+        return os.environ.get("CIBW_ARCHS", "arm64 x86_64")
+
     return CIBW_ARCHS
 
 
