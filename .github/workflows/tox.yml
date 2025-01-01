@@ -165,7 +165,7 @@ jobs:
 
       - name: Cache ${{ matrix.cache_key }}
         if: ${{ matrix.cache-path != '' && matrix.cache-key != '' }}
-        uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a  # v4.1.2
+        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57  # v4.2.0
         with:
           path: ${{ matrix.cache-path }}
           key: ${{ matrix.cache-key }}
@@ -188,7 +188,7 @@ jobs:
 
       - name: Setup conda
         if: ${{ matrix.conda == 'true' }}
-        uses: mamba-org/setup-micromamba@06375d89d211a1232ef63355742e9e2e564bc7f7  # v2.0.2
+        uses: mamba-org/setup-micromamba@068f1ab4b37ed9b3d9f73da7db90a0cda0a48d29  # v2.0.3
         with:
           environment-name: test
           condarc: |
@@ -214,7 +214,7 @@ jobs:
 
       - name: Setup headless display
         if: ${{ matrix.display == 'true' }}
-        uses: pyvista/setup-headless-display-action@4f44aea3c7954d33db8151a4165aa557f2c6267b  # v3
+        uses: pyvista/setup-headless-display-action@83c78fd314fbe1ee77ec7d463ba61ddee6b16475  # v3
 
       - name: Install tox
         run: python -m pip install --upgrade tox ${{ matrix.toxdeps }}
@@ -222,7 +222,7 @@ jobs:
       - run: python -m tox -e ${{ matrix.toxenv }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }}
 
       - if: ${{ (success() || failure()) && matrix.artifact-path != '' }}
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b  # v4.5.0
         with:
           name: ${{ matrix.artifact-name }}
           path: ${{ matrix.artifact-path }}
@@ -235,6 +235,6 @@ jobs:
       - name: Upload to Codecov
         # Even if tox fails, upload coverage
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
-        uses: codecov/codecov-action@015f24e6818733317a2da2edd6290ab26238649a  # v5.0.7
+        uses: codecov/codecov-action@1e68e06f1dbfde0e4cefc87efeba9e4643565303  # v5.1.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
