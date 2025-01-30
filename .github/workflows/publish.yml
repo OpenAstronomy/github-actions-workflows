@@ -238,6 +238,7 @@ jobs:
           test_extras: ${{ inputs.test_extras }}
           test_command: ${{ inputs.test_command }}
           pure_python_wheel: false
+          python-version: '3.12'
       - uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
         if: |
           needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda
