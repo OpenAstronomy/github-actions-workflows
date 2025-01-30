@@ -194,7 +194,7 @@ jobs:
         env:
           CIBW_BUILD: ${{ matrix.CIBW_BUILD }}
           CIBW_ARCHS: ${{ matrix.CIBW_ARCHS }}
-      - uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
+      - uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b  # v4.5.0
         if: |
           needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda
         with:
@@ -239,7 +239,7 @@ jobs:
           test_command: ${{ inputs.test_command }}
           pure_python_wheel: false
           python-version: '3.12'
-      - uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
+      - uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b  # v4.5
         if: |
           needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda
         with:
@@ -263,7 +263,7 @@ jobs:
           pattern: dist-*
           path: dist
           merge-multiple: true
-      - uses: pypa/gh-action-pypi-publish@15c56dba361d8335944d31a2ecd17d700fc7bcbc  # v1.12.2
+      - uses: pypa/gh-action-pypi-publish@67339c736fd9354cd4f8cb0b744f2b82a74b5c70  # v1.12.3
         name: Upload to PyPI
         if: ${{ needs.targets.outputs.upload_to_pypi == 'true' }}
         with:
