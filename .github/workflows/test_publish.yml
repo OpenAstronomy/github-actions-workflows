@@ -33,7 +33,7 @@ jobs:
         - cp312-macosx_arm64
         - cp313-macosx_universal2
         - cp3?-win_amd64
-        - cp312-manylinux_aarch64
+        - target: cp312-manylinux_aarch64
           runs-on: ubuntu-24.04-arm
         - cp313-manylinux_x86_64
         - target: cp311-manylinux_ppc64le
