@@ -107,7 +107,7 @@ jobs:
       matrix: ${{ steps.set-outputs.outputs.matrix }}
       upload_to_pypi: ${{ steps.set-upload.outputs.upload_to_pypi }}
     steps:
-      - uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55  # v5.5.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
         with:
           python-version: '3.12'
       - run: python -m pip install PyYAML click
@@ -173,7 +173,7 @@ jobs:
             echo "EOF" >> $GITHUB_ENV
           fi
           cat $GITHUB_ENV
-      - uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55  # v5.5.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
         if: ${{ inputs.env != '' }}
         with:
           python-version: '3.12'
@@ -188,7 +188,7 @@ jobs:
         env:
           SET_ENV_SCRIPT: aW1wb3J0IGpzb24KaW1wb3J0IG9zCmltcG9ydCBzeXMKCmltcG9ydCB5YW1sCgpHSVRIVUJfRU5WID0gb3MuZ2V0ZW52KCJHSVRIVUJfRU5WIikKaWYgR0lUSFVCX0VOViBpcyBOb25lOgogICAgcmFpc2UgVmFsdWVFcnJvcigiR0lUSFVCX0VOViBub3Qgc2V0LiBNdXN0IGJlIHJ1biBpbnNpZGUgR2l0SHViIEFjdGlvbnMuIikKCkRFTElNSVRFUiA9ICJFT0YiCgoKZGVmIHNldF9lbnYoZW52KToKCiAgICBlbnYgPSB5YW1sLmxvYWQoZW52LCBMb2FkZXI9eWFtbC5CYXNlTG9hZGVyKQogICAgcHJpbnQoanNvbi5kdW1wcyhlbnYsIGluZGVudD0yKSkKCiAgICBpZiBub3QgaXNpbnN0YW5jZShlbnYsIGRpY3QpOgogICAgICAgIHRpdGxlID0gImBlbnZgIG11c3QgYmUgbWFwcGluZyIKICAgICAgICBtZXNzYWdlID0gZiJgZW52YCBtdXN0IGJlIG1hcHBpbmcgb2YgZW52IHZhcmlhYmxlcyB0byB2YWx1ZXMsIGdvdCB0eXBlIHt0eXBlKGVudil9IgogICAgICAgIHByaW50KGYiOjplcnJvciB0aXRsZT17dGl0bGV9Ojp7bWVzc2FnZX0iKQogICAgICAgIGV4aXQoMSkKCiAgICBmb3IgaywgdiBpbiBlbnYuaXRlbXMoKToKCiAgICAgICAgaWYgbm90IGlzaW5zdGFuY2Uodiwgc3RyKToKICAgICAgICAgICAgdGl0bGUgPSAiYGVudmAgdmFsdWVzIG11c3QgYmUgc3RyaW5ncyIKICAgICAgICAgICAgbWVzc2FnZSA9IGYiYGVudmAgdmFsdWVzIG11c3QgYmUgc3RyaW5ncywgYnV0IHZhbHVlIG9mIHtrfSBoYXMgdHlwZSB7dHlwZSh2KX0iCiAgICAgICAgICAgIHByaW50KGYiOjplcnJvciB0aXRsZT17dGl0bGV9Ojp7bWVzc2FnZX0iKQogICAgICAgICAgICBleGl0KDEpCgogICAgICAgIHYgPSB2LnNwbGl0KCJcbiIpCgogICAgICAgIHdpdGggb3BlbihHSVRIVUJfRU5WLCAiYSIpIGFzIGY6CiAgICAgICAgICAgIGlmIGxlbih2KSA9PSAxOgogICAgICAgICAgICAgICAgZi53cml0ZShmIntrfT17dlswXX1cbiIpCiAgICAgICAgICAgIGVsc2U6CiAgICAgICAgICAgICAgICBmb3IgbGluZSBpbiB2OgogICAgICAgICAgICAgICAgICAgIGFzc2VydCBsaW5lLnN0cmlwKCkgIT0gREVMSU1JVEVSCiAgICAgICAgICAgICAgICBmLndyaXRlKGYie2t9PDx7REVMSU1JVEVSfVxuIikKICAgICAgICAgICAgICAgIGZvciBsaW5lIGluIHY6CiAgICAgICAgICAgICAgICAgICAgZi53cml0ZShmIntsaW5lfVxuIikKICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7REVMSU1JVEVSfVxuIikKCiAgICAgICAgcHJpbnQoZiJ7a30gd3JpdHRlbiB0byBHSVRIVUJfRU5WIikKCgppZiBfX25hbWVfXyA9PSAiX19tYWluX18iOgogICAgc2V0X2VudihzeXMuYXJndlsxXSkK
       - name: Run cibuildwheel
-        uses: pypa/cibuildwheel@d04cacbc9866d432033b1d09142936e6a0e2121a  # v2.23.2
+        uses: pypa/cibuildwheel@faf86a6ed7efa889faf6996aa23820831055001a  # v2.23.3
         with:
           output-dir: dist
         env:
@@ -208,7 +208,7 @@ jobs:
     runs-on: ${{ inputs.sdist-runs-on }}
     timeout-minutes: ${{ inputs.timeout-minutes }}
     steps:
-      - uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55  # v5.5.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
         if: ${{ inputs.env != '' }}
         with:
           python-version: '3.12'
@@ -258,7 +258,7 @@ jobs:
       needs.build_wheels.result != 'failure' &&
       needs.build_sdist.result != 'failure'
     steps:
-      - uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e  # v4.2.1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4.3.0
         with:
           pattern: dist-*
           path: dist
