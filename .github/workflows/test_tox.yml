@@ -184,3 +184,11 @@ jobs:
     with:
       envs: |
         - linux: py312
+
+  test_freethreaded:
+    uses: ./.github/workflows/tox.yml
+    with:
+      envs: |
+        - linux: py313t-linux
+        - macos: py313t-macos
+        - windows: py313t-windows
