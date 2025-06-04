@@ -39,7 +39,7 @@ jobs:
     with:
       conda: 'true'
       runs-on: |
-        linux: ubuntu-20.04
+        linux: ubuntu-22.04
         macos: macos-11
       envs: |
         # conda present in toxenv
