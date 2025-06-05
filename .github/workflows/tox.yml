@@ -217,7 +217,7 @@ jobs:
         uses: pyvista/setup-headless-display-action@52bda06d59c0fc422fc2512c9c670bf6b66616f8  # v3
 
       - name: Install tox
-        run: python -m pip install --upgrade tox ${{ matrix.toxdeps }}
+        run: python -m pip install tox ${{ matrix.toxdeps }}
 
       - run: python -m tox -e ${{ matrix.toxenv }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }}
 
