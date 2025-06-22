@@ -17,13 +17,15 @@ jobs:
   release_default:
     uses: ./.github/workflows/publish.yml
     with:
-      test_extras: test
+      test_groups: test, concurrency
+      test_extras: recommended
       test_command: pytest --pyargs test_package
       timeout-minutes: 30
   release:
     uses: ./.github/workflows/publish.yml
     with:
-      test_extras: test
+      test_groups: test, concurrency
+      test_extras: recommended
       test_command: pytest --pyargs test_package
       targets: |
         - linux
@@ -41,6 +43,7 @@ jobs:
   release_sdist_only:
     uses: ./.github/workflows/publish.yml
     with:
-      test_extras: test
+      test_groups: test, concurrency
+      test_extras: recommended
       test_command: pytest --pyargs test_package
       targets: ''

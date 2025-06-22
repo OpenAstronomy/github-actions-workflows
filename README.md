@@ -41,7 +41,8 @@ jobs:
   publish:
     uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v1
     with:
-      test_extras: test
+      test_groups: test
+      test_extras: recommended
       test_command: pytest --pyargs test_package
       targets: |
         - linux
@@ -60,7 +61,8 @@ jobs:
   publish:
     uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
     with:
-      test_extras: test
+      test_groups: test
+      test_extras: recommended
       test_command: pytest --pyargs test_package
     secrets:
       pypi_token: ${{ secrets.pypi_token }}
