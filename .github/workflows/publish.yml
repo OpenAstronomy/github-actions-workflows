@@ -16,6 +16,11 @@ on:
         required: false
         default: true
         type: boolean
+      test_groups:
+        description: PEP 735 dependency groups that should be installed for testing
+        required: false
+        default: ''
+        type: string
       test_extras:
         description: Any extras_requires modifier that should be used to install the package for testing
         required: false
@@ -154,12 +159,20 @@ jobs:
         uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392  # v3.6.0
         with:
           platforms: all
+      - name: Parse dependency groups
+        shell: bash
+        run: |
+          echo "space_sep_groups=$( python -c "print('${{ inputs.test_groups }}'.replace(',', ' '))" )" >> "$GITHUB_ENV"
       - name: Configure cibuildwheel
         shell: bash
         run: |
           if [ -n "${{ inputs.test_extras }}" ];
           then
             echo "CIBW_TEST_EXTRAS=${{ inputs.test_extras }}" >> $GITHUB_ENV
+          fi
+          if [ -n "${{ inputs.test_groups }}" ];
+          then
+            echo "CIBW_TEST_GROUPS=$space_sep_groups" >> $GITHUB_ENV
           fi
           set +e
           IFS='' read -r -d '' test_command <<"EOF"
@@ -233,8 +246,9 @@ jobs:
         with:
           apt: ${{ inputs.libraries }}
       - id: build
-        uses: OpenAstronomy/build-python-dist@bbb0e1c5b132893999ea56d77bd4b526e0097c7d  # v1.0.1
+        uses: OpenAstronomy/build-python-dist@9a4b2bd6bda5c48ef3c12b53504ee2263ed032e3  # v1.1.0
         with:
+          test_groups: ${{ inputs.test_groups }}
           test_extras: ${{ inputs.test_extras }}
           test_command: ${{ inputs.test_command }}
           pure_python_wheel: false

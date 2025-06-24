@@ -17,7 +17,8 @@ jobs:
   release:
     uses: ./.github/workflows/publish_pure_python.yml
     with:
-      test_extras: test
+      test_groups: test, concurrency
+      test_extras: recommended
       test_command: pytest --pyargs test_package
       timeout-minutes: 5
 

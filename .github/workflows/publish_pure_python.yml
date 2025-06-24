@@ -3,6 +3,11 @@ name: Build and publish pure Python package
 on:
   workflow_call:
     inputs:
+      test_groups:
+        description: PEP 735 dependency groups that should be installed for testing
+        required: false
+        default: ''
+        type: string
       test_extras:
         description: Any extras_requires modifier that should be used to install the package for testing
         required: false
@@ -118,8 +123,9 @@ jobs:
         with:
           apt: ${{ inputs.libraries }}
       - id: build
-        uses: OpenAstronomy/build-python-dist@bbb0e1c5b132893999ea56d77bd4b526e0097c7d  # v1.0.1
+        uses: OpenAstronomy/build-python-dist@9a4b2bd6bda5c48ef3c12b53504ee2263ed032e3  # v1.1.0
         with:
+          test_groups: ${{ inputs.test_groups }}
           test_extras: ${{ inputs.test_extras }}
           test_command: ${{ inputs.test_command }}
           python-version: ${{ inputs.python-version }}

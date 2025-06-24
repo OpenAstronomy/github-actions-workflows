@@ -11,7 +11,8 @@ source distribution are build, tested and published instead.
      publish:
        uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
        with:
-         test_extras: test
+         test_groups: test, concurrency
+         test_extras: recommended
          test_command: pytest --pyargs test_package
        secrets:
          pypi_token: ${{ secrets.pypi_token }}
@@ -25,6 +26,11 @@ runs-on
 Choose an alternative image for the runner to use for building and
 testing the source distribution and wheel. By default, this is
 ``ubuntu-latest``.
+
+test_groups
+^^^^^^^^^^^
+
+Comma-separated, PEP 735 dependency groups that should be installed for testing.
 
 test_extras
 ^^^^^^^^^^^
