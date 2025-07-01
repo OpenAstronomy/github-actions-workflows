@@ -188,7 +188,7 @@ jobs:
 
       - name: Setup conda
         if: ${{ matrix.conda == 'true' }}
-        uses: mamba-org/setup-micromamba@0dea6379afdaffa5d528b3d1dabc45da37f443fc  # v2.0.4
+        uses: mamba-org/setup-micromamba@b09ef9b599704322748535812ca03efb2625677b  # v2.0.5
         with:
           environment-name: test
           condarc: |
@@ -214,7 +214,7 @@ jobs:
 
       - name: Setup headless display
         if: ${{ matrix.display == 'true' }}
-        uses: pyvista/setup-headless-display-action@f744438e29e50189f40f1749859bac7d0f69b5fa  # v3
+        uses: pyvista/setup-headless-display-action@7d84ae825e6d9297a8e99bdbbae20d1b919a0b19  # v3
 
       - name: Install tox
         run: python -m pip install --upgrade tox ${{ matrix.toxdeps }}
