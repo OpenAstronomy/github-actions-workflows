@@ -27,7 +27,7 @@ jobs:
         - macos: py39-inputs-macos
         - windows: py310-inputs-windows
           toxargs: '-v'
-          runs-on: windows-2019
+          runs-on: windows-2022
 
         - linux: py312-inputs-conda
         - macos: py312-inputs-conda
