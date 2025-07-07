@@ -1,3 +1,9 @@
+# /// script
+# requires-python = "==3.12"
+# dependencies = [
+#     "pyyaml==6.0.2",
+# ]
+# ///
 import json
 import os
 import sys

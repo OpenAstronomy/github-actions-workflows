@@ -1,3 +1,10 @@
+# /// script
+# requires-python = "==3.12"
+# dependencies = [
+#     "click==8.2.1",
+#     "pyyaml==6.0.2",
+# ]
+# ///
 import json
 import os
 import re
