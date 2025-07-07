@@ -4,10 +4,14 @@ on:
     paths:
       - .github/workflows/tox.yml
       - .github/workflows/test_tox.yml
+      - pyproject.toml
+      - tox.ini
   pull_request:
     paths:
       - .github/workflows/tox.yml
       - .github/workflows/test_tox.yml
+      - pyproject.toml
+      - tox.ini
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
