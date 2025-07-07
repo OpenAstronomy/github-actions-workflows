@@ -359,7 +359,7 @@ It can be defined globally:
      runs-on: |
        linux: ubuntu-18.04
        macos: macos-10.15
-       windows: windows-2019
+       windows: windows-2022
 
 .. code:: yaml
 
@@ -380,7 +380,7 @@ be valid YAML.)
    with:
      envs: |
        - windows: py39
-         runs-on: windows-2019
+         runs-on: windows-2022
 
 default_python
 ^^^^^^^^^^^^^^
