@@ -115,12 +115,11 @@ jobs:
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
         with:
           python-version: '3.12'
-      - run: python -m pip install PyYAML click
       - run: echo $LOAD_BUILD_TARGETS_SCRIPT | base64 --decode > load_build_targets.py
         env:
           LOAD_BUILD_TARGETS_SCRIPT: IyAvLy8gc2NyaXB0CiMgcmVxdWlyZXMtcHl0aG9uID0gIj09My4xMiIKIyBkZXBlbmRlbmNpZXMgPSBbCiMgICAgICJjbGljaz09OC4yLjEiLAojICAgICAicHl5YW1sPT02LjAuMiIsCiMgXQojIC8vLwppbXBvcnQganNvbgppbXBvcnQgb3MKaW1wb3J0IHJlCgppbXBvcnQgY2xpY2sKaW1wb3J0IHlhbWwKCk1BQ0hJTkVfVFlQRSA9IHsKICAgICJsaW51eCI6ICJ1YnVudHUtbGF0ZXN0IiwKICAgICJtYWNvcyI6ICJtYWNvcy1sYXRlc3QiLAogICAgIndpbmRvd3MiOiAid2luZG93cy1sYXRlc3QiLAp9CgpDSUJXX0JVSUxEID0gb3MuZW52aXJvbi5nZXQoIkNJQldfQlVJTEQiLCAiKiIpCkNJQldfQVJDSFMgPSBvcy5lbnZpcm9uLmdldCgiQ0lCV19BUkNIUyIsICJhdXRvIikKCgpAY2xpY2suY29tbWFuZCgpCkBjbGljay5vcHRpb24oIi0tdGFyZ2V0cyIsIGRlZmF1bHQ9IiIpCmRlZiBsb2FkX2J1aWxkX3RhcmdldHModGFyZ2V0cyk6CiAgICAiIiJTY3JpcHQgdG8gbG9hZCBjaWJ1aWxkd2hlZWwgdGFyZ2V0cyBmb3IgR2l0SHViIEFjdGlvbnMgd29ya2Zsb3cuIiIiCiAgICAjIExvYWQgbGlzdCBvZiB0YXJnZXRzCiAgICB0YXJnZXRzID0geWFtbC5sb2FkKHRhcmdldHMsIExvYWRlcj15YW1sLkJhc2VMb2FkZXIpCiAgICBwcmludChqc29uLmR1bXBzKHRhcmdldHMsIGluZGVudD0yKSkKCiAgICAjIENyZWF0ZSBtYXRyaXgKICAgIG1hdHJpeCA9IHsiaW5jbHVkZSI6IFtdfQogICAgZm9yIHRhcmdldCBpbiB0YXJnZXRzOgogICAgICAgIG1hdHJpeFsiaW5jbHVkZSJdLmFwcGVuZChnZXRfbWF0cml4X2l0ZW0odGFyZ2V0KSkKCiAgICAjIE91dHB1dCBtYXRyaXgKICAgIHByaW50KGpzb24uZHVtcHMobWF0cml4LCBpbmRlbnQ9MikpCiAgICB3aXRoIG9wZW4ob3MuZW52aXJvblsiR0lUSFVCX09VVFBVVCJdLCAiYSIpIGFzIGY6CiAgICAgICAgZi53cml0ZShmIm1hdHJpeD17anNvbi5kdW1wcyhtYXRyaXgpfVxuIikKCgpkZWYgZ2V0X29zKHRhcmdldCk6CiAgICBpZiAibWFjb3MiIGluIHRhcmdldDoKICAgICAgICByZXR1cm4gTUFDSElORV9UWVBFWyJtYWNvcyJdCiAgICBpZiAid2luIiBpbiB0YXJnZXQ6CiAgICAgICAgcmV0dXJuIE1BQ0hJTkVfVFlQRVsid2luZG93cyJdCiAgICByZXR1cm4gTUFDSElORV9UWVBFWyJsaW51eCJdCgoKZGVmIGdldF9jaWJ3X2J1aWxkKHRhcmdldCk6CiAgICBpZiB0YXJnZXQgaW4geyJsaW51eCIsICJtYWNvcyIsICJ3aW5kb3dzIn06CiAgICAgICAgcmV0dXJuIENJQldfQlVJTEQKICAgIHJldHVybiB0YXJnZXQKCgpkZWYgZ2V0X2NpYndfYXJjaHModGFyZ2V0KToKICAgICIiIgogICAgSGFuZGxlIG5vbi1uYXRpdmUgYXJjaGl0ZWN0dXJlcwoKICAgIGNpYncgYWxsb3dzIHJ1bm5pbmcgbm9uLW5hdGl2ZSBidWlsZHMgb24gdmFyaW91cyBwbGF0Zm9ybXM6CiAgICBodHRwczovL2NpYnVpbGR3aGVlbC5weXBhLmlvL2VuL3N0YWJsZS9vcHRpb25zLyNhcmNocwoKICAgIFRoaXMgbG9naWMgb3ZlcnJpZGVzIHRoZSAiYXV0byIgZmxhZyBiYXNlZCBvbiBPUyBhbmQgYSBsaXN0IG9mIHN1cHBvcnRlZAogICAgbm9uLW5hdGl2ZSBhcmNoIGlmIGEgbm9uLW5hdGl2ZSBhcmNoIGlzIGdpdmVuIGZvciBhIHBhcnRpY3VsYXIgcGxhdGZvcm0gaW4KICAgIHRhcmdldHMsIHJhdGhlciB0aGFuIHRoZSB1c2VyIGhhdmluZyB0byBkbyB0aGlzIG1hbnVhbGx5LgogICAgIiIiCiAgICBwbGF0Zm9ybV9hcmNocyA9IHsKICAgICAgICAjIFdlIG5vdyBjcm9zcyBjb21waWxlIHg4Nl82NCBvbiBhcm02NCBieSBkZWZhdWx0CiAgICAgICAgIm1hY29zIjogWyJ1bml2ZXJzYWwyIiwgIng4Nl82NCJdLAogICAgICAgICMgVGhpcyBpcyBhIGxpc3Qgb2Ygc3VwcG9ydGVkIGV1bXVsYXRlZCBhcmNoZXMgb24gbGludXgKICAgICAgICAibGludXgiOiBbImFhcmNoNjQiLCAicHBjNjRsZSIsICJzMzkweCIsICJhcm12N2wiXSwKICAgIH0KICAgIGZvciBwbGF0Zm9ybSwgYXJjaHMgaW4gcGxhdGZvcm1fYXJjaHMuaXRlbXMoKToKICAgICAgICBpZiBwbGF0Zm9ybSBpbiB0YXJnZXQ6CiAgICAgICAgICAgIGZvciBhcmNoIGluIGFyY2hzOgogICAgICAgICAgICAgICAgaWYgdGFyZ2V0LmVuZHN3aXRoKGFyY2gpOgogICAgICAgICAgICAgICAgICAgIHJldHVybiBhcmNoCgogICAgIyBJZiBubyBleHBsaWN0IGFyY2ggaGFzIGJlZW4gc3BlY2lmaWVkIGJ1aWxkIGJvdGggYXJtNjQgYW5kIHg4Nl82NCBvbiBtYWNvcwogICAgaWYgIm1hY29zIiBpbiB0YXJnZXQ6CiAgICAgICAgcmV0dXJuIG9zLmVudmlyb24uZ2V0KCJDSUJXX0FSQ0hTIiwgImFybTY0IHg4Nl82NCIpCgogICAgcmV0dXJuIENJQldfQVJDSFMKCgpkZWYgZ2V0X2FydGlmYWN0X25hbWUodGFyZ2V0KToKICAgIGFydGlmYWN0X25hbWUgPSByZS5zdWIociJbXFwgLzo8PnwqP1wiJ10iLCAiLSIsIHRhcmdldCkKICAgIGFydGlmYWN0X25hbWUgPSByZS5zdWIociItKyIsICItIiwgYXJ0aWZhY3RfbmFtZSkKICAgIHJldHVybiBhcnRpZmFjdF9uYW1lCgoKZGVmIGdldF9tYXRyaXhfaXRlbSh0YXJnZXQpOgogICAgZXh0cmFfdGFyZ2V0X2FyZ3MgPSB7fQogICAgaWYgaXNpbnN0YW5jZSh0YXJnZXQsIGRpY3QpOgogICAgICAgIGV4dHJhX3RhcmdldF9hcmdzID0gdGFyZ2V0CiAgICAgICAgdGFyZ2V0ID0gZXh0cmFfdGFyZ2V0X2FyZ3MucG9wKCJ0YXJnZXQiKQogICAgcmV0dXJuIHsKICAgICAgICAidGFyZ2V0IjogdGFyZ2V0LAogICAgICAgICJydW5zLW9uIjogZ2V0X29zKHRhcmdldCksCiAgICAgICAgIkNJQldfQlVJTEQiOiBnZXRfY2lid19idWlsZCh0YXJnZXQpLAogICAgICAgICJDSUJXX0FSQ0hTIjogZ2V0X2NpYndfYXJjaHModGFyZ2V0KSwKICAgICAgICAiYXJ0aWZhY3QtbmFtZSI6IGdldF9hcnRpZmFjdF9uYW1lKHRhcmdldCksCiAgICAgICAgKipleHRyYV90YXJnZXRfYXJncywKICAgIH0KCgppZiBfX25hbWVfXyA9PSAiX19tYWluX18iOgogICAgbG9hZF9idWlsZF90YXJnZXRzKCkK
       - id: set-outputs
-        run: python load_build_targets.py --targets "${{ inputs.targets }}"
+        run: pipx run load_build_targets.py --targets "${{ inputs.targets }}"
         shell: sh
       - id: set-upload
         run: |
@@ -193,9 +192,8 @@ jobs:
       - id: set-env
         if: ${{ inputs.env != '' }}
         run: |
-          python -m pip install PyYAML
           echo $SET_ENV_SCRIPT | base64 --decode > set_env.py
-          python set_env.py "${{ inputs.env }}"
+          pipx run set_env.py "${{ inputs.env }}"
           rm set_env.py
         shell: sh
         env:
@@ -228,9 +226,8 @@ jobs:
       - id: set-env
         if: ${{ inputs.env != '' }}
         run: |
-          python -m pip install PyYAML
           echo $SET_ENV_SCRIPT | base64 --decode > set_env.py
-          python set_env.py "${{ inputs.env }}"
+          pipx run set_env.py "${{ inputs.env }}"
           rm set_env.py
         shell: sh
         env:

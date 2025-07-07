@@ -103,10 +103,8 @@ jobs:
       - id: set-env
         if: ${{ inputs.env != '' }}
         run: |
-          python -m pip install -U pip
-          python -m pip install PyYAML
           echo $SET_ENV_SCRIPT | base64 --decode > set_env.py
-          python set_env.py "${{ inputs.env }}"
+          pipx run set_env.py "${{ inputs.env }}"
           rm set_env.py
         shell: sh
         env:
