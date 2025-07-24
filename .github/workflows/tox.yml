@@ -117,8 +117,6 @@ jobs:
   envs:
     name: Load tox environments
     runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-outputs.outputs.matrix }}
     steps:
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
         with:
@@ -141,6 +139,8 @@ jobs:
           --runs-on "${{ inputs.runs-on }}" --default-python "${{ inputs.default_python }}" \
           --timeout-minutes "${{ inputs.timeout-minutes }}"
         shell: sh
+    outputs:
+      matrix: ${{ steps.set-outputs.outputs.matrix }}
 
   tox:
     name: ${{ matrix.name }}
@@ -236,3 +236,45 @@ jobs:
         uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24  # v5.4.3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload coverage data to GitHub
+        if: ${{ (success() || failure()) && contains(matrix.coverage, 'github') && matrix.pytest == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: .coverage.${{ github.sha }}-${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
+          path: "${{ github.workspace }}/**/.coverage"
+
+  report_overall_test_coverage:
+    needs: [ tox ]
+    if: always()
+    name: report overall test coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+          submodules: ${{ inputs.submodules }}
+          ref: ${{ inputs.checkout_ref }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: .coverage.*
+          merge-multiple: true
+      - id: check_downloaded_files
+        run: |
+          [ "$(ls -A .coverage*)" ] && exit 0 || exit 1
+        continue-on-error: true
+      - if: steps.check_downloaded_files.outcome == 'success'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - if: steps.check_downloaded_files.outcome == 'success'
+        name: generate coverage report
+        run: |
+          python -Im pip install --upgrade coverage[toml]
+          python -Im coverage combine
+          python -Im coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
+      - if: steps.check_downloaded_files.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: .coverage
+          path: .coverage
