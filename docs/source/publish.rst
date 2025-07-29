@@ -60,13 +60,6 @@ To not build any wheels:
    targets: ''
 
 For additional configuration extra arguments can be passed by making a target a dictionary.
-An example of this is specifying the runner for a target, such as building macos x86_64 wheels on native x86_64 runners:
-
-.. code:: yaml
-
-    targets:
-      - target: cp311-macosx_x86_64
-          runs-on: macos-13
 
 sdist
 ^^^^^

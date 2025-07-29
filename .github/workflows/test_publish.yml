@@ -30,10 +30,10 @@ jobs:
       targets: |
         - linux
         - cp31?-macos*
-        - target: cp311-macosx_x86_64
-          runs-on: macos-13
         - cp312-macosx_arm64
         - cp313-macosx_universal2
+        - target: cp311-macosx_x86_64
+          runs-on: macos-latest
         - cp3?-win_amd64
         - target: cp312-manylinux_aarch64
           runs-on: ubuntu-24.04-arm
