@@ -5,6 +5,11 @@ build-backend = "setuptools.build_meta"
 [tool.cibuildwheel.linux]
 environment-pass = ["GITHUB_WORKFLOW"]
 
+[[tool.cibuildwheel.overrides]]
+select = "cp3*t-*"
+inherit.environment = "append"
+environment = {"PYTHON_GIL" = "0"}
+
 [project]
 name = "test-package"
 dynamic = ["version"]
