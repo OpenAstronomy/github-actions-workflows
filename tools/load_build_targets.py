@@ -16,6 +16,7 @@ MACHINE_TYPE = {
     "linux": "ubuntu-latest",
     "macos": "macos-latest",
     "windows": "windows-latest",
+    "windows-arm": "windows-11-arm",
 }
 
 CIBW_BUILD = os.environ.get("CIBW_BUILD", "*")
@@ -44,6 +45,8 @@ def load_build_targets(targets):
 def get_os(target):
     if "macos" in target:
         return MACHINE_TYPE["macos"]
+    if "win_arm" in target:
+        return MACHINE_TYPE["windows-arm"]
     if "win" in target:
         return MACHINE_TYPE["windows"]
     return MACHINE_TYPE["linux"]
