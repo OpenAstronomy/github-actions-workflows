@@ -35,7 +35,7 @@ jobs:
         - target: cp311-macosx_x86_64
           runs-on: macos-latest
         - cp3?-win_amd64
-        - cp31?-win_arm64
+        - cp313-win_arm64
         - target: cp312-manylinux_aarch64
           runs-on: ubuntu-24.04-arm
         - cp313-manylinux_x86_64
