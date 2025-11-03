@@ -48,3 +48,10 @@ jobs:
       test_extras: recommended
       test_command: pytest --pyargs test_package
       targets: ''
+  re-export-cibw-summary:
+    needs: [release]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${STEPS_PUBLISH_OUTPUTS_CIBW_SUMMARY} >> "$GITHUB_STEP_SUMMARY"
+        env:
+          STEPS_PUBLISH_OUTPUTS_CIBW_SUMMARY: ${{ needs.release.outputs.cibw_summary }}

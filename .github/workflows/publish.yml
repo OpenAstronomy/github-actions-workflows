@@ -96,6 +96,10 @@ on:
         required: false
         default: ''
         type: string
+    outputs:
+      cibw_summary:
+        description: markdown step summary from cibuildwheel
+        value: jobs.build_wheels.outputs.cibw_step_summary
     secrets:
       pypi_token:
         required: false
@@ -141,6 +145,8 @@ jobs:
     strategy:
       fail-fast: ${{ inputs.fail-fast }}
       matrix: ${{fromJSON(needs.targets.outputs.matrix)}}
+    outputs:
+      cibw_summary: ${{ steps.cibw.outputs.step_summary }}
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
@@ -163,6 +169,7 @@ jobs:
         run: |
           echo "space_sep_groups=$( python -c "print('${{ inputs.test_groups }}'.replace(',', ' '))" )" >> "$GITHUB_ENV"
       - name: Configure cibuildwheel
+        id: cibw
         shell: bash
         run: |
           if [ -n "${{ inputs.test_extras }}" ];
