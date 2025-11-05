@@ -79,6 +79,16 @@ jobs:
           posargs: 'PyPy'
       pytest: false
 
+  test_supported_pythons:
+    uses: ./.github/workflows/tox.yml
+    with:
+      envs: |
+        - linux: pep8
+        - linux: py3
+      fill: true
+      fill_platforms: linux,macos
+      pytest: false
+
   test_libraries:
     uses: ./.github/workflows/tox.yml
     with:
