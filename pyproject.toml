@@ -29,6 +29,7 @@ concurrency = [
 covcheck = [
     "coverage[toml] ; python_version < '3.11'",
     "coverage>=7.11.3",
+    "pytest-cov>=7.0.0",
 ]
 test = [
     "hypothesis>=6.113.0",
