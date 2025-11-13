@@ -161,7 +161,6 @@ jobs:
   test_coverage_github:
     uses: ./.github/workflows/tox.yml
     with:
-      pytest: true
       coverage: github
       envs: |
          - linux: py313-covcheck
