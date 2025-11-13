@@ -184,8 +184,6 @@ def get_matrix_item(env, global_libraries, global_string_parameters, runs_on, de
             item["pytest_flag"] += (
                 rf"--cov --cov-report=xml:${{GITHUB_WORKSPACE}}{sep}coverage.xml "
             )
-        elif "github" in item.get("coverage", ""):
-            item["pytest_flag"] += "--cov "
 
         if item["pytest-results-summary"] == "true":
             item["pytest_flag"] += rf"--junitxml ${{GITHUB_WORKSPACE}}{sep}results.xml "
