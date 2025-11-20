@@ -158,6 +158,14 @@ jobs:
             a/
           cache-key: cache-${{ github.run_id }}
 
+  test_coverage_github:
+    uses: ./.github/workflows/tox.yml
+    with:
+      coverage: github
+      envs: |
+         - linux: py313-covcheck
+         - linux: py314-covcheck
+
   test_artifact_upload:
     uses: ./.github/workflows/tox.yml
     with:
