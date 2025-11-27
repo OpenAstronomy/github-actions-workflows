@@ -146,6 +146,7 @@ jobs:
           user: __token__
           password: ${{ secrets.pypi_token }}
           repository-url: ${{ inputs.repository_url }}
+          attestations: false
       - uses: OpenAstronomy/publish-wheels-anaconda@eae491141709933a7636af70b070e4a92d1a45be # v1.0.1
         if: ${{ inputs.upload_to_anaconda }}
         with:
