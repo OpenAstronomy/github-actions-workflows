@@ -28,7 +28,7 @@ CIBW_ARCHS = os.environ.get("CIBW_ARCHS", "auto")
 def load_build_targets(targets):
     """Script to load cibuildwheel targets for GitHub Actions workflow."""
     # Load list of targets
-    targets = yaml.load(targets, Loader=yaml.BaseLoader)
+    targets = yaml.safe_load(targets)
     print(json.dumps(targets, indent=2))
 
     # Create matrix
