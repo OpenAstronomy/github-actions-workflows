@@ -30,6 +30,11 @@ test = [
     "hypothesis>=6.113.0",
     "pytest>=8.3.5",
 ]
+publish = [
+    {include-group = "test"},
+    "build>=1.0.0",
+    "twine>=5.0.0",
+]
 
 [tool.setuptools]
 include-package-data = false
