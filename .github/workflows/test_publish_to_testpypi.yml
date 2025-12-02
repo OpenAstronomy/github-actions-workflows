@@ -1,0 +1,21 @@
+name: Test publish to Test PyPI
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test_publish:
+    uses: ./.github/workflows/publish.yml
+    with:
+      test_groups: test, concurrency
+      test_extras: recommended
+      test_command: pytest --pyargs test_package
+      repository_url: https://test.pypi.org/legacy/
+      upload_to_pypi: 'true'
+      timeout-minutes: 30
+    secrets:
+      pypi_token: ${{ secrets.TEST_PYPI_API_TOKEN }}
