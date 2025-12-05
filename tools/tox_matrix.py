@@ -2,6 +2,7 @@
 # requires-python = "==3.12"
 # dependencies = [
 #     "click==8.2.1",
+#     "packaging==25.0",
 #     "pyyaml==6.0.2",
 # ]
 # ///
@@ -11,6 +12,7 @@ import re
 
 import click
 import yaml
+from packaging.version import InvalidVersion, Version
 
 
 @click.command()
@@ -32,9 +34,26 @@ import yaml
 @click.option("--runs-on", default="")
 @click.option("--default-python", default="")
 @click.option("--timeout-minutes", default="360")
-def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, pytest_results_summary,
-                     coverage, conda, setenv, display, cache_path, cache_key,
-                     cache_restore_keys, artifact_path, runs_on, default_python, timeout_minutes):
+def load_tox_targets(
+    envs,
+    libraries,
+    posargs,
+    toxdeps,
+    toxargs,
+    pytest,
+    pytest_results_summary,
+    coverage,
+    conda,
+    setenv,
+    display,
+    cache_path,
+    cache_key,
+    cache_restore_keys,
+    artifact_path,
+    runs_on,
+    default_python,
+    timeout_minutes,
+):
     """Script to load tox targets for GitHub Actions workflow."""
     # Load envs config
     envs = yaml.load(envs, Loader=yaml.BaseLoader)
@@ -84,13 +103,15 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, pytest_
     # Create matrix
     matrix = {"include": []}
     for env in envs:
-        matrix["include"].append(get_matrix_item(
-            env,
-            global_libraries=global_libraries,
-            global_string_parameters=string_parameters,
-            runs_on=default_runs_on,
-            default_python=default_python,
-        ))
+        matrix["include"].append(
+            get_matrix_item(
+                env,
+                global_libraries=global_libraries,
+                global_string_parameters=string_parameters,
+                runs_on=default_runs_on,
+                default_python=default_python,
+            )
+        )
 
     # Output matrix
     print(json.dumps(matrix, indent=2))
@@ -98,9 +119,7 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, pytest_
         f.write(f"matrix={json.dumps(matrix)}\n")
 
 
-def get_matrix_item(env, global_libraries, global_string_parameters,
-                    runs_on, default_python):
-
+def get_matrix_item(env, global_libraries, global_string_parameters, runs_on, default_python):
     # define spec for each matrix include (+ global_string_parameters)
     item = {
         "os": None,
@@ -142,8 +161,16 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
     else:
         item["python_version"] = env.get("default_python") or default_python
 
+    # if Python is <3.10 we can't use macos-latest which is arm64
+    try:
+        if Version(item["python_version"]) < Version("3.10") and item["os"] == "macos-latest":
+            item["os"] = "macos-12"
+    except InvalidVersion:
+        # python_version might be for example 'pypy-3.10' which won't parse
+        pass
+
     # set name
-    item["name"] = env.get("name") or f'{item["toxenv"]} ({item["os"]})'
+    item["name"] = env.get("name") or f"{item['toxenv']} ({item['os']})"
 
     # set artifact-name (replace invalid path characters)
     item["artifact-name"] = re.sub(r"[\\ /:<>|*?\"']", "-", item["name"])
@@ -152,11 +179,14 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
     # set pytest_flag
     item["pytest_flag"] = ""
     sep = r"\\" if platform == "windows" else "/"
-    if item["pytest"] == "true" and "codecov" in item.get("coverage", ""):
-        item["pytest_flag"] += (
-            rf"--cov-report=xml:${{GITHUB_WORKSPACE}}{sep}coverage.xml ")
-    if item["pytest"] == "true" and item["pytest-results-summary"] == "true":
-        item["pytest_flag"] += rf"--junitxml ${{GITHUB_WORKSPACE}}{sep}results.xml "
+    if item["pytest"] == "true":
+        if "codecov" in item.get("coverage", ""):
+            item["pytest_flag"] += (
+                rf"--cov --cov-report=xml:${{GITHUB_WORKSPACE}}{sep}coverage.xml "
+            )
+
+        if item["pytest-results-summary"] == "true":
+            item["pytest_flag"] += rf"--junitxml ${{GITHUB_WORKSPACE}}{sep}results.xml "
 
     # set libraries
     env_libraries = env.get("libraries")

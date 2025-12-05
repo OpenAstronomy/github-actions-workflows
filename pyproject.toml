@@ -26,6 +26,11 @@ concurrency = [
     "pytest-repeat>=0.9.3",
     "pytest-run-parallel>=0.4.4",
 ]
+covcheck = [
+    "coverage[toml] ; python_version < '3.11'",
+    "coverage>=7.11.3",
+    "pytest-cov>=7.0.0",
+]
 test = [
     "hypothesis>=6.113.0",
     "pytest>=8.3.5",
