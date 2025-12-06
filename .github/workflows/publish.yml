@@ -209,8 +209,8 @@ jobs:
         if: |
           needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda
         with:
-          name: "dist-${{ matrix.artifact-name }}"
-          path: dist/*
+         name: "dist-${{ matrix.target }}-${{ matrix.CIBW_ARCHS }}"
+         path: dist/*
 
   build_sdist:
     name: Build source distribution
@@ -270,10 +270,11 @@ jobs:
       needs.build_sdist.result != 'failure'
     steps:
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
-        with:
-          pattern: dist-*
-          path: dist
-          merge-multiple: true
+  with:
+    pattern: dist-*
+    path: dist
+    merge-multiple: true
+
       - uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
         name: Upload to PyPI
         if: ${{ needs.targets.outputs.upload_to_pypi == 'true' }}
