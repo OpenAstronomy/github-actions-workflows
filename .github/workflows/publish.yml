@@ -209,8 +209,8 @@ jobs:
         if: |
           needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda
         with:
-  name: "dist-${{ matrix.target }}-${{ matrix.CIBW_ARCHS }}-${{ github.run_id }}-${{ github.run_attempt }}"
-  path: dist/*
+         name: "dist-${{ matrix.target }}-${{ matrix.CIBW_ARCHS }}-${{ github.run_id }}-${{ github.run_attempt }}"
+         path: dist/*
 
   build_sdist:
     name: Build source distribution
@@ -254,8 +254,8 @@ jobs:
         if: |
           needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda
         with:
-        name: dist-sdist-${{ github.run_id }}-${{ github.run_attempt }}
-        path: dist/*
+         name: "dist-sdist-${{ github.run_id }}-${{ github.run_attempt }}"
+         path: dist/*
 
 
   upload:
@@ -272,7 +272,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
-         pattern: dist-*-${{ github.run_id }}-${{ github.run_attempt }}
+         pattern: "dist-*-${{ github.run_id }}-${{ github.run_attempt }}"
          path: dist
          merge-multiple: true
 
