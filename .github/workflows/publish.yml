@@ -272,9 +272,10 @@ jobs:
     steps:
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
-         pattern: "dist-*-${{ github.run_id }}-${{ github.run_attempt }}"
+         pattern: "dist-${{ inputs.targets }}-${{ github.run_id }}-${{ github.run_attempt }}"
          path: dist
-         merge-multiple: true
+         merge-multiple: false
+
 
 
       - uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
