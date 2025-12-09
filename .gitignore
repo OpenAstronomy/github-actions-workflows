@@ -203,3 +203,6 @@ $RECYCLE.BIN/
 ### Pycharm
 .idea
 .history
+
+# uv
+uv.lock
