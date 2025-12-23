@@ -1,4 +1,4 @@
-# /// script
+﻿# /// script
 # requires-python = "==3.12"
 # dependencies = [
 #     "click==8.2.1",
@@ -17,6 +17,7 @@ MACHINE_TYPE = {
     "macos": "macos-latest",
     "windows": "windows-latest",
     "windows-arm": "windows-11-arm",
+    "pyodide": "ubuntu-latest",  # Pyodide builds run on Linux or macOS
 }
 
 CIBW_BUILD = os.environ.get("CIBW_BUILD", "*")
@@ -43,6 +44,8 @@ def load_build_targets(targets):
 
 
 def get_os(target):
+    if "pyodide" in target:
+        return MACHINE_TYPE["pyodide"]
     if "macos" in target:
         return MACHINE_TYPE["macos"]
     if "win_arm" in target:
@@ -50,6 +53,19 @@ def get_os(target):
     if "win" in target:
         return MACHINE_TYPE["windows"]
     return MACHINE_TYPE["linux"]
+
+
+def get_cibw_platform(target):
+    """
+    Determine if CIBW_PLATFORM needs to be explicitly set.
+
+    For most targets, cibuildwheel auto-detects the platform from the runner OS.
+    However, for pyodide builds, we need to explicitly set CIBW_PLATFORM=pyodide
+    because pyodide builds run on Linux/macOS but target WebAssembly.
+    """
+    if "pyodide" in target:
+        return "pyodide"
+    return None
 
 
 def get_cibw_build(target):
@@ -99,7 +115,8 @@ def get_matrix_item(target):
     if isinstance(target, dict):
         extra_target_args = target
         target = extra_target_args.pop("target")
-    return {
+    
+    matrix_item = {
         "target": target,
         "runs-on": get_os(target),
         "CIBW_BUILD": get_cibw_build(target),
@@ -107,6 +124,13 @@ def get_matrix_item(target):
         "artifact-name": get_artifact_name(target),
         **extra_target_args,
     }
+    
+    # Add CIBW_PLATFORM if needed (e.g., for pyodide builds)
+    cibw_platform = get_cibw_platform(target)
+    if cibw_platform:
+        matrix_item["CIBW_PLATFORM"] = cibw_platform
+    
+    return matrix_item
 
 
 if __name__ == "__main__":
