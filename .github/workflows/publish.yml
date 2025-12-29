@@ -46,6 +46,11 @@ on:
         required: false
         default: 'ubuntu-latest'
         type: string
+      upload_artifact:
+        description: Upload the built wheels as artifacts
+        required: false
+        default: false
+        type: boolean
       upload_to_pypi:
         description: A condition specifying whether to upload to PyPI
         required: false
@@ -207,7 +212,7 @@ jobs:
           CIBW_ARCHS: ${{ matrix.CIBW_ARCHS }}
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         if: |
-          needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda
+          needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda || inputs.upload_artifact
         with:
           name: "dist-${{ matrix.artifact-name }}"
           path: dist/*
@@ -252,7 +257,7 @@ jobs:
           python-version: '3.12'
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         if: |
-          needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda
+          needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda || inputs.upload_artifact
         with:
           name: dist-sdist
           path: dist/*
