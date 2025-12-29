@@ -173,11 +173,11 @@ repository_url
 
 The PyPI repository URL to use. Default is the main PyPI repository.
 
-upload_artifact
-^^^^^^^^^^^^^^^
+save_artifact
+^^^^^^^^^^^^^
 
-Whether to upload the wheels as github artifacts. The default is to not
-upload (unless ``upload_to_anaconda`` or ``upload_to_pypi`` is enabled).
+Whether to save/upload the wheels as github artifacts. The default is to not
+save (unless ``upload_to_anaconda`` or ``upload_to_pypi`` is enabled).
 
 upload_to_anaconda
 ^^^^^^^^^^^^^^^^^^
