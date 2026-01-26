@@ -61,3 +61,4 @@ We also add an if statement to the job so that it only runs on tags starting wit
 
 
 You will also need to `Add a Trusted Publisher <https://docs.pypi.org/trusted-publishers/adding-a-publisher/>`__ to your PyPI project.
+If, as recommended, you are using a deployment environment then don't forget to add that to the job description as well.
