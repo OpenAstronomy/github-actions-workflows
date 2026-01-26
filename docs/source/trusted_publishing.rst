@@ -50,7 +50,7 @@ We also add an if statement to the job so that it only runs on tags starting wit
          id-token: write
        steps:
          - name: Download artifacts
-           uses: actions/download-artifact@v5
+           uses: actions/download-artifact@v7
            with:
              merge-multiple: true
              pattern: dist-*

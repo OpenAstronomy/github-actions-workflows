@@ -37,7 +37,7 @@ jobs:
     needs: [setenv]
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v7
         with:
           merge-multiple: true
           pattern: dist-*
