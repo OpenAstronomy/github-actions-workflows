@@ -11,7 +11,7 @@ To work around this limitation the :ref:`oa-ghaw-publish` and :ref:`oa-ghaw-publ
 Taking the example from :ref:`oa-ghaw-publish`, we add two new lines:
 
 
-.. code:: yaml
+.. code-block:: yaml
    :emphasize-lines: 5,6
 
    jobs:
