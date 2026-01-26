@@ -12,7 +12,7 @@ Taking the example from :ref:`oa-ghaw-publish`, we add two new lines:
 
 
 .. code:: yaml
-  :emphasize-lines: 5,6
+   :emphasize-lines: 5,6
 
    jobs:
      build:
@@ -56,3 +56,6 @@ We also add an if statement to the job so that it only runs on tags starting wit
 
          - name: Run upload
            uses: pypa/gh-action-pypi-publish@release/v1
+
+
+You will also need to `Add a Trusted Publisher <https://docs.pypi.org/trusted-publishers/adding-a-publisher/>`__ to your PyPI project.
