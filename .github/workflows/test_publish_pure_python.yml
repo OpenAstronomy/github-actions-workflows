@@ -22,6 +22,16 @@ jobs:
       test_command: pytest --pyargs test_package
       timeout-minutes: 5
 
+  publish_testpypi:
+    if: ${{ secrets.test_pypi_token != '' }}
+    uses: ./.github/workflows/publish_pure_python.yml
+    with:
+      upload_to_pypi: true
+      repository_url: https://test.pypi.org/legacy/
+      timeout-minutes: 5
+    secrets:
+      pypi_token: ${{ secrets.test_pypi_token }}
+
   setenv:
     uses: ./.github/workflows/publish_pure_python.yml
     with:
