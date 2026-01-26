@@ -25,6 +25,7 @@ jobs:
   setenv:
     uses: ./.github/workflows/publish_pure_python.yml
     with:
+      save_artifact: true
       test_command: python -c "import os; assert os.getenv('CUSTOM_VAR') == 'custom value'"
       env: |
         CUSTOM_VAR: custom value
