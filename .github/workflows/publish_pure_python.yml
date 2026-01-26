@@ -33,6 +33,11 @@ on:
         required: false
         default: 'ubuntu-latest'
         type: string
+      save_artifact:
+        description: Upload the built dist(s) as github artifacts
+        required: false
+        default: false
+        type: boolean
       upload_to_pypi:
         description: A condition specifying whether to upload to PyPI
         required: false
@@ -139,6 +144,11 @@ jobs:
         env:
           UPLOAD_TO_PYPI: ${{ inputs.upload_to_pypi }}
           UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'release' || github.event_name == 'create') && startsWith(github.ref, inputs.upload_to_pypi) }}
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        if: ${{ inputs.save_artifact }}
+        with:
+          name: "dist-publish-pure"
+          path: dist/*
       - uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
         name: Upload to PyPI
         if: ${{ steps.set-upload.outputs.upload_to_pypi == 'true' }}
