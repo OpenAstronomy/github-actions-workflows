@@ -24,6 +24,8 @@ jobs:
   release:
     uses: ./.github/workflows/publish.yml
     with:
+      save_artifacts: true
+      upload_to_pypi: false
       test_groups: test, concurrency
       test_extras: recommended
       test_command: pytest --pyargs test_package
@@ -48,3 +50,21 @@ jobs:
       test_extras: recommended
       test_command: pytest --pyargs test_package
       targets: ''
+
+  test-upload-external:
+    name: Use built dists and test upload
+    runs-on: ubuntu-latest
+    needs: [release]
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v5
+        with:
+          merge-multiple: true
+          pattern: dist-*
+          path: dist
+
+      - run: ls -lha dist/
+
+      - name: Run upload (this will fail)
+        continue-on-error: true
+        uses: pypa/gh-action-pypi-publish@release/v1

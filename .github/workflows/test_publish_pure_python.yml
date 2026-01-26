@@ -25,6 +25,26 @@ jobs:
   setenv:
     uses: ./.github/workflows/publish_pure_python.yml
     with:
+      save_artifacts: true
       test_command: python -c "import os; assert os.getenv('CUSTOM_VAR') == 'custom value'"
       env: |
         CUSTOM_VAR: custom value
+
+
+  test-upload-external:
+    name: Use built dists and test upload
+    runs-on: ubuntu-latest
+    needs: [setenv]
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v5
+        with:
+          merge-multiple: true
+          pattern: dist-*
+          path: dist
+
+      - run: ls -lha dist/
+
+      - name: Run upload (this will fail)
+        continue-on-error: true
+        uses: pypa/gh-action-pypi-publish@release/v1

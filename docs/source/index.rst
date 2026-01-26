@@ -1,3 +1,5 @@
+.. _oa-ghaw-index:
+
 OpenAstronomy GitHub Actions Workflows
 ======================================
 
@@ -7,3 +9,4 @@ OpenAstronomy GitHub Actions Workflows
    tox
    publish
    publish_pure_python
+   trusted_publishing
