@@ -24,6 +24,8 @@ jobs:
   release:
     uses: ./.github/workflows/publish.yml
     with:
+      save_artifacts: true
+      upload_to_pypi: false
       test_groups: test, concurrency
       test_extras: recommended
       test_command: pytest --pyargs test_package
