@@ -1,3 +1,5 @@
+.. _oa-ghaw-tox:
+
 Test a Python package using tox
 -------------------------------
 

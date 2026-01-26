@@ -1,3 +1,5 @@
+.. _oa-ghaw-publish-pure:
+
 Build and publish a pure Python package
 ---------------------------------------
 
@@ -138,6 +140,11 @@ submodules
 ^^^^^^^^^^
 
 Whether to checkout submodules. Default is ``true``.
+
+save_artifacts
+^^^^^^^^^^^^^^
+
+Whether to save/upload the dist(s) as github artifacts. The default is to not save.
 
 Secrets
 ~~~~~~~
