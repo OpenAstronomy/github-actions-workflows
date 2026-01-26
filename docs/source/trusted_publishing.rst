@@ -43,12 +43,14 @@ We also add an if statement to the job so that it only runs on tags starting wit
 
      upload:
        if: startsWith(github.ref, 'refs/tags/v')
-       name: Use built dists and test upload
+       name: Upload built artifacts to PyPI
        runs-on: ubuntu-latest
        needs: [build]
+       permissions:
+         id-token: write
        steps:
          - name: Download artifacts
-           uses: actions/download-artifact@v5
+           uses: actions/download-artifact@v7
            with:
              merge-multiple: true
              pattern: dist-*
@@ -59,3 +61,4 @@ We also add an if statement to the job so that it only runs on tags starting wit
 
 
 You will also need to `Add a Trusted Publisher <https://docs.pypi.org/trusted-publishers/adding-a-publisher/>`__ to your PyPI project.
+If, as recommended, you are using a deployment environment then don't forget to add that to the job description as well.
