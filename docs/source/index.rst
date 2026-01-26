@@ -1,3 +1,5 @@
+.. _oa-ghaw-index:
+
 OpenAstronomy GitHub Actions Workflows
 ======================================
 

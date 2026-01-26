@@ -1,3 +1,5 @@
+.. _oa-ghaw-publish-pure:
+
 Build and publish a pure Python package
 ---------------------------------------
 

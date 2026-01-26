@@ -1,3 +1,5 @@
+.. _oa-ghaw-publish:
+
 Build and publish a Python package
 ----------------------------------
 
