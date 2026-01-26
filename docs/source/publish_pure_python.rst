@@ -139,8 +139,8 @@ submodules
 
 Whether to checkout submodules. Default is ``true``.
 
-save_artifact
-^^^^^^^^^^^^^
+save_artifacts
+^^^^^^^^^^^^^^
 
 Whether to save/upload the dist(s) as github artifacts. The default is to not save.
 

@@ -33,7 +33,7 @@ on:
         required: false
         default: 'ubuntu-latest'
         type: string
-      save_artifact:
+      save_artifacts:
         description: Upload the built dist(s) as github artifacts
         required: false
         default: false
@@ -145,7 +145,7 @@ jobs:
           UPLOAD_TO_PYPI: ${{ inputs.upload_to_pypi }}
           UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'release' || github.event_name == 'create') && startsWith(github.ref, inputs.upload_to_pypi) }}
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
-        if: ${{ inputs.save_artifact }}
+        if: ${{ inputs.save_artifacts }}
         with:
           name: "dist-publish-pure"
           path: dist/*
