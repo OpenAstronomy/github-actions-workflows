@@ -43,9 +43,11 @@ We also add an if statement to the job so that it only runs on tags starting wit
 
      upload:
        if: startsWith(github.ref, 'refs/tags/v')
-       name: Use built dists and test upload
+       name: Upload built artifacts to PyPI
        runs-on: ubuntu-latest
        needs: [build]
+       permissions:
+         id-token: write
        steps:
          - name: Download artifacts
            uses: actions/download-artifact@v5
