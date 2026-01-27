@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.13
+    rev: v0.14.14
     hooks:
       - id: ruff-check
         args: [ --fix ]
@@ -30,3 +30,6 @@ repos:
         entry: ./update_scripts_in_yml.py
         always_run: true
         pass_filenames: false
+ci:
+  autofix_prs: true
+  autoupdate_schedule: "quarterly"
