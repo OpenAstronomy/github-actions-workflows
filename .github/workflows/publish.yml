@@ -117,7 +117,7 @@ jobs:
       matrix: ${{ steps.set-outputs.outputs.matrix }}
       upload_to_pypi: ${{ steps.set-upload.outputs.upload_to_pypi }}
     steps:
-      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: '3.12'
       - run: echo $LOAD_BUILD_TARGETS_SCRIPT | base64 --decode > load_build_targets.py
@@ -147,7 +147,7 @@ jobs:
       fail-fast: ${{ inputs.fail-fast }}
       matrix: ${{fromJSON(needs.targets.outputs.matrix)}}
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
           lfs: true
@@ -190,7 +190,7 @@ jobs:
             echo "EOF" >> $GITHUB_ENV
           fi
           cat $GITHUB_ENV
-      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         if: ${{ inputs.env != '' }}
         with:
           python-version: '3.12'
@@ -204,7 +204,7 @@ jobs:
         env:
           SET_ENV_SCRIPT: IyAvLy8gc2NyaXB0CiMgcmVxdWlyZXMtcHl0aG9uID0gIj09My4xMiIKIyBkZXBlbmRlbmNpZXMgPSBbCiMgICAgICJweXlhbWw9PTYuMC4yIiwKIyBdCiMgLy8vCmltcG9ydCBqc29uCmltcG9ydCBvcwppbXBvcnQgc3lzCgppbXBvcnQgeWFtbAoKR0lUSFVCX0VOViA9IG9zLmdldGVudigiR0lUSFVCX0VOViIpCmlmIEdJVEhVQl9FTlYgaXMgTm9uZToKICAgIHJhaXNlIFZhbHVlRXJyb3IoIkdJVEhVQl9FTlYgbm90IHNldC4gTXVzdCBiZSBydW4gaW5zaWRlIEdpdEh1YiBBY3Rpb25zLiIpCgpERUxJTUlURVIgPSAiRU9GIgoKCmRlZiBzZXRfZW52KGVudik6CgogICAgZW52ID0geWFtbC5sb2FkKGVudiwgTG9hZGVyPXlhbWwuQmFzZUxvYWRlcikKICAgIHByaW50KGpzb24uZHVtcHMoZW52LCBpbmRlbnQ9MikpCgogICAgaWYgbm90IGlzaW5zdGFuY2UoZW52LCBkaWN0KToKICAgICAgICB0aXRsZSA9ICJgZW52YCBtdXN0IGJlIG1hcHBpbmciCiAgICAgICAgbWVzc2FnZSA9IGYiYGVudmAgbXVzdCBiZSBtYXBwaW5nIG9mIGVudiB2YXJpYWJsZXMgdG8gdmFsdWVzLCBnb3QgdHlwZSB7dHlwZShlbnYpfSIKICAgICAgICBwcmludChmIjo6ZXJyb3IgdGl0bGU9e3RpdGxlfTo6e21lc3NhZ2V9IikKICAgICAgICBleGl0KDEpCgogICAgZm9yIGssIHYgaW4gZW52Lml0ZW1zKCk6CgogICAgICAgIGlmIG5vdCBpc2luc3RhbmNlKHYsIHN0cik6CiAgICAgICAgICAgIHRpdGxlID0gImBlbnZgIHZhbHVlcyBtdXN0IGJlIHN0cmluZ3MiCiAgICAgICAgICAgIG1lc3NhZ2UgPSBmImBlbnZgIHZhbHVlcyBtdXN0IGJlIHN0cmluZ3MsIGJ1dCB2YWx1ZSBvZiB7a30gaGFzIHR5cGUge3R5cGUodil9IgogICAgICAgICAgICBwcmludChmIjo6ZXJyb3IgdGl0bGU9e3RpdGxlfTo6e21lc3NhZ2V9IikKICAgICAgICAgICAgZXhpdCgxKQoKICAgICAgICB2ID0gdi5zcGxpdCgiXG4iKQoKICAgICAgICB3aXRoIG9wZW4oR0lUSFVCX0VOViwgImEiKSBhcyBmOgogICAgICAgICAgICBpZiBsZW4odikgPT0gMToKICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7a309e3ZbMF19XG4iKQogICAgICAgICAgICBlbHNlOgogICAgICAgICAgICAgICAgZm9yIGxpbmUgaW4gdjoKICAgICAgICAgICAgICAgICAgICBhc3NlcnQgbGluZS5zdHJpcCgpICE9IERFTElNSVRFUgogICAgICAgICAgICAgICAgZi53cml0ZShmIntrfTw8e0RFTElNSVRFUn1cbiIpCiAgICAgICAgICAgICAgICBmb3IgbGluZSBpbiB2OgogICAgICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7bGluZX1cbiIpCiAgICAgICAgICAgICAgICBmLndyaXRlKGYie0RFTElNSVRFUn1cbiIpCgogICAgICAgIHByaW50KGYie2t9IHdyaXR0ZW4gdG8gR0lUSFVCX0VOViIpCgoKaWYgX19uYW1lX18gPT0gIl9fbWFpbl9fIjoKICAgIHNldF9lbnYoc3lzLmFyZ3ZbMV0pCg==
       - name: Run cibuildwheel
-        uses: pypa/cibuildwheel@63fd63b352a9a8bdcc24791c9dbee952ee9a8abc # v3.3.0
+        uses: pypa/cibuildwheel@298ed2fb2c105540f5ed055e8a6ad78d82dd3a7e # v3.3.1
         with:
           output-dir: dist
           extras: uv
@@ -225,7 +225,7 @@ jobs:
     runs-on: ${{ inputs.sdist-runs-on }}
     timeout-minutes: ${{ inputs.timeout-minutes }}
     steps:
-      - uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         if: ${{ inputs.env != '' }}
         with:
           python-version: '3.12'
@@ -238,7 +238,7 @@ jobs:
         shell: sh
         env:
           SET_ENV_SCRIPT: IyAvLy8gc2NyaXB0CiMgcmVxdWlyZXMtcHl0aG9uID0gIj09My4xMiIKIyBkZXBlbmRlbmNpZXMgPSBbCiMgICAgICJweXlhbWw9PTYuMC4yIiwKIyBdCiMgLy8vCmltcG9ydCBqc29uCmltcG9ydCBvcwppbXBvcnQgc3lzCgppbXBvcnQgeWFtbAoKR0lUSFVCX0VOViA9IG9zLmdldGVudigiR0lUSFVCX0VOViIpCmlmIEdJVEhVQl9FTlYgaXMgTm9uZToKICAgIHJhaXNlIFZhbHVlRXJyb3IoIkdJVEhVQl9FTlYgbm90IHNldC4gTXVzdCBiZSBydW4gaW5zaWRlIEdpdEh1YiBBY3Rpb25zLiIpCgpERUxJTUlURVIgPSAiRU9GIgoKCmRlZiBzZXRfZW52KGVudik6CgogICAgZW52ID0geWFtbC5sb2FkKGVudiwgTG9hZGVyPXlhbWwuQmFzZUxvYWRlcikKICAgIHByaW50KGpzb24uZHVtcHMoZW52LCBpbmRlbnQ9MikpCgogICAgaWYgbm90IGlzaW5zdGFuY2UoZW52LCBkaWN0KToKICAgICAgICB0aXRsZSA9ICJgZW52YCBtdXN0IGJlIG1hcHBpbmciCiAgICAgICAgbWVzc2FnZSA9IGYiYGVudmAgbXVzdCBiZSBtYXBwaW5nIG9mIGVudiB2YXJpYWJsZXMgdG8gdmFsdWVzLCBnb3QgdHlwZSB7dHlwZShlbnYpfSIKICAgICAgICBwcmludChmIjo6ZXJyb3IgdGl0bGU9e3RpdGxlfTo6e21lc3NhZ2V9IikKICAgICAgICBleGl0KDEpCgogICAgZm9yIGssIHYgaW4gZW52Lml0ZW1zKCk6CgogICAgICAgIGlmIG5vdCBpc2luc3RhbmNlKHYsIHN0cik6CiAgICAgICAgICAgIHRpdGxlID0gImBlbnZgIHZhbHVlcyBtdXN0IGJlIHN0cmluZ3MiCiAgICAgICAgICAgIG1lc3NhZ2UgPSBmImBlbnZgIHZhbHVlcyBtdXN0IGJlIHN0cmluZ3MsIGJ1dCB2YWx1ZSBvZiB7a30gaGFzIHR5cGUge3R5cGUodil9IgogICAgICAgICAgICBwcmludChmIjo6ZXJyb3IgdGl0bGU9e3RpdGxlfTo6e21lc3NhZ2V9IikKICAgICAgICAgICAgZXhpdCgxKQoKICAgICAgICB2ID0gdi5zcGxpdCgiXG4iKQoKICAgICAgICB3aXRoIG9wZW4oR0lUSFVCX0VOViwgImEiKSBhcyBmOgogICAgICAgICAgICBpZiBsZW4odikgPT0gMToKICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7a309e3ZbMF19XG4iKQogICAgICAgICAgICBlbHNlOgogICAgICAgICAgICAgICAgZm9yIGxpbmUgaW4gdjoKICAgICAgICAgICAgICAgICAgICBhc3NlcnQgbGluZS5zdHJpcCgpICE9IERFTElNSVRFUgogICAgICAgICAgICAgICAgZi53cml0ZShmIntrfTw8e0RFTElNSVRFUn1cbiIpCiAgICAgICAgICAgICAgICBmb3IgbGluZSBpbiB2OgogICAgICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7bGluZX1cbiIpCiAgICAgICAgICAgICAgICBmLndyaXRlKGYie0RFTElNSVRFUn1cbiIpCgogICAgICAgIHByaW50KGYie2t9IHdyaXR0ZW4gdG8gR0lUSFVCX0VOViIpCgoKaWYgX19uYW1lX18gPT0gIl9fbWFpbl9fIjoKICAgIHNldF9lbnYoc3lzLmFyZ3ZbMV0pCg==
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
           lfs: true
