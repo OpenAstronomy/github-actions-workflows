@@ -172,6 +172,19 @@ See also, ``CODECOV_TOKEN`` secret.
 
 This option has no effect if ``pytest`` is ``false``.
 
+coverage-tool
+^^^^^^^^^^^^^
+
+Coverage runner used to prepare the XML report when ``coverage`` includes
+``codecov``. Options are ``pytest-cov`` (default) and ``coverage.py``.
+
+- ``pytest-cov`` keeps the existing behavior and appends ``--cov-report=xml``
+  to pytest arguments.
+- ``coverage.py`` skips pytest-cov-specific flags. In this mode, configure
+  your tox command to run tests under coverage (for example
+  ``coverage run --parallel-mode -m pytest``). The workflow will then run
+  ``coverage combine`` and ``coverage xml`` before uploading to Codecov.
+
 conda
 ^^^^^
 
@@ -181,6 +194,11 @@ are ``'auto'`` (default), ``'true'`` and ``'false'``.
 If ``'auto'``, conda will be used if the tox environment names contains
 “conda”. For example, ``'auto'`` would enable conda for tox environments
 named ``py39-conda``, ``conda-test`` or even ``py38-secondary``.
+
+The bootstrap conda environment used by this workflow is intentionally
+independent of the tox environment Python version, so newer tox targets
+(for example ``py314``) do not fail solely because the ``conda`` package
+itself is unavailable for that Python version.
 
 setenv
 ^^^^^^

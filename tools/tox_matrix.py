@@ -22,6 +22,7 @@ import yaml
 @click.option("--pytest", default="true")
 @click.option("--pytest-results-summary", default="false")
 @click.option("--coverage", default="")
+@click.option("--coverage-tool", default="pytest-cov")
 @click.option("--conda", default="auto")
 @click.option("--setenv", default="")
 @click.option("--display", default="false")
@@ -33,7 +34,7 @@ import yaml
 @click.option("--default-python", default="")
 @click.option("--timeout-minutes", default="360")
 def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, pytest_results_summary,
-                     coverage, conda, setenv, display, cache_path, cache_key,
+                     coverage, coverage_tool, conda, setenv, display, cache_path, cache_key,
                      cache_restore_keys, artifact_path, runs_on, default_python, timeout_minutes):
     """Script to load tox targets for GitHub Actions workflow."""
     # Load envs config
@@ -71,6 +72,7 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, pytest_
         "pytest": pytest,
         "pytest-results-summary": pytest_results_summary,
         "coverage": coverage,
+        "coverage-tool": coverage_tool,
         "conda": conda,
         "setenv": setenv,
         "display": display,
@@ -152,7 +154,7 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
     # set pytest_flag
     item["pytest_flag"] = ""
     sep = r"\\" if platform == "windows" else "/"
-    if item["pytest"] == "true" and "codecov" in item.get("coverage", ""):
+    if item["coverage-tool"] == "pytest-cov" and item["pytest"] == "true" and "codecov" in item.get("coverage", ""):
         item["pytest_flag"] += (
             rf"--cov-report=xml:${{GITHUB_WORKSPACE}}{sep}coverage.xml ")
     if item["pytest"] == "true" and item["pytest-results-summary"] == "true":
@@ -181,6 +183,7 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
     assert item["pytest"] in {"true", "false"}
     assert item["conda"] in {"true", "false"}
     assert item["display"] in {"true", "false"}
+    assert item["coverage-tool"] in {"pytest-cov", "coverage.py"}
 
     return item
 

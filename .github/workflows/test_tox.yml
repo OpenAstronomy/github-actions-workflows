@@ -30,6 +30,7 @@ jobs:
           runs-on: windows-2022
 
         - linux: py312-inputs-conda
+        - linux: py314-inputs-conda
         - macos: py312-inputs-conda
           conda: false
           posargs: not
