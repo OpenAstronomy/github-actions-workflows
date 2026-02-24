@@ -6,6 +6,8 @@ Reusable workflows for GitHub Actions.
 - [Build and publish a Python package](#build-and-publish-a-python-package)
 - [Build and publish a pure Python package](#build-and-publish-a-pure-python-package)
 
+**If you are a new contributor to OpenAstronomy or any of it's related organisations, this is not a good repository for your first contribution.**
+
 ## Test a Python package using tox
 
 This workflow makes it easy to map tox environments to GitHub Actions jobs.
