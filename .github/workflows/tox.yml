@@ -18,7 +18,7 @@ on:
         default: ''
         type: string
       toxdeps:
-        description: Tox dependencies
+        description: additional packages to install alongside tox (i.e. `tox-uv`)
         required: false
         default: ''
         type: string
@@ -268,18 +268,17 @@ jobs:
           submodules: ${{ inputs.submodules }}
           ref: ${{ inputs.checkout_ref }}
       - uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8.0.0
+      - name: download coverage reports
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           pattern: coverage-data-${{ github.run_id }}-*
           merge-multiple: true
-
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
-        with:
-          python-version: "3.12"
+      - uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # 7.3.0
       - name: generate coverage report
         run: |
-          pipx run coverage combine
-          pipx run coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+          uvx coverage combine
+          uvx coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: coverage-report-${{ hashFiles('.coverage') }}
           path: .coverage
