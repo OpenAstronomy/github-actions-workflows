@@ -7,7 +7,8 @@ from base64 import b64encode
 def base64_encode_into(script, yml_file, env_var):
 
     with open(os.path.join('tools', script), 'rb') as f:
-        tox_matrix_base64 = b64encode(f.read()).decode('ascii')
+        script_content = f.read().replace(b'\r\n', b'\n')
+        tox_matrix_base64 = b64encode(script_content).decode('ascii')
 
     with open(os.path.join('.github', 'workflows', yml_file)) as f:
         tox_yml = f.read()
