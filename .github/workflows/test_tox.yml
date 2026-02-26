@@ -72,7 +72,7 @@ jobs:
           default_python: '3.12'
           posargs: '12'
         - linux: py313-python_version
-          python-version: '3.13-dev'
+          python-version: '3.13'
           posargs: 'CPython'
         - linux: pypy310-python_version
           python-version: 'pypy-3.10'
