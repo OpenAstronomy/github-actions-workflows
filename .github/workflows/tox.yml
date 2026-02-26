@@ -270,9 +270,8 @@ jobs:
           python-version: "3.12"
       - name: generate coverage report
         run: |
-          python -Im pip install coverage>=7.11.3
-          python -Im coverage combine
-          python -Im coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
+          pipx run coverage combine
+          pipx run coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: coverage-report-${{ hashFiles('.coverage') }}
