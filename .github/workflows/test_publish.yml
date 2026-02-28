@@ -4,10 +4,12 @@ on:
     paths:
       - .github/workflows/publish.yml
       - .github/workflows/test_publish.yml
+      - packages/subpackage_c/**
   pull_request:
     paths:
       - .github/workflows/publish.yml
       - .github/workflows/test_publish.yml
+      - packages/subpackage_c/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -50,6 +52,16 @@ jobs:
       test_extras: recommended
       test_command: pytest --pyargs test_package
       targets: ''
+
+  release_working_directory:
+    uses: ./.github/workflows/publish.yml
+    with:
+      working-directory: packages/subpackage_c
+      test_command: python -c "from subpackage_c import example_func; assert example_func() == 42"
+      targets: |
+        - linux
+      upload_to_pypi: false
+      timeout-minutes: 30
 
   test-upload-external:
     name: Use built dists and test upload
