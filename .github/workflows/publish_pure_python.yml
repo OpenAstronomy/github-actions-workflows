@@ -126,7 +126,7 @@ jobs:
         with:
           apt: ${{ inputs.libraries }}
       - id: build
-        uses: OpenAstronomy/build-python-dist@9a4b2bd6bda5c48ef3c12b53504ee2263ed032e3 # v1.1.0
+        uses: OpenAstronomy/build-python-dist@541e0aa2abd94d679c4939189fa205597122c948 # v1.2.0
         with:
           test_groups: ${{ inputs.test_groups }}
           test_extras: ${{ inputs.test_extras }}
@@ -144,7 +144,7 @@ jobs:
         env:
           UPLOAD_TO_PYPI: ${{ inputs.upload_to_pypi }}
           UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'release' || github.event_name == 'create') && startsWith(github.ref, inputs.upload_to_pypi) }}
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: ${{ inputs.save_artifacts }}
         with:
           name: "dist-publish-pure"
