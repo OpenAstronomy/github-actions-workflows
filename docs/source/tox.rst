@@ -31,7 +31,7 @@ Inputs
 
 A specification of tox environments must be passed to the ``envs``
 input. There are a number of other inputs. All of these inputs (except
-``submodules``) can also be specified under each tox environment to
+``submodules`` and ``working-directory``) can also be specified under each tox environment to
 overwrite the global value.
 
 In the following example ``test1`` will pass ``--arg-local`` to pytest,
