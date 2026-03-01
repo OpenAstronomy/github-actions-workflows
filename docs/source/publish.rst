@@ -224,6 +224,25 @@ submodules
 
 Whether to checkout submodules. Default is ``true``.
 
+working-directory
+^^^^^^^^^^^^^^^^^
+
+The working directory containing the package to build, relative to the
+repository root. Default is ``.`` (the repository root).
+
+This is useful when your package is located in a subdirectory of the
+repository, such as in monorepos where multiple packages exist in the
+same repository, or when using a non-standard project layout.
+
+.. code:: yaml
+
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v1
+   with:
+     working-directory: packages/my-package
+     test_command: pytest --pyargs my_package
+   secrets:
+     pypi_token: ${{ secrets.pypi_token }}
+
 Secrets
 ~~~~~~~
 

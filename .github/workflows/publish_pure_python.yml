@@ -88,6 +88,11 @@ on:
         required: false
         default: ''
         type: string
+      working-directory:
+        description: The working directory containing the package to build, relative to the repository root
+        required: false
+        default: '.'
+        type: string
     secrets:
       pypi_token:
         required: false
@@ -133,6 +138,7 @@ jobs:
           test_command: ${{ inputs.test_command }}
           python-version: ${{ inputs.python-version }}
           pure_python_wheel: true
+          source-directory: ${{ inputs.working-directory }}
       - id: set-upload
         run: |
           if [ $UPLOAD_TO_PYPI == "true" ] || [ $UPLOAD_TAG == "true" ];
