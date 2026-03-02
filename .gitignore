@@ -34,6 +34,8 @@ MANIFEST
 *.manifest
 *.spec
 *.c
+# Exception for test package C extension
+!packages/subpackage_c/subpackage_c/_example.c
 
 # Installer logs
 pip-log.txt

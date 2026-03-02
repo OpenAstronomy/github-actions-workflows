@@ -31,7 +31,7 @@ Inputs
 
 A specification of tox environments must be passed to the ``envs``
 input. There are a number of other inputs. All of these inputs (except
-``submodules``) can also be specified under each tox environment to
+``submodules`` and ``working-directory``) can also be specified under each tox environment to
 overwrite the global value.
 
 In the following example ``test1`` will pass ``--arg-local`` to pytest,
@@ -433,6 +433,24 @@ submodules
 ^^^^^^^^^^
 
 Whether to checkout submodules. Default is ``true``.
+
+working-directory
+^^^^^^^^^^^^^^^^^
+
+The working directory for running tox, relative to the repository root.
+Default is ``.`` (the repository root).
+
+This is useful when your package is located in a subdirectory of the
+repository, such as in monorepos where multiple packages exist in the
+same repository, or when using a non-standard project layout.
+
+.. code:: yaml
+
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   with:
+     working-directory: packages/my-package
+     envs: |
+       - linux: py312
 
 Secrets
 ~~~~~~~

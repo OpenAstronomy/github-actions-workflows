@@ -101,6 +101,11 @@ on:
         required: false
         default: ''
         type: string
+      working-directory:
+        description: The working directory containing the package to build, relative to the repository root
+        required: false
+        default: '.'
+        type: string
     secrets:
       pypi_token:
         required: false
@@ -207,6 +212,7 @@ jobs:
         uses: pypa/cibuildwheel@298ed2fb2c105540f5ed055e8a6ad78d82dd3a7e # v3.3.1
         with:
           output-dir: dist
+          package-dir: ${{ inputs.working-directory }}
           extras: uv
         env:
           CIBW_BUILD: ${{ matrix.CIBW_BUILD }}
@@ -256,6 +262,7 @@ jobs:
           test_command: ${{ inputs.test_command }}
           pure_python_wheel: false
           python-version: '3.12'
+          source-directory: ${{ inputs.working-directory }}
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: |
           needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda || inputs.save_artifacts

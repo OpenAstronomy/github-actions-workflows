@@ -4,10 +4,12 @@ on:
     paths:
       - .github/workflows/publish_pure_python.yml
       - .github/workflows/test_publish_pure_python.yml
+      - packages/subpackage/**
   pull_request:
     paths:
       - .github/workflows/publish_pure_python.yml
       - .github/workflows/test_publish_pure_python.yml
+      - packages/subpackage/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -30,6 +32,14 @@ jobs:
       env: |
         CUSTOM_VAR: custom value
 
+  release_working_directory:
+    uses: ./.github/workflows/publish_pure_python.yml
+    with:
+      working-directory: packages/subpackage
+      test_extras: test
+      test_command: pytest --pyargs subpackage
+      upload_to_pypi: false
+      timeout-minutes: 5
 
   test-upload-external:
     name: Use built dists and test upload

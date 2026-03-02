@@ -6,12 +6,14 @@ on:
       - .github/workflows/test_tox.yml
       - pyproject.toml
       - tox.ini
+      - packages/subpackage/**
   pull_request:
     paths:
       - .github/workflows/tox.yml
       - .github/workflows/test_tox.yml
       - pyproject.toml
       - tox.ini
+      - packages/subpackage/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -204,3 +206,10 @@ jobs:
         - linux: py313t-linux
         - macos: py313t-macos
         - windows: py313t-windows
+
+  test_working_directory:
+    uses: ./.github/workflows/tox.yml
+    with:
+      working-directory: packages/subpackage
+      envs: |
+        - linux: py312

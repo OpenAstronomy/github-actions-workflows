@@ -107,6 +107,11 @@ on:
         required: false
         default: ''
         type: string
+      working-directory:
+        description: The working directory for running tox, relative to the repository root
+        required: false
+        default: '.'
+        type: string
     secrets:
       CODECOV_TOKEN:
         description: Codecov upload token
@@ -153,6 +158,7 @@ jobs:
     defaults:
       run:
         shell: bash -l {0}
+        working-directory: ${{ inputs.working-directory }}
     steps:
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
