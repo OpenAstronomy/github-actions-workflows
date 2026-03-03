@@ -8,7 +8,6 @@
 import json
 import os
 import re
-import warnings
 
 import click
 import yaml
@@ -23,7 +22,6 @@ import yaml
 @click.option("--pytest", default="true")
 @click.option("--pytest-results-summary", default="false")
 @click.option("--coverage", default="")
-@click.option("--conda", default="auto")
 @click.option("--setenv", default="")
 @click.option("--display", default="false")
 @click.option("--cache-path", default="")
@@ -34,7 +32,7 @@ import yaml
 @click.option("--default-python", default="")
 @click.option("--timeout-minutes", default="360")
 def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, pytest_results_summary,
-                     coverage, conda, setenv, display, cache_path, cache_key,
+                     coverage, setenv, display, cache_path, cache_key,
                      cache_restore_keys, artifact_path, runs_on, default_python, timeout_minutes):
     """Script to load tox targets for GitHub Actions workflow."""
     # Load envs config
@@ -72,7 +70,6 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, pytest_
         "pytest": pytest,
         "pytest-results-summary": pytest_results_summary,
         "coverage": coverage,
-        "conda": conda,
         "setenv": setenv,
         "display": display,
         "cache-path": cache_path,
@@ -170,23 +167,11 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
     for manager in ["brew", "brew_cask", "apt", "choco"]:
         item[f"libraries_{manager}"] = " ".join(libraries.get(manager, []))
 
-    if item["conda"]:
-        warnings.warn("`conda` parameter is deprecated")
-
-        # set "auto" conda value
-        if item["conda"] == "auto":
-            item["conda"] = "true" if "conda" in item["toxenv"] else "false"
-
-        # inject toxdeps for conda
-        if item["conda"] == "true" and "tox-conda" not in item["toxdeps"].lower():
-            item["toxdeps"] = ("tox-conda " + item["toxdeps"]).strip()
-
     # make timeout-minutes a number
     item["timeout-minutes"] = int(item["timeout-minutes"])
 
     # verify values
     assert item["pytest"] in {"true", "false"}
-    assert item["conda"] in {"true", "false"}
     assert item["display"] in {"true", "false"}
 
     return item

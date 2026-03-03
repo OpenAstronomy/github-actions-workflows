@@ -110,14 +110,6 @@ jobs:
         - macos: py311
         - windows: py310
 
-  test_conda:
-    uses: ./.github/workflows/tox.yml
-    with:
-      envs: |
-        - linux: py312-conda
-        - macos: py311-conda
-        - windows: py310-conda
-
   test_setenv:
     uses: ./.github/workflows/tox.yml
     with:
