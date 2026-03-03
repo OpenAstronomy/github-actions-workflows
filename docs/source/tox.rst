@@ -171,16 +171,6 @@ See also, ``CODECOV_TOKEN`` secret.
 
 This option has no effect if ``pytest`` is ``false``.
 
-conda
-^^^^^
-
-Whether to test within a conda environment using ``tox-conda``. Options
-are ``'auto'`` (default), ``'true'`` and ``'false'``.
-
-If ``'auto'``, conda will be used if the tox environment names contains
-“conda”. For example, ``'auto'`` would enable conda for tox environments
-named ``py39-conda``, ``conda-test`` or even ``py38-secondary``.
-
 setenv
 ^^^^^^
 
