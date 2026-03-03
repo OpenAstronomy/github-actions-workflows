@@ -33,33 +33,18 @@ jobs:
           toxargs: '-v'
           runs-on: windows-2022
 
-        - linux: py312-inputs-conda
-        - macos: py312-inputs-conda
-          conda: false
-          posargs: not
-        - windows: py312-inputs-con_da
-          conda: true
-
       pytest: false
 
   test_global_override:
     uses: ./.github/workflows/tox.yml
     with:
-      conda: 'true'
       runs-on: |
         linux: ubuntu-22.04
         macos: macos-11
       envs: |
-        # conda present in toxenv
-        - linux: py311-inputs-conda
-        - linux: py311-inputs-conda
-          conda: false
-          posargs: not
-        # conda not present in toxenv
-        - linux: py311-inputs-con_da
+        - linux: py311-inputs
           runs-on: ubuntu-latest
-        - linux: py311-inputs-con_da
-          conda: auto
+        - linux: py311-inputs
           posargs: not
           timeout-minutes: 5
       pytest: false
