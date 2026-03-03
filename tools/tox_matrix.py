@@ -8,6 +8,7 @@
 import json
 import os
 import re
+import warnings
 
 import click
 import yaml
@@ -169,13 +170,16 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
     for manager in ["brew", "brew_cask", "apt", "choco"]:
         item[f"libraries_{manager}"] = " ".join(libraries.get(manager, []))
 
-    # set "auto" conda value
-    if item["conda"] == "auto":
-        item["conda"] = "true" if "conda" in item["toxenv"] else "false"
+    if item["conda"]:
+        warnings.warn("`conda` parameter is deprecated")
 
-    # inject toxdeps for conda
-    if item["conda"] == "true" and "tox-conda" not in item["toxdeps"].lower():
-        item["toxdeps"] = ("tox-conda " + item["toxdeps"]).strip()
+        # set "auto" conda value
+        if item["conda"] == "auto":
+            item["conda"] = "true" if "conda" in item["toxenv"] else "false"
+
+        # inject toxdeps for conda
+        if item["conda"] == "true" and "tox-conda" not in item["toxdeps"].lower():
+            item["toxdeps"] = ("tox-conda " + item["toxdeps"]).strip()
 
     # make timeout-minutes a number
     item["timeout-minutes"] = int(item["timeout-minutes"])
