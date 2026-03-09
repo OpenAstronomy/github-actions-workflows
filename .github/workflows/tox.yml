@@ -224,9 +224,16 @@ jobs:
         if: ${{ matrix.display == 'true' }}
         uses: pyvista/setup-headless-display-action@7d84ae825e6d9297a8e99bdbbae20d1b919a0b19 # v4.2
 
-      - run: uv pip install tox ${{ matrix.toxdeps }}
+      - run: uv pip install tox ${MATRIX_TOXDEPS}
+        env:
+          MATRIX_TOXDEPS: ${{ matrix.toxdeps }}
 
-      - run: tox -e ${{ matrix.toxenv }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }}
+      - run: tox -e ${MATRIX_TOXENV} ${MATRIX_TOXARGS} -- ${MATRIX_PYTEST_FLAG} ${MATRIX_POSARGS}
+        env:
+          MATRIX_TOXENV: ${{ matrix.toxenv }}
+          MATRIX_TOXARGS: ${{ matrix.toxargs }}
+          MATRIX_PYTEST_FLAG: ${{ matrix.pytest_flag }}
+          MATRIX_POSARGS: ${{ matrix.posargs }}
 
       - if: ${{ (success() || failure()) && matrix.artifact-path != '' }}
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
