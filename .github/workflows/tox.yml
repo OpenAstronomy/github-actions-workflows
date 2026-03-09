@@ -167,6 +167,7 @@ jobs:
           lfs: true
           submodules: ${{ inputs.submodules }}
           ref: ${{ inputs.checkout_ref }}
+          persist-credentials: false
 
       - name: Cache ${{ matrix.cache_key }}
         if: ${{ matrix.cache-path != '' && matrix.cache-key != '' }}
@@ -266,6 +267,7 @@ jobs:
           lfs: true
           submodules: ${{ inputs.submodules }}
           ref: ${{ inputs.checkout_ref }}
+          persist-credentials: false
       - uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8.0.0
         with:
           pattern: coverage-data-${{ github.run_id }}-*

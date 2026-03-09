@@ -158,6 +158,7 @@ jobs:
           lfs: true
           submodules: ${{ inputs.submodules }}
           ref: ${{ inputs.checkout_ref }}
+          persist-credentials: false
       - name: Get machine arch
         if: ${{ runner.os == 'Linux' }}
         id: uname_m
@@ -249,6 +250,7 @@ jobs:
           fetch-depth: 0
           lfs: true
           submodules: ${{ inputs.submodules }}
+          persist-credentials: false
       - name: Install dependencies
         if: ${{ inputs.libraries != '' }}
         uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30 # v1.1.0
