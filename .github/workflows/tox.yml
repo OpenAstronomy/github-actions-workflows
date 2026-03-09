@@ -210,6 +210,12 @@ jobs:
           cache-environment: true
           cache-downloads: true
 
+      - name: warn that using the `conda` parameter is deprecated
+        if: ${{ matrix.conda == 'true' }}
+        run: |
+          echo "> [!WARNING]" >> $GITHUB_STEP_SUMMARY
+          echo "> The conda parameter is deprecated (see https://github.com/OpenAstronomy/github-actions-workflows/issues/354)." >> $GITHUB_STEP_SUMMARY
+
       - id: set-env
         if: ${{ matrix.setenv != '' }}
         run: |
