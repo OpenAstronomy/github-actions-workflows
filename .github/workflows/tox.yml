@@ -191,7 +191,6 @@ jobs:
         with:
           version: "0.10.6"
           python-version: ${{ matrix.python_version }}
-          activate-environment: "true"
 
       - name: Setup conda
         if: ${{ matrix.conda == 'true' }}
@@ -224,7 +223,7 @@ jobs:
         if: ${{ matrix.display == 'true' }}
         uses: pyvista/setup-headless-display-action@7d84ae825e6d9297a8e99bdbbae20d1b919a0b19 # v4.2
 
-      - run: uv pip install tox ${{ matrix.toxdeps }}
+      - run: uv tool install tox ${{ matrix.toxdeps }}
 
       - run: tox -e ${{ matrix.toxenv }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }}
 
