@@ -166,8 +166,8 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
     if isinstance(env_libraries, str) and len(env_libraries.strip()) == 0:
         env_libraries = {}  # no libraries requested for environment
     libraries = global_libraries if env_libraries is None else env_libraries
-    for manager in ["brew", "brew_cask", "apt", "choco"]:
-        item[f"libraries_{manager}"] = " ".join(libraries.get(manager, []))
+    for yaml_key, matrix_key in [("brew", "brew"), ("brew-cask", "brew_cask"), ("apt", "apt"), ("choco", "choco")]:
+        item[f"libraries_{matrix_key}"] = " ".join(libraries.get(yaml_key, []))
 
     # set "auto" conda value
     if item["conda"] == "auto":
