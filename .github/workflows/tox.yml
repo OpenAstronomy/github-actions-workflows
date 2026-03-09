@@ -132,18 +132,33 @@ jobs:
       - run: cat tox_matrix.py
       - id: set-outputs
         run: |
-          pipx run tox_matrix.py --envs "${{ inputs.envs }}" --libraries "${{ inputs.libraries }}" \
-          --posargs "${{ inputs.posargs }}" --toxdeps "${{ inputs.toxdeps }}" \
-          --toxargs "${{ inputs.toxargs }}" --pytest "${{ inputs.pytest }}" \
+          pipx run tox_matrix.py --envs "${INPUTS_ENVS}" --libraries "${INPUTS_LIBRARIES}" \
+          --posargs "${INPUTS_POSARGS}" --toxdeps "${INPUTS_TOXDEPS}" \
+          --toxargs "${INPUTS_TOXARGS}" --pytest "${{ inputs.pytest }}" \
           --pytest-results-summary "${{ inputs.pytest-results-summary }}" \
-          --coverage "${{ inputs.coverage }}" --conda "${{ inputs.conda }}" \
-          --setenv "${{ inputs.setenv }}" \
-          --display "${{ inputs.display }}" --cache-path "${{ inputs.cache-path }}" \
-          --cache-key "${{ inputs.cache-key }}" --cache-restore-keys "${{ inputs.cache-restore-keys }}" \
-          --artifact-path "${{ inputs.artifact-path }}" \
-          --runs-on "${{ inputs.runs-on }}" --default-python "${{ inputs.default_python }}" \
+          --coverage "${INPUTS_COVERAGE}" --conda "${INPUTS_CONDA}" \
+          --setenv "${INPUTS_SETENV}" \
+          --display "${{ inputs.display }}" --cache-path "${INPUTS_CACHE_PATH}" \
+          --cache-key "${INPUTS_CACHE_KEY}" --cache-restore-keys "${INPUTS_CACHE_RESTORE_KEYS}" \
+          --artifact-path "${INPUTS_ARTIFACT_PATH}" \
+          --runs-on "${INPUTS_RUNS_ON}" --default-python "${INPUTS_DEFAULT_PYTHON}" \
           --timeout-minutes "${{ inputs.timeout-minutes }}"
         shell: sh
+        env:
+          INPUTS_ENVS: ${{ inputs.envs }}
+          INPUTS_LIBRARIES: ${{ inputs.libraries }}
+          INPUTS_POSARGS: ${{ inputs.posargs }}
+          INPUTS_TOXDEPS: ${{ inputs.toxdeps }}
+          INPUTS_TOXARGS: ${{ inputs.toxargs }}
+          INPUTS_COVERAGE: ${{ inputs.coverage }}
+          INPUTS_CONDA: ${{ inputs.conda }}
+          INPUTS_SETENV: ${{ inputs.setenv }}
+          INPUTS_CACHE_PATH: ${{ inputs.cache-path }}
+          INPUTS_CACHE_KEY: ${{ inputs.cache-key }}
+          INPUTS_CACHE_RESTORE_KEYS: ${{ inputs.cache-restore-keys }}
+          INPUTS_ARTIFACT_PATH: ${{ inputs.artifact-path }}
+          INPUTS_RUNS_ON: ${{ inputs.runs-on }}
+          INPUTS_DEFAULT_PYTHON: ${{ inputs.default_python }}
     outputs:
       matrix: ${{ steps.set-outputs.outputs.matrix }}
 
@@ -211,19 +226,27 @@ jobs:
         if: ${{ matrix.setenv != '' }}
         run: |
           echo $SET_ENV_SCRIPT | base64 --decode > set_env.py
-          pipx run set_env.py "${{ matrix.setenv }}"
+          pipx run set_env.py "${MATRIX_SETENV}"
           rm set_env.py
         env:
           SET_ENV_SCRIPT: IyAvLy8gc2NyaXB0CiMgcmVxdWlyZXMtcHl0aG9uID0gIj09My4xMiIKIyBkZXBlbmRlbmNpZXMgPSBbCiMgICAgICJweXlhbWw9PTYuMC4yIiwKIyBdCiMgLy8vCmltcG9ydCBqc29uCmltcG9ydCBvcwppbXBvcnQgc3lzCgppbXBvcnQgeWFtbAoKR0lUSFVCX0VOViA9IG9zLmdldGVudigiR0lUSFVCX0VOViIpCmlmIEdJVEhVQl9FTlYgaXMgTm9uZToKICAgIHJhaXNlIFZhbHVlRXJyb3IoIkdJVEhVQl9FTlYgbm90IHNldC4gTXVzdCBiZSBydW4gaW5zaWRlIEdpdEh1YiBBY3Rpb25zLiIpCgpERUxJTUlURVIgPSAiRU9GIgoKCmRlZiBzZXRfZW52KGVudik6CgogICAgZW52ID0geWFtbC5sb2FkKGVudiwgTG9hZGVyPXlhbWwuQmFzZUxvYWRlcikKICAgIHByaW50KGpzb24uZHVtcHMoZW52LCBpbmRlbnQ9MikpCgogICAgaWYgbm90IGlzaW5zdGFuY2UoZW52LCBkaWN0KToKICAgICAgICB0aXRsZSA9ICJgZW52YCBtdXN0IGJlIG1hcHBpbmciCiAgICAgICAgbWVzc2FnZSA9IGYiYGVudmAgbXVzdCBiZSBtYXBwaW5nIG9mIGVudiB2YXJpYWJsZXMgdG8gdmFsdWVzLCBnb3QgdHlwZSB7dHlwZShlbnYpfSIKICAgICAgICBwcmludChmIjo6ZXJyb3IgdGl0bGU9e3RpdGxlfTo6e21lc3NhZ2V9IikKICAgICAgICBleGl0KDEpCgogICAgZm9yIGssIHYgaW4gZW52Lml0ZW1zKCk6CgogICAgICAgIGlmIG5vdCBpc2luc3RhbmNlKHYsIHN0cik6CiAgICAgICAgICAgIHRpdGxlID0gImBlbnZgIHZhbHVlcyBtdXN0IGJlIHN0cmluZ3MiCiAgICAgICAgICAgIG1lc3NhZ2UgPSBmImBlbnZgIHZhbHVlcyBtdXN0IGJlIHN0cmluZ3MsIGJ1dCB2YWx1ZSBvZiB7a30gaGFzIHR5cGUge3R5cGUodil9IgogICAgICAgICAgICBwcmludChmIjo6ZXJyb3IgdGl0bGU9e3RpdGxlfTo6e21lc3NhZ2V9IikKICAgICAgICAgICAgZXhpdCgxKQoKICAgICAgICB2ID0gdi5zcGxpdCgiXG4iKQoKICAgICAgICB3aXRoIG9wZW4oR0lUSFVCX0VOViwgImEiKSBhcyBmOgogICAgICAgICAgICBpZiBsZW4odikgPT0gMToKICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7a309e3ZbMF19XG4iKQogICAgICAgICAgICBlbHNlOgogICAgICAgICAgICAgICAgZm9yIGxpbmUgaW4gdjoKICAgICAgICAgICAgICAgICAgICBhc3NlcnQgbGluZS5zdHJpcCgpICE9IERFTElNSVRFUgogICAgICAgICAgICAgICAgZi53cml0ZShmIntrfTw8e0RFTElNSVRFUn1cbiIpCiAgICAgICAgICAgICAgICBmb3IgbGluZSBpbiB2OgogICAgICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7bGluZX1cbiIpCiAgICAgICAgICAgICAgICBmLndyaXRlKGYie0RFTElNSVRFUn1cbiIpCgogICAgICAgIHByaW50KGYie2t9IHdyaXR0ZW4gdG8gR0lUSFVCX0VOViIpCgoKaWYgX19uYW1lX18gPT0gIl9fbWFpbl9fIjoKICAgIHNldF9lbnYoc3lzLmFyZ3ZbMV0pCg==
+          MATRIX_SETENV: ${{ matrix.setenv }}
 
       - name: Setup headless display
         if: ${{ matrix.display == 'true' }}
         uses: pyvista/setup-headless-display-action@7d84ae825e6d9297a8e99bdbbae20d1b919a0b19 # v4.2
 
       - name: Install tox
-        run: python -m pip install --upgrade tox ${{ matrix.toxdeps }}
+        run: python -m pip install --upgrade tox ${MATRIX_TOXDEPS}
+        env:
+          MATRIX_TOXDEPS: ${{ matrix.toxdeps }}
 
-      - run: python -m tox -e ${{ matrix.toxenv }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }}
+      - run: python -m tox -e ${MATRIX_TOXENV} ${MATRIX_TOXARGS} -- ${MATRIX_PYTEST_FLAG} ${MATRIX_POSARGS}
+        env:
+          MATRIX_TOXENV: ${{ matrix.toxenv }}
+          MATRIX_TOXARGS: ${{ matrix.toxargs }}
+          MATRIX_PYTEST_FLAG: ${{ matrix.pytest_flag }}
+          MATRIX_POSARGS: ${{ matrix.posargs }}
 
       - if: ${{ (success() || failure()) && matrix.artifact-path != '' }}
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
