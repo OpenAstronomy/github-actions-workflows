@@ -18,6 +18,7 @@ jobs:
           # Checkout the repository where the workflow is running
           ref: main
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Set up git
         run: |
