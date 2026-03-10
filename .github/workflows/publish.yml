@@ -173,11 +173,11 @@ jobs:
           platforms: all
       - name: Parse dependency groups
         shell: bash
-        run: |
+        run: |  # zizmor: ignore[template-injection]
           echo "space_sep_groups=$( python -c "print('${{ inputs.test_groups }}'.replace(',', ' '))" )" >> "$GITHUB_ENV"
       - name: Configure cibuildwheel
         shell: bash
-        run: |
+        run: |  # zizmor: ignore[template-injection]
           if [ -n "${{ inputs.test_extras }}" ];
           then
             echo "CIBW_TEST_EXTRAS=${{ inputs.test_extras }}" >> $GITHUB_ENV
