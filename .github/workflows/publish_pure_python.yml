@@ -162,7 +162,7 @@ jobs:
         if: ${{ steps.set-upload.outputs.upload_to_pypi == 'true' }}
         with:
           user: __token__
-          password: ${{ secrets.pypi_token }}
+          password: ${{ secrets.pypi_token }} # zizmor: ignore[secrets-outside-env]
           repository-url: ${{ inputs.repository_url }}
           attestations: false
       - uses: OpenAstronomy/publish-wheels-anaconda@eae491141709933a7636af70b070e4a92d1a45be # v1.0.1
@@ -170,5 +170,5 @@ jobs:
         with:
           anaconda_user: ${{ inputs.anaconda_user }}
           anaconda_package: ${{ inputs.anaconda_package }}
-          anaconda_token: ${{ secrets.anaconda_token }}
+          anaconda_token: ${{ secrets.anaconda_token }} # zizmor: ignore[secrets-outside-env]
           keep_n_latest: ${{ inputs.anaconda_keep_n_latest }}
