@@ -173,11 +173,11 @@ jobs:
           platforms: all
       - name: Parse dependency groups
         shell: bash
-        run: |
+        run: |  # zizmor: ignore[template-injection]
           echo "space_sep_groups=$( python -c "print('${{ inputs.test_groups }}'.replace(',', ' '))" )" >> "$GITHUB_ENV"
       - name: Configure cibuildwheel
         shell: bash
-        run: |
+        run: |  # zizmor: ignore[template-injection]
           if [ -n "${{ inputs.test_extras }}" ];
           then
             echo "CIBW_TEST_EXTRAS=${{ inputs.test_extras }}" >> $GITHUB_ENV
@@ -298,7 +298,7 @@ jobs:
         if: ${{ needs.targets.outputs.upload_to_pypi == 'true' }}
         with:
           user: __token__
-          password: ${{ secrets.pypi_token }}
+          password: ${{ secrets.pypi_token }} # zizmor: ignore[secrets-outside-env]
           repository-url: ${{ inputs.repository_url }}
           attestations: false
       - uses: OpenAstronomy/publish-wheels-anaconda@eae491141709933a7636af70b070e4a92d1a45be # v1.0.1
@@ -306,5 +306,5 @@ jobs:
         with:
           anaconda_user: ${{ inputs.anaconda_user }}
           anaconda_package: ${{ inputs.anaconda_package }}
-          anaconda_token: ${{ secrets.anaconda_token }}
+          anaconda_token: ${{ secrets.anaconda_token }} # zizmor: ignore[secrets-outside-env]
           keep_n_latest: ${{ inputs.anaconda_keep_n_latest }}
