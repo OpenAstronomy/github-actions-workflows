@@ -175,7 +175,6 @@ jobs:
           --runs-on "${{ inputs.runs-on }}" --default-python "${{ inputs.default_python }}" \
           --timeout-minutes "${{ inputs.timeout-minutes }}"
         shell: sh
-      - run: echo ${{ steps.set-outputs.outputs.matrix }}
     outputs:
       matrix: ${{ steps.set-outputs.outputs.matrix }}
 
