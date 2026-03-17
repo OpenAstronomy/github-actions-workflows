@@ -162,6 +162,10 @@ jobs:
         - linux: artifact-upload
           pytest: false
           artifact-path: test.txt
+        - linux: artifact-upload
+          pytest: false
+          artifact-path: test.txt
+          artifact-archive: false
 
   test_artifact_download:
     needs: [test_artifact_upload]

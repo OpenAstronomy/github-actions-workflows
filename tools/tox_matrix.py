@@ -30,12 +30,13 @@ import yaml
 @click.option("--cache-key", default="")
 @click.option("--cache-restore-keys", default="")
 @click.option("--artifact-path", default="")
+@click.option("--artifact-archive", default="true")
 @click.option("--runs-on", default="")
 @click.option("--default-python", default="")
 @click.option("--timeout-minutes", default="360")
 def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, pytest_results_summary,
                      coverage, conda, setenv, display, cache_path, cache_key,
-                     cache_restore_keys, artifact_path, runs_on, default_python, timeout_minutes):
+                     cache_restore_keys, artifact_path, artifact_archive, runs_on, default_python, timeout_minutes):
     """Script to load tox targets for GitHub Actions workflow."""
     # Load envs config
     envs = yaml.load(envs, Loader=yaml.BaseLoader)
@@ -79,6 +80,7 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, pytest_
         "cache-key": cache_key,
         "cache-restore-keys": cache_restore_keys,
         "artifact-path": artifact_path,
+        "artifact-archive": artifact_archive,
         "timeout-minutes": timeout_minutes,
     }
 
@@ -118,6 +120,7 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
         "cache-restore-keys": None,
         "artifact-name": None,
         "artifact-path": None,
+        "artifact-archive": None,
         "timeout-minutes": None,
     }
     for string_param, default in global_string_parameters.items():
