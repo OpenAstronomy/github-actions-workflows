@@ -343,6 +343,39 @@ It can be defined globally:
            path/output/test-results
            !path/**/*.tmp
 
+artifact-archive
+^^^^^^^^^^^^^^^^
+
+Whether to archive (zip) artifacts when uploading. Default is ``true``.
+
+When ``true``, artifacts are zipped (used to be the only option).
+When ``false``, artifacts are not zipped and wildcard patterns are not
+supported in ``artifact-path`` (only a single artifact can be
+uploaded).
+
+Passed to https://github.com/actions/upload-artifact ``archive`` input.
+See `the announcement blog post <https://github.blog/changelog/2026-02-26-github-actions-now-supports-uploading-and-downloading-non-zipped-artifacts/>`__ for more details.
+
+It can be defined globally:
+
+.. code:: yaml
+
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   with:
+     artifact-path: output.txt
+     artifact-archive: false
+
+or specific to an env:
+
+.. code:: yaml
+
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   with:
+     envs: |
+       - linux: py39
+         artifact-path: output.txt
+         artifact-archive: false
+
 runs-on
 ^^^^^^^
 
