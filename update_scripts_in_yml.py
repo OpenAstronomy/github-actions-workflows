@@ -34,3 +34,4 @@ base64_encode_into('load_build_targets.py', 'publish.yml', 'LOAD_BUILD_TARGETS_S
 base64_encode_into('set_env.py', 'tox.yml', 'SET_ENV_SCRIPT')
 base64_encode_into('set_env.py', 'publish.yml', 'SET_ENV_SCRIPT')
 base64_encode_into('set_env.py', 'publish_pure_python.yml', 'SET_ENV_SCRIPT')
+base64_encode_into('supported_pythons.py', 'tox.yml', 'SUPPORTED_PYTHONS_SCRIPT')

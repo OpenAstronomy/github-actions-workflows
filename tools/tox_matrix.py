@@ -39,7 +39,7 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, pytest_
                      cache_restore_keys, artifact_path, artifact_archive, runs_on, default_python, timeout_minutes):
     """Script to load tox targets for GitHub Actions workflow."""
     # Load envs config
-    envs = yaml.load(envs, Loader=yaml.BaseLoader)
+    envs = yaml.load(envs.replace("\\n", "\n"), Loader=yaml.BaseLoader)
     print(json.dumps(envs, indent=2))
 
     # Load global libraries config
