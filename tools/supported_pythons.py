@@ -2,9 +2,9 @@
 # requires-python = ">=3.12"
 # dependencies = [
 #     "click==8.2.1",
-#     "peppyproject==1.0.2",
-#     "requests==2.32.5",
 #     "packaging==25.0",
+#     "requests==2.32.5",
+#     "tomli==2.4.0",
 # ]
 # ///
 import os
@@ -13,9 +13,9 @@ from pathlib import Path
 
 import click
 import requests
+import tomli
 from packaging.specifiers import SpecifierSet
 from packaging.version import Version
-from peppyproject import PyProjectConfiguration
 
 
 @click.command()
@@ -69,19 +69,38 @@ def supported_pythons(
     if not package_source:
         supported_versions = current_python_versions
     else:
-        configuration = PyProjectConfiguration.from_directory(package_source)
         try:
-            python_version_requirements = SpecifierSet(configuration["project"]["requires-python"])
+            pyproject_toml_filename = Path(package_source) / "pyproject.toml"
+            if pyproject_toml_filename.exists():
+                with open(pyproject_toml_filename, "rb") as pyproject_toml_file:
+                    pyproject_toml = tomli.load(pyproject_toml_file)
+                if "project" in pyproject_toml:
+                    project_metadata = pyproject_toml["table"]
+                    if "requires_python" in project_metadata:
+                        python_version_requirements = SpecifierSet(
+                            project_metadata["requires-python"]
+                        )
+                    else:
+                        raise KeyError(
+                            "`project.requires_python` not found in `pyproject.toml`; ensure your package conforms to PEP621"
+                        )
+                else:
+                    raise KeyError(
+                        "`project` not found in `pyproject.toml`; ensure your package conforms to PEP621"
+                    )
+            else:
+                raise FileNotFoundError(
+                    "could not find `pyproject.toml` in the provided package source; ensure your package conforms to PEP621"
+                )
 
             supported_versions = [
                 python_version
                 for python_version in current_python_versions
                 if python_version in python_version_requirements
             ]
-        except (KeyError, TypeError):
-            warnings.warn(
-                "could not find `requires-python` in metadata; falling back to current Python versions..."
-            )
+        except (KeyError, TypeError, FileNotFoundError) as error:
+            warnings.warn(str(error))
+            warnings.warn("falling back to current Python versions...")
             supported_versions = current_python_versions
 
     return supported_versions
