@@ -31,12 +31,34 @@ import yaml
 @click.option("--cache-restore-keys", default="")
 @click.option("--artifact-path", default="")
 @click.option("--artifact-archive", default="true")
+@click.option("--artifact-include-hidden-files", default="false")
+@click.option("--artifact-if-no-files-found", default="warn")
 @click.option("--runs-on", default="")
 @click.option("--default-python", default="")
 @click.option("--timeout-minutes", default="360")
-def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, pytest_results_summary,
-                     coverage, conda, setenv, display, cache_path, cache_key,
-                     cache_restore_keys, artifact_path, artifact_archive, runs_on, default_python, timeout_minutes):
+def load_tox_targets(
+    envs,
+    libraries,
+    posargs,
+    toxdeps,
+    toxargs,
+    pytest,
+    pytest_results_summary,
+    coverage,
+    conda,
+    setenv,
+    display,
+    cache_path,
+    cache_key,
+    cache_restore_keys,
+    artifact_path,
+    artifact_archive,
+    artifact_include_hidden_files,
+    artifact_if_no_files_found,
+    runs_on,
+    default_python,
+    timeout_minutes,
+):
     """Script to load tox targets for GitHub Actions workflow."""
     # Load envs config
     envs = yaml.load(envs.replace("\\n", "\n"), Loader=yaml.BaseLoader)
@@ -81,19 +103,23 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, pytest_
         "cache-restore-keys": cache_restore_keys,
         "artifact-path": artifact_path,
         "artifact-archive": artifact_archive,
+        "artifact-include-hidden-files": artifact_include_hidden_files,
+        "artifact-if-no-files-found": artifact_if_no_files_found,
         "timeout-minutes": timeout_minutes,
     }
 
     # Create matrix
     matrix = {"include": []}
     for env in envs:
-        matrix["include"].append(get_matrix_item(
-            env,
-            global_libraries=global_libraries,
-            global_string_parameters=string_parameters,
-            runs_on=default_runs_on,
-            default_python=default_python,
-        ))
+        matrix["include"].append(
+            get_matrix_item(
+                env,
+                global_libraries=global_libraries,
+                global_string_parameters=string_parameters,
+                runs_on=default_runs_on,
+                default_python=default_python,
+            )
+        )
 
     # Output matrix
     print(json.dumps(matrix, indent=2))
@@ -101,8 +127,7 @@ def load_tox_targets(envs, libraries, posargs, toxdeps, toxargs, pytest, pytest_
         f.write(f"matrix={json.dumps(matrix)}\n")
 
 
-def get_matrix_item(env, global_libraries, global_string_parameters,
-                    runs_on, default_python):
+def get_matrix_item(env, global_libraries, global_string_parameters, runs_on, default_python):
 
     # define spec for each matrix include (+ global_string_parameters)
     item = {
@@ -121,6 +146,8 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
         "artifact-name": None,
         "artifact-path": None,
         "artifact-archive": None,
+        "artifact-include-hidden-files": None,
+        "artifact-if-no-files-found": None,
         "timeout-minutes": None,
     }
     for string_param, default in global_string_parameters.items():
@@ -147,7 +174,7 @@ def get_matrix_item(env, global_libraries, global_string_parameters,
         item["python_version"] = env.get("default_python") or default_python
 
     # set name
-    item["name"] = env.get("name") or f'{item["toxenv"]} ({item["os"]})'
+    item["name"] = env.get("name") or f"{item['toxenv']} ({item['os']})"
 
     # set artifact-name (replace invalid path characters)
     item["artifact-name"] = re.sub(r"[\\ /:<>|*?\"']", "-", item["name"])

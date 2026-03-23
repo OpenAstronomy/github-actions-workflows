@@ -168,7 +168,7 @@ jobs:
           echo "uname_m=$(uname -m)" >> "$GITHUB_OUTPUT"
       - name: Set up QEMU
         if: ${{ runner.os == 'Linux' && (matrix.CIBW_ARCHS != 'auto' && matrix.CIBW_ARCHS != steps.uname_m.outputs.uname_m) }}
-        uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
+        uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
         with:
           platforms: all
       - name: Parse dependency groups
@@ -213,7 +213,7 @@ jobs:
           SET_ENV_SCRIPT: IyAvLy8gc2NyaXB0CiMgcmVxdWlyZXMtcHl0aG9uID0gIj09My4xMiIKIyBkZXBlbmRlbmNpZXMgPSBbCiMgICAgICJweXlhbWw9PTYuMC4yIiwKIyBdCiMgLy8vCmltcG9ydCBqc29uCmltcG9ydCBvcwppbXBvcnQgc3lzCgppbXBvcnQgeWFtbAoKR0lUSFVCX0VOViA9IG9zLmdldGVudigiR0lUSFVCX0VOViIpCmlmIEdJVEhVQl9FTlYgaXMgTm9uZToKICAgIHJhaXNlIFZhbHVlRXJyb3IoIkdJVEhVQl9FTlYgbm90IHNldC4gTXVzdCBiZSBydW4gaW5zaWRlIEdpdEh1YiBBY3Rpb25zLiIpCgpERUxJTUlURVIgPSAiRU9GIgoKCmRlZiBzZXRfZW52KGVudik6CgogICAgZW52ID0geWFtbC5sb2FkKGVudiwgTG9hZGVyPXlhbWwuQmFzZUxvYWRlcikKICAgIHByaW50KGpzb24uZHVtcHMoZW52LCBpbmRlbnQ9MikpCgogICAgaWYgbm90IGlzaW5zdGFuY2UoZW52LCBkaWN0KToKICAgICAgICB0aXRsZSA9ICJgZW52YCBtdXN0IGJlIG1hcHBpbmciCiAgICAgICAgbWVzc2FnZSA9IGYiYGVudmAgbXVzdCBiZSBtYXBwaW5nIG9mIGVudiB2YXJpYWJsZXMgdG8gdmFsdWVzLCBnb3QgdHlwZSB7dHlwZShlbnYpfSIKICAgICAgICBwcmludChmIjo6ZXJyb3IgdGl0bGU9e3RpdGxlfTo6e21lc3NhZ2V9IikKICAgICAgICBleGl0KDEpCgogICAgZm9yIGssIHYgaW4gZW52Lml0ZW1zKCk6CgogICAgICAgIGlmIG5vdCBpc2luc3RhbmNlKHYsIHN0cik6CiAgICAgICAgICAgIHRpdGxlID0gImBlbnZgIHZhbHVlcyBtdXN0IGJlIHN0cmluZ3MiCiAgICAgICAgICAgIG1lc3NhZ2UgPSBmImBlbnZgIHZhbHVlcyBtdXN0IGJlIHN0cmluZ3MsIGJ1dCB2YWx1ZSBvZiB7a30gaGFzIHR5cGUge3R5cGUodil9IgogICAgICAgICAgICBwcmludChmIjo6ZXJyb3IgdGl0bGU9e3RpdGxlfTo6e21lc3NhZ2V9IikKICAgICAgICAgICAgZXhpdCgxKQoKICAgICAgICB2ID0gdi5zcGxpdCgiXG4iKQoKICAgICAgICB3aXRoIG9wZW4oR0lUSFVCX0VOViwgImEiKSBhcyBmOgogICAgICAgICAgICBpZiBsZW4odikgPT0gMToKICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7a309e3ZbMF19XG4iKQogICAgICAgICAgICBlbHNlOgogICAgICAgICAgICAgICAgZm9yIGxpbmUgaW4gdjoKICAgICAgICAgICAgICAgICAgICBhc3NlcnQgbGluZS5zdHJpcCgpICE9IERFTElNSVRFUgogICAgICAgICAgICAgICAgZi53cml0ZShmIntrfTw8e0RFTElNSVRFUn1cbiIpCiAgICAgICAgICAgICAgICBmb3IgbGluZSBpbiB2OgogICAgICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7bGluZX1cbiIpCiAgICAgICAgICAgICAgICBmLndyaXRlKGYie0RFTElNSVRFUn1cbiIpCgogICAgICAgIHByaW50KGYie2t9IHdyaXR0ZW4gdG8gR0lUSFVCX0VOViIpCgoKaWYgX19uYW1lX18gPT0gIl9fbWFpbl9fIjoKICAgIHNldF9lbnYoc3lzLmFyZ3ZbMV0pCg==
           INPUTS_ENV: ${{ inputs.env }}
       - name: Run cibuildwheel
-        uses: pypa/cibuildwheel@298ed2fb2c105540f5ed055e8a6ad78d82dd3a7e # v3.3.1
+        uses: pypa/cibuildwheel@ee02a1537ce3071a004a6b08c41e72f0fdc42d9a # v3.4.0
         with:
           output-dir: dist
           package-dir: ${{ inputs.working-directory }}
@@ -288,7 +288,7 @@ jobs:
       needs.build_wheels.result != 'failure' &&
       needs.build_sdist.result != 'failure'
     steps:
-      - uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8.0.0
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           pattern: dist-*
           path: dist
