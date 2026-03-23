@@ -162,10 +162,12 @@ jobs:
         - linux: artifact-upload
           pytest: false
           artifact-path: test.txt
+          artifact-include-hidden-files: true
         - linux: artifact-upload
           pytest: false
           artifact-path: test.txt
           artifact-archive: false
+          artifact-if-no-files-found: error
 
   test_artifact_download:
     needs: [test_artifact_upload]

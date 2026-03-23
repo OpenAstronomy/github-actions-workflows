@@ -376,6 +376,66 @@ or specific to an env:
          artifact-path: output.txt
          artifact-archive: false
 
+artifact-include-hidden-files
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Whether to include hidden files (files starting with ``.``) in artifact uploads.
+Default is ``false``.
+
+Passed to https://github.com/actions/upload-artifact ``include-hidden-files`` input.
+
+It can be defined globally:
+
+.. code:: yaml
+
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   with:
+     artifact-path: output/
+     artifact-include-hidden-files: true
+
+or specific to an env:
+
+.. code:: yaml
+
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   with:
+     envs: |
+       - linux: py39
+         artifact-path: output/
+         artifact-include-hidden-files: true
+
+artifact-if-no-files-found
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The behavior if no files are found at the specified ``artifact-path``.
+Options are ``warn`` (default), ``error``, or ``ignore``.
+
+- ``warn``: Output a warning but do not fail the action
+- ``error``: Fail the action with an error message
+- ``ignore``: Do not output any warnings or errors
+
+Passed to https://github.com/actions/upload-artifact ``if-no-files-found`` input.
+
+It can be defined globally:
+
+.. code:: yaml
+
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   with:
+     artifact-path: output/
+     artifact-if-no-files-found: error
+
+or specific to an env:
+
+.. code:: yaml
+
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   with:
+     envs: |
+       - linux: py39
+         artifact-path: output/
+         artifact-if-no-files-found: ignore
+
 runs-on
 ^^^^^^^
 
