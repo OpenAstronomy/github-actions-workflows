@@ -78,7 +78,6 @@ Example:
        - linux: py39
        - macos: py38-docs
          name: build_docs
-       - windows: py310-conda
 
 The name of the GitHub Actions job can be changed with the ``name``
 option as shown above. By default, ``name`` will be the name of the tox
@@ -544,6 +543,71 @@ same repository, or when using a non-standard project layout.
      working-directory: packages/my-package
      envs: |
        - linux: py312
+
+fill
+^^^^
+
+Automatically add tox environments for each Python version currently supported
+by your package. The supported versions are determined by reading the
+``requires-python`` field from your package's ``pyproject.toml`` file
+(conforming to PEP 621) and cross-referencing with currently maintained Python
+versions from https://endoflife.date.
+
+Default is ``false``.
+
+.. code:: yaml
+
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   with:
+     fill: true
+     envs: |
+       - linux: pep8
+         pytest: false
+
+In the above example, if your package's ``pyproject.toml`` specifies
+``requires-python = ">=3.10"``, and Python 3.10, 3.11, 3.12, and 3.13 are
+currently maintained, the workflow will automatically add ``py310``, ``py311``,
+``py312``, and ``py313`` environments on Linux in addition to the ``pep8``
+environment.
+
+fill_platforms
+^^^^^^^^^^^^^^
+
+Platforms to use when generating environments with ``fill``. This is a
+comma-separated list of platforms. Default is ``linux`` only.
+
+.. code:: yaml
+
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   with:
+     fill: true
+     fill_platforms: linux,macos,windows
+     envs: |
+       - linux: pep8
+         pytest: false
+
+This will create tox environments for each supported Python version on all
+three platforms.
+
+fill_factors
+^^^^^^^^^^^^
+
+Tox factors to add to the automatically generated environments from ``fill``.
+This is a comma-separated list of factors. Default is none.
+
+.. code:: yaml
+
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   with:
+     fill: true
+     fill_factors: test,cov
+     envs: |
+       - linux: pep8
+         pytest: false
+
+If your package supports Python 3.11 and 3.12, this will generate environments
+like ``py311-test-cov`` and ``py312-test-cov`` instead of just ``py311`` and
+``py312``.
 
 Secrets
 ~~~~~~~
