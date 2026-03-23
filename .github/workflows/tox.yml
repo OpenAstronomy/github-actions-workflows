@@ -293,7 +293,7 @@ jobs:
           path: ${{ matrix.artifact-path }}
           archive: ${{ matrix.artifact-archive }}
           if-no-files-found: ${{ matrix.artifact-if-no-files-found }}
-          if-include-hidden-files: ${{ matrix.artifact-include-hidden-files }}
+          include-hidden-files: ${{ matrix.artifact-include-hidden-files }}
 
       - if: ${{ (success() || failure()) && matrix.pytest-results-summary == 'true' && matrix.pytest == 'true' }}
         uses: test-summary/action@31493c76ec9e7aa675f1585d3ed6f1da69269a86 # v2.4
