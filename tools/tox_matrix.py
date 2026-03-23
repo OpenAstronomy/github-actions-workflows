@@ -61,7 +61,7 @@ def load_tox_targets(
 ):
     """Script to load tox targets for GitHub Actions workflow."""
     # Load envs config
-    envs = yaml.load(envs, Loader=yaml.BaseLoader)
+    envs = yaml.load(envs.replace("\\n", "\n"), Loader=yaml.BaseLoader)
     print(json.dumps(envs, indent=2))
 
     # Load global libraries config
