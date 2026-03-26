@@ -11,7 +11,7 @@ jobs. To use this template, your repository will need to have a
 
    jobs:
      test:
-       uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+       uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
        with:
          posargs: '-n 4'
          envs: |
@@ -39,7 +39,7 @@ while ``test2`` will pass ``--arg-global`` to pytest,
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      posargs: '--arg-global'
      envs: |
@@ -54,7 +54,7 @@ Array of tox environments to test. Required input.
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      envs: |
        - <os>: <toxenv>
@@ -71,7 +71,7 @@ Example:
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      envs: |
        - linux: pep8
@@ -96,7 +96,7 @@ Global definition:
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      libraries: |
        apt:
@@ -191,7 +191,7 @@ Global definition:
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      setenv: |
        VAR1: test
@@ -241,7 +241,7 @@ retrieved as usual and cached at the end of the job, however, during the
 
    jobs:
      core_test:
-       uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+       uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
        with:
          cache-path: sample_data/
          cache-key: sample-${{ github.run_id }}
@@ -249,7 +249,7 @@ retrieved as usual and cached at the end of the job, however, during the
            - linux: py39
      detailed_tests:
        needs: [core_test]
-       uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+       uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
        with:
          cache-path: sample_data/
          cache-key: sample-${{ github.run_id }}
@@ -279,7 +279,7 @@ a separate job:
            run: echo "hash=${{ hashFiles('**/compressed_data_urls.json') }}" >> $GITHUB_OUTPUT
      tests:
        needs: [setup]
-       uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+       uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
        with:
          cache-path: |
            sample_data/
@@ -316,13 +316,13 @@ It can be defined globally:
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      artifact-path: path/output/bin/
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      artifact-path: |
        path/output/bin/
@@ -333,7 +333,7 @@ It can be defined globally:
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      envs: |
        - windows: py39
@@ -359,7 +359,7 @@ It can be defined globally:
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      artifact-path: output.txt
      artifact-archive: false
@@ -368,7 +368,7 @@ or specific to an env:
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      envs: |
        - linux: py39
@@ -387,7 +387,7 @@ It can be defined globally:
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      artifact-path: output/
      artifact-include-hidden-files: true
@@ -396,7 +396,7 @@ or specific to an env:
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      envs: |
        - linux: py39
@@ -419,7 +419,7 @@ It can be defined globally:
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      artifact-path: output/
      artifact-if-no-files-found: error
@@ -428,7 +428,7 @@ or specific to an env:
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      envs: |
        - linux: py39
@@ -448,7 +448,7 @@ It can be defined globally:
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      runs-on: |
        linux: ubuntu-18.04
@@ -457,7 +457,7 @@ It can be defined globally:
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      runs-on: |
        macos: macos-10.15
@@ -470,7 +470,7 @@ be valid YAML.)
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      envs: |
        - windows: py39
@@ -501,7 +501,7 @@ implementation of Python 3.9 will be tested:
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      envs: |
        - linux: py311
@@ -538,7 +538,7 @@ same repository, or when using a non-standard project layout.
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      working-directory: packages/my-package
      envs: |
@@ -557,7 +557,7 @@ Default is ``false``.
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      fill: true
      envs: |
@@ -578,7 +578,7 @@ comma-separated list of platforms. Default is ``linux`` only.
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      fill: true
      fill_platforms: linux,macos,windows
@@ -597,7 +597,7 @@ This is a comma-separated list of factors. Default is none.
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
    with:
      fill: true
      fill_factors: test,cov

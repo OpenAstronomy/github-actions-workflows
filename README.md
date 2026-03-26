@@ -17,7 +17,7 @@ To use this template, your repository will need to have a `tox.ini` file.
 ```yaml
 jobs:
   test:
-    uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+    uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
     with:
       posargs: '-n 4'
       envs: |
@@ -41,7 +41,7 @@ Build, test and publish a Python source distribution and collection of platform-
 ```yaml
 jobs:
   publish:
-    uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v1
+    uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v2
     with:
       test_groups: test
       test_extras: recommended
@@ -61,7 +61,7 @@ This the workflow is similar to the `publish.yml` workflow, except, instead of b
 ```yaml
 jobs:
   publish:
-    uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
+    uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v2
     with:
       test_groups: test
       test_extras: recommended

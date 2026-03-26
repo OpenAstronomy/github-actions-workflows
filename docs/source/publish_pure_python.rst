@@ -11,7 +11,7 @@ source distribution are build, tested and published instead.
 
    jobs:
      publish:
-       uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
+       uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v2
        with:
          test_groups: test, concurrency
          test_extras: recommended
@@ -59,7 +59,7 @@ file into the publishing job.
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v2
    with:
      env: |
        VAR1: test
@@ -95,7 +95,7 @@ with ``v``, and ``'refs/tags/'`` will upload on all pushed tags.
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v2
    with:
      upload_to_pypi: refs/tags/
 
@@ -153,7 +153,7 @@ same repository, or when using a non-standard project layout.
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v2
    with:
      working-directory: packages/my-package
      test_command: pytest --pyargs my_package
