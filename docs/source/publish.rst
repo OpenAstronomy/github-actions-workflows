@@ -10,7 +10,7 @@ platform-dependent wheels.
 
    jobs:
      publish:
-       uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v1
+       uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v2
        with:
          test_groups: test, concurrency
          test_extras: recommended
@@ -106,7 +106,7 @@ file into the publishing job.
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v2
    with:
      env: |
        VAR1: test
@@ -142,7 +142,7 @@ extra.
 
     jobs:
       build:
-        uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v1
+        uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v2
         with:
           env: |
             CIBW_BEFORE_BUILD_LINUX: apt install libfftw3-dev
@@ -166,7 +166,7 @@ with ``v``, and ``'refs/tags/'`` will upload on all pushed tags.
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v2
    with:
      upload_to_pypi: refs/tags/
 
@@ -236,7 +236,7 @@ same repository, or when using a non-standard project layout.
 
 .. code:: yaml
 
-   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v1
+   uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v2
    with:
      working-directory: packages/my-package
      test_command: pytest --pyargs my_package

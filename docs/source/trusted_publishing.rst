@@ -16,7 +16,7 @@ Taking the example from :ref:`oa-ghaw-publish`, we add two new lines:
 
    jobs:
      build:
-       uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v1
+       uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v2
        with:
          save_artifacts: true
          upload_to_pypi: false
