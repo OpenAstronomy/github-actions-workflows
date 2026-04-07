@@ -57,11 +57,6 @@ on:
         required: false
         default: ''
         type: string
-      conda:
-        description: Whether to test with conda (deprecated)
-        required: false
-        default: 'auto'
-        type: string
       setenv:
         description: A map of environment variables to be available when testing
         required: false
@@ -183,7 +178,7 @@ jobs:
           --posargs "${{ inputs.posargs }}" --toxdeps "${{ inputs.toxdeps }}" \
           --toxargs "${{ inputs.toxargs }}" --pytest "${{ inputs.pytest }}" \
           --pytest-results-summary "${{ inputs.pytest-results-summary }}" \
-          --coverage "${{ inputs.coverage }}" --conda "${{ inputs.conda }}" \
+          --coverage "${{ inputs.coverage }}" \
           --setenv "${{ inputs.setenv }}" \
           --display "${{ inputs.display }}" --cache-path "${{ inputs.cache-path }}" \
           --cache-key "${{ inputs.cache-key }}" --cache-restore-keys "${{ inputs.cache-restore-keys }}" \
@@ -237,36 +232,12 @@ jobs:
           choco: ${{ matrix.libraries_choco }}
 
       - name: Setup Python ${{ matrix.python_version }}
-        if: ${{ matrix.conda != 'true' }}
         uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # 7.3.0
         with:
           version: "0.10.6"
           python-version: ${{ matrix.python_version }}
           activate-environment: "true"
           ignore-empty-workdir: "true"
-
-      - name: Setup conda (deprecated)
-        if: ${{ matrix.conda == 'true' }}
-        uses: mamba-org/setup-micromamba@add3a49764cedee8ee24e82dfde87f5bc2914462 # v2.0.7
-        with:
-          environment-name: test
-          condarc: |
-            channels:
-              - conda-forge
-            use_uv: true
-          create-args: >-
-            conda
-            python=${{ matrix.python_version }}
-            uv=0.10.6
-          init-shell: bash
-          cache-environment: true
-          cache-downloads: true
-
-      - name: warn that using the `conda` parameter is deprecated
-        if: ${{ matrix.conda == 'true' }}
-        run: |
-          echo "> [!WARNING]" >> $GITHUB_STEP_SUMMARY
-          echo "> The conda parameter is deprecated (see https://github.com/OpenAstronomy/github-actions-workflows/issues/354)." >> $GITHUB_STEP_SUMMARY
 
       - id: set-env
         if: ${{ matrix.setenv != '' }}
