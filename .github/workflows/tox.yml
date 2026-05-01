@@ -153,7 +153,7 @@ jobs:
     name: Load tox environments
     runs-on: ubuntu-latest
     steps:
-      - uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # 7.3.0
+      - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # 8.1.0
         with:
           version: "0.10.6"
           enable-cache: false
@@ -222,7 +222,7 @@ jobs:
 
       - name: Cache ${{ matrix.cache_key }}
         if: ${{ matrix.cache-path != '' && matrix.cache-key != '' }}
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: ${{ matrix.cache-path }}
           key: ${{ matrix.cache-key }}
@@ -238,7 +238,7 @@ jobs:
 
       - name: Setup Python ${{ matrix.python_version }}
         if: ${{ matrix.conda != 'true' }}
-        uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # 7.3.0
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # 8.1.0
         with:
           version: "0.10.6"
           python-version: ${{ matrix.python_version }}
@@ -247,7 +247,7 @@ jobs:
 
       - name: Setup conda (deprecated)
         if: ${{ matrix.conda == 'true' }}
-        uses: mamba-org/setup-micromamba@add3a49764cedee8ee24e82dfde87f5bc2914462 # v2.0.7
+        uses: mamba-org/setup-micromamba@d7c9bd84e824b79d2af72a2d4196c7f4300d3476 # v3.0.0
         with:
           environment-name: test
           condarc: |
@@ -287,7 +287,7 @@ jobs:
       - run: tox -e ${{ matrix.toxenv }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }} # zizmor: ignore[template-injection]
 
       - if: ${{ (success() || failure()) && matrix.artifact-path != '' }}
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ${{ matrix.artifact-name }}
           path: ${{ matrix.artifact-path }}
@@ -303,14 +303,14 @@ jobs:
       - name: Upload to Codecov
         # Even if tox fails, upload coverage
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
-        uses: codecov/codecov-action@1af58845a975a7985b0beb0cbe6fbbb71a41dbad # v5.5.3
+        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # zizmor: ignore[secrets-outside-env]
 
       - name: Upload coverage data to GitHub
         id: upload-coverage-gh
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'github') && matrix.pytest == 'true' }}
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: coverage-data-${{ github.run_id }}-${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
           path: .coverage.*
@@ -337,14 +337,14 @@ jobs:
         with:
           pattern: coverage-data-${{ github.run_id }}-*
           merge-multiple: true
-      - uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # 7.3.0
+      - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # 8.1.0
         with:
           ignore-empty-workdir: "true"
       - name: generate coverage report
         run: |
           uvx coverage combine
           uvx coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: coverage-report-${{ hashFiles('.coverage') }}
           path: .coverage
