@@ -230,15 +230,12 @@ To use the token set the ``CODECOV_TOKEN`` environment variable or pass it as a 
 To use oidc you need to give the job the ``id-token: write`` permission, we recommend you set this on the job level not the workflow level, and set ``coverage: codecov-oidc``.
 
 
-conda
-^^^^^
+conda_packages
+^^^^^^^^^^^^^^
 
-Whether to test within a conda environment using ``tox-conda``. Options
-are ``'auto'`` (default), ``'true'`` and ``'false'``.
+If populated, will set up a conda environment and install the requested packages from `conda-forge`.
 
-If ``'auto'``, conda will be used if the tox environment names contains
-“conda”. For example, ``'auto'`` would enable conda for tox environments
-named ``py39-conda``, ``conda-test`` or even ``py38-secondary``.
+Remember to use `allowlist_externals` in your Tox configuration if using non-Python Conda packages.
 
 setenv
 ^^^^^^
