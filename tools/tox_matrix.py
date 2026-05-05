@@ -2,6 +2,7 @@
 # requires-python = "==3.12"
 # dependencies = [
 #     "click==8.2.1",
+#     "packaging==25.0",
 #     "pyyaml==6.0.2",
 # ]
 # ///
@@ -9,9 +10,11 @@ import json
 import os
 import re
 import warnings
+from copy import copy
 
 import click
 import yaml
+from packaging.version import Version
 
 
 @click.command()
@@ -36,6 +39,7 @@ import yaml
 @click.option("--runs-on", default="")
 @click.option("--default-python", default="")
 @click.option("--timeout-minutes", default="360")
+@click.option("--supported-pythons", default='["3"]')
 def load_tox_targets(
     envs,
     libraries,
@@ -58,8 +62,15 @@ def load_tox_targets(
     runs_on,
     default_python,
     timeout_minutes,
+    supported_pythons,
 ):
     """Script to load tox targets for GitHub Actions workflow."""
+
+    if not supported_pythons:
+        supported_pythons = ['3']
+    elif isinstance(supported_pythons, str):
+        supported_pythons = json.loads(supported_pythons)
+
     # Load envs config
     envs = yaml.load(envs.replace("\\n", "\n"), Loader=yaml.BaseLoader)
     print(json.dumps(envs, indent=2))
@@ -111,15 +122,29 @@ def load_tox_targets(
     # Create matrix
     matrix = {"include": []}
     for env in envs:
-        matrix["include"].append(
-            get_matrix_item(
-                env,
-                global_libraries=global_libraries,
-                global_string_parameters=string_parameters,
-                runs_on=default_runs_on,
-                default_python=default_python,
-            )
+        matrix_item = get_matrix_item(
+            env,
+            global_libraries=global_libraries,
+            global_string_parameters=string_parameters,
+            runs_on=default_runs_on,
+            default_python=default_python,
         )
+
+        # check if we need to expand python versions from a glob (i.e. py*, py3*, py31*, etc.)
+        toxenv = matrix_item["toxenv"]
+        if toxenv.startswith("py") and "*" in toxenv.split("-")[0]:
+            toxenvs = expand_python_versions(toxenv, python_versions=supported_pythons)
+
+            for expanded_toxenv, python_version in toxenvs:
+                expanded_matrix_item = copy(matrix_item)
+                expanded_matrix_item["toxenv"] = expanded_toxenv
+                expanded_matrix_item["name"] = expanded_matrix_item["name"].replace(
+                    toxenv, expanded_toxenv
+                )
+                expanded_matrix_item["python_version"] = python_version
+                matrix["include"].append(expanded_matrix_item)
+        else:
+            matrix["include"].append(matrix_item)
 
     # Output matrix
     print(json.dumps(matrix, indent=2))
@@ -215,6 +240,57 @@ def get_matrix_item(env, global_libraries, global_string_parameters, runs_on, de
     assert item["display"] in {"true", "false"}
 
     return item
+
+
+def expand_python_versions(toxenv: str, python_versions: list[Version | str]) -> list[(str, str)]:
+    """
+    expand `py3*` into `py311`, `py312`, `py313`, etc. based on currently-supported Python versions
+
+    :param version_glob: can be `py*`, `py3*`, `py30*`, `py31*` etc.
+    """
+
+    python_versions = [Version(version) for version in python_versions]
+
+    toxenv_factors = toxenv.split("-")
+    py_version_glob = toxenv_factors[0]
+    if not py_version_glob.startswith("py"):
+        raise ValueError(
+            f'input "{py_version_glob}" is not a Python version Tox factor (must start with `py`)'
+        )
+
+    if "*" not in py_version_glob:
+        return [py_version_glob]
+
+    if not py_version_glob.endswith("*"):
+        raise NotImplementedError(
+            "Python version glob must end with a `*`; suffixes such as `t` are not yet supported"
+        )
+
+    major_version = py_version_glob[2]
+    if major_version != "*":
+        python_versions = [
+            python_version
+            for python_version in python_versions
+            if python_version.major == int(major_version)
+        ]
+
+        minor_version = py_version_glob[3:]
+        if minor_version_specifier := minor_version.split("*")[0] != "*":
+            minor_version_base = int(minor_version_specifier) * 10
+            python_versions = [
+                python_version
+                for python_version in python_versions
+                if minor_version_base <= python_version.minor < minor_version_base + 10
+            ]
+
+    return [
+        (
+            f"py{python_version.major}{python_version.minor}"
+            + (f"-{'-'.join(toxenv_factors[1:])}" if len(toxenv_factors) > 1 else ""),
+            str(python_version),
+        )
+        for python_version in python_versions
+    ]
 
 
 if __name__ == "__main__":
