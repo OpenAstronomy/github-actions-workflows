@@ -213,7 +213,7 @@ jobs:
           SET_ENV_SCRIPT: IyAvLy8gc2NyaXB0CiMgcmVxdWlyZXMtcHl0aG9uID0gIj09My4xMiIKIyBkZXBlbmRlbmNpZXMgPSBbCiMgICAgICJweXlhbWw9PTYuMC4yIiwKIyBdCiMgLy8vCmltcG9ydCBqc29uCmltcG9ydCBvcwppbXBvcnQgc3lzCgppbXBvcnQgeWFtbAoKR0lUSFVCX0VOViA9IG9zLmdldGVudigiR0lUSFVCX0VOViIpCmlmIEdJVEhVQl9FTlYgaXMgTm9uZToKICAgIHJhaXNlIFZhbHVlRXJyb3IoIkdJVEhVQl9FTlYgbm90IHNldC4gTXVzdCBiZSBydW4gaW5zaWRlIEdpdEh1YiBBY3Rpb25zLiIpCgpERUxJTUlURVIgPSAiRU9GIgoKCmRlZiBzZXRfZW52KGVudik6CgogICAgZW52ID0geWFtbC5sb2FkKGVudiwgTG9hZGVyPXlhbWwuQmFzZUxvYWRlcikKICAgIHByaW50KGpzb24uZHVtcHMoZW52LCBpbmRlbnQ9MikpCgogICAgaWYgbm90IGlzaW5zdGFuY2UoZW52LCBkaWN0KToKICAgICAgICB0aXRsZSA9ICJgZW52YCBtdXN0IGJlIG1hcHBpbmciCiAgICAgICAgbWVzc2FnZSA9IGYiYGVudmAgbXVzdCBiZSBtYXBwaW5nIG9mIGVudiB2YXJpYWJsZXMgdG8gdmFsdWVzLCBnb3QgdHlwZSB7dHlwZShlbnYpfSIKICAgICAgICBwcmludChmIjo6ZXJyb3IgdGl0bGU9e3RpdGxlfTo6e21lc3NhZ2V9IikKICAgICAgICBleGl0KDEpCgogICAgZm9yIGssIHYgaW4gZW52Lml0ZW1zKCk6CgogICAgICAgIGlmIG5vdCBpc2luc3RhbmNlKHYsIHN0cik6CiAgICAgICAgICAgIHRpdGxlID0gImBlbnZgIHZhbHVlcyBtdXN0IGJlIHN0cmluZ3MiCiAgICAgICAgICAgIG1lc3NhZ2UgPSBmImBlbnZgIHZhbHVlcyBtdXN0IGJlIHN0cmluZ3MsIGJ1dCB2YWx1ZSBvZiB7a30gaGFzIHR5cGUge3R5cGUodil9IgogICAgICAgICAgICBwcmludChmIjo6ZXJyb3IgdGl0bGU9e3RpdGxlfTo6e21lc3NhZ2V9IikKICAgICAgICAgICAgZXhpdCgxKQoKICAgICAgICB2ID0gdi5zcGxpdCgiXG4iKQoKICAgICAgICB3aXRoIG9wZW4oR0lUSFVCX0VOViwgImEiKSBhcyBmOgogICAgICAgICAgICBpZiBsZW4odikgPT0gMToKICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7a309e3ZbMF19XG4iKQogICAgICAgICAgICBlbHNlOgogICAgICAgICAgICAgICAgZm9yIGxpbmUgaW4gdjoKICAgICAgICAgICAgICAgICAgICBhc3NlcnQgbGluZS5zdHJpcCgpICE9IERFTElNSVRFUgogICAgICAgICAgICAgICAgZi53cml0ZShmIntrfTw8e0RFTElNSVRFUn1cbiIpCiAgICAgICAgICAgICAgICBmb3IgbGluZSBpbiB2OgogICAgICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7bGluZX1cbiIpCiAgICAgICAgICAgICAgICBmLndyaXRlKGYie0RFTElNSVRFUn1cbiIpCgogICAgICAgIHByaW50KGYie2t9IHdyaXR0ZW4gdG8gR0lUSFVCX0VOViIpCgoKaWYgX19uYW1lX18gPT0gIl9fbWFpbl9fIjoKICAgIHNldF9lbnYoc3lzLmFyZ3ZbMV0pCg==
           INPUTS_ENV: ${{ inputs.env }}
       - name: Run cibuildwheel
-        uses: pypa/cibuildwheel@ee02a1537ce3071a004a6b08c41e72f0fdc42d9a # v3.4.0
+        uses: pypa/cibuildwheel@8d2b08b68458a16aeb24b64e68a09ab1c8e82084 # v3.4.1
         with:
           output-dir: dist
           package-dir: ${{ inputs.working-directory }}
@@ -221,7 +221,7 @@ jobs:
         env:
           CIBW_BUILD: ${{ matrix.CIBW_BUILD }}
           CIBW_ARCHS: ${{ matrix.CIBW_ARCHS }}
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: |
           needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda || inputs.save_artifacts
         with:
@@ -269,7 +269,7 @@ jobs:
           pure_python_wheel: false
           python-version: '3.12'
           source-directory: ${{ inputs.working-directory }}
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: |
           needs.targets.outputs.upload_to_pypi == 'true' || inputs.upload_to_anaconda || inputs.save_artifacts
         with:
@@ -293,7 +293,7 @@ jobs:
           pattern: dist-*
           path: dist
           merge-multiple: true
-      - uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
+      - uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # v1.14.0
         name: Upload to PyPI
         if: ${{ needs.targets.outputs.upload_to_pypi == 'true' }}
         with:
