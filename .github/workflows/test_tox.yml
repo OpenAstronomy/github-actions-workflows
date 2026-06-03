@@ -176,7 +176,7 @@ jobs:
     permissions:
       id-token: write
     with:
-      coverage: codecov
+      coverage: codecov-oidc
       envs: |
          # covcheck uses an explicit coverage run
          - linux: py313-covcheck

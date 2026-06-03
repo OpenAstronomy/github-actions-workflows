@@ -164,10 +164,9 @@ coverage
 ^^^^^^^^
 
 The coverage option controls how coverage reports are made and processed after the tox job has completed.
+The default is to not upload coverage reports.
 This option has no effect if ``pytest`` is ``false``.
-This option takes a space separated list of coverage providers to upload to, either ``codecov`` or ``github``.
-Default is to not upload coverage reports.
-If using ``codecov`` see :ref:`codecov-token`.
+This option takes a space separated list of coverage providers to upload to, either ``codecov``, ``codecov-oidc`` or ``github``.
 
 As the workflows do not control how your tests are run, configuring coverage correctly may require changes to your tox.ini.
 The coverage collection is done inside the tox job, but the workflows handle generating reports and uploading to either codecov or github.
@@ -194,6 +193,17 @@ Both of these report uploads require the ``.coverage`` file(s) to be in the root
       COVERAGE_FILE={toxinidir}/.coverage
 
 This should work for both ``coverage.py`` and ``pytest-cov``.
+
+.. _codecov-auth:
+
+Authenticating with Codecov
+###########################
+
+There are two supported ways to authenticate with Codecov, either using a ``CODECOV_TOKEN`` or using `OIDC <https://docs.github.com/en/actions/concepts/security/openid-connect>`__.
+
+To use the token set the ``CODECOV_TOKEN`` environment variable or pass it as a secret to the workflow, and set ``coverage: codecov``.
+To use oidc you need to give the job the ``id-token: write`` permission, we recommend you set this on the job level not the workflow level, and set ``coverage: codecov-oidc``.
+
 
 conda
 ^^^^^
@@ -632,15 +642,3 @@ This is a comma-separated list of factors. Default is none.
 If your package supports Python 3.11 and 3.12, this will generate environments
 like ``py311-test-cov`` and ``py312-test-cov`` instead of just ``py311`` and
 ``py312``.
-
-Secrets
-~~~~~~~
-
-.. _codecov-token:
-
-CODECOV_TOKEN
-^^^^^^^^^^^^^
-
-If your repository is private, in order to upload to Codecov you need to
-set the ``CODECOV_TOKEN`` environment variable or pass it as a secret to
-the workflow.
