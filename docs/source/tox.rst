@@ -234,7 +234,7 @@ conda_packages
 ^^^^^^^^^^^^^^
 
 If populated, will set up a conda environment and install the requested packages from ``conda-forge``.
- 
+
 Remember to use ``allowlist_externals`` in your Tox configuration if using non-Python Conda packages.
 
 conda_channels
