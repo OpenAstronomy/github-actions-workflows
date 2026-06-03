@@ -241,7 +241,7 @@ conda_channels
 ^^^^^^^^^^^^^^
 
 Conda channel(s) to use with ``conda_packages`` (defaults to ``conda-forge``).
-If multiple, make sure they're separated by commas.
+If multiple, separate with spaces.
 
 setenv
 ^^^^^^
