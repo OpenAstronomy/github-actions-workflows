@@ -219,7 +219,7 @@ jobs:
           choco: ${{ matrix.libraries_choco }}
 
       - name: Setup Python ${{ matrix.python_version }}
-        if: ${{ matrix.conda_packages == '' }}
+        if: inputs.conda_packages == ''
         uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
         with:
           python-version: ${{ matrix.python_version }}
@@ -227,7 +227,7 @@ jobs:
           ignore-empty-workdir: "true"
 
       - name: Setup Micromamba with Python ${{ matrix.python_version }}
-        if: ${{ matrix.conda_packages != '' }}
+        if: inputs.conda_packages != ''
         uses: mamba-org/setup-micromamba@d7c9bd84e824b79d2af72a2d4196c7f4300d3476 # v3.0.0
         with:
           environment-name: test
