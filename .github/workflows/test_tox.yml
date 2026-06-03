@@ -167,6 +167,12 @@ jobs:
          # Now also test it works with pytest-cov
          - linux: py314
            posargs: --cov=test_package
+
+  test_coverage_github_tmpdir:
+    uses: ./.github/workflows/tox.yml
+    with:
+      coverage: github
+      envs: |
          # And test it works if the pytest command isn't run in the toxinidir
          - linux: py314-tmpdir
            posargs: --cov=test_package
