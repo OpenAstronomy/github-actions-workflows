@@ -300,6 +300,13 @@ jobs:
         with:
           paths: "**/results.xml"
 
+      - name: Generate xml report for Codecov
+        # Even if tox fails, upload coverage
+        if: ${{ (success() || failure()) && contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
+        run: |
+          uvx coverage combine
+          uvx coverage xml -i
+
       - name: Upload to Codecov
         # Even if tox fails, upload coverage
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
