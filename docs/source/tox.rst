@@ -163,13 +163,37 @@ This option has no effect if ``pytest`` is ``false``.
 coverage
 ^^^^^^^^
 
-A space separated list of coverage providers to upload to, either
-``codecov`` or ``github``. Default is to not upload coverage
-reports.
-
-See also, ``CODECOV_TOKEN`` secret.
-
+The coverage option controls how coverage reports are made and processed after the tox job has completed.
 This option has no effect if ``pytest`` is ``false``.
+This option takes a space separated list of coverage providers to upload to, either ``codecov`` or ``github``.
+Default is to not upload coverage reports.
+If using ``codecov`` see :ref:`codecov-token`.
+
+As the workflows do not control how your tests are run, configuring coverage correctly may require changes to your tox.ini.
+The coverage collection is done inside the tox job, but the workflows handle generating reports and uploading to either codecov or github.
+
+Coverage Collection
+###################
+
+There are two main ways to generate coverage for your test run(s):
+
+* Using `coverage.py <https://coverage.readthedocs.io>`__ directly, which generally means prefixing your pytest command with ``coverage run -m <pytest ...>``. This will generate one or more ``.coverage`` files in the current directory (for parallel jobs it can generate one per process).
+* Using `pytest-cov <https://pytest-cov.readthedocs.io>`__ which generally involves installing ``pytest-cov`` and adding ``--cov=<packagename>`` to your pytest flags, this will also generate a ``.coverage`` file in the current directory as well as reporting coverage to the terminal by default.
+
+Coverage Reporting
+##################
+
+After coverage has been collected the workflows work with collected ``.coverage`` database files that should have been generated as part of your test run.
+If uploading to GitHub all these reports will be collected for all your jobs and combined together in a job at the end of the workflow.
+If uploading to codecov they will be combined and uploaded at the end of each job.
+
+Both of these report uploads require the ``.coverage`` file(s) to be in the root of the GitHub Actions workspace for processing at the end of the job.
+**If you are running your tests in a temporary directory**, the easiest way to achieve this is to set the following option in your tox.ini::
+
+  setenv =
+      COVERAGE_FILE={toxinidir}/.coverage
+
+This should work for both ``coverage.py`` and ``pytest-cov``.
 
 conda
 ^^^^^
@@ -611,6 +635,8 @@ like ``py311-test-cov`` and ``py312-test-cov`` instead of just ``py311`` and
 
 Secrets
 ~~~~~~~
+
+.. _codecov-token:
 
 CODECOV_TOKEN
 ^^^^^^^^^^^^^
