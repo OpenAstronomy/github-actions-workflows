@@ -124,7 +124,7 @@ jobs:
   test_conda:
     uses: ./.github/workflows/tox.yml
     with:
-      conda_packages: hstcal
+      conda_packages: requests
       envs: |
         - linux: py312
         - macos: py311
