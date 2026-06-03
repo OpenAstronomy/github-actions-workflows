@@ -26,6 +26,8 @@ jobs:
     uses: ./.github/workflows/tox.yml
     with:
       envs: |
+        - linux: py314-inputs-linux
+          python-version: 3.14.5
         - linux: py312-inputs-linux
         - macos: py311-inputs-macos
         - macos: py39-inputs-macos
