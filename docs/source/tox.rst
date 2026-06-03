@@ -187,12 +187,25 @@ If uploading to GitHub all these reports will be collected for all your jobs and
 If uploading to codecov they will be combined and uploaded at the end of each job.
 
 Both of these report uploads require the ``.coverage`` file(s) to be in the root of the GitHub Actions workspace for processing at the end of the job.
-**If you are running your tests in a temporary directory**, the easiest way to achieve this is to set the following option in your tox.ini::
+
+**If you are running your tests in a temporary directory**, more configuration may be required to configure the coverage collection correctly.
+
+The first step is to write the ``.coverage`` file to the same dir as the ``tox.ini`` to do this set the following option in your tox.ini::
 
   setenv =
       COVERAGE_FILE={toxinidir}/.coverage
 
 This should work for both ``coverage.py`` and ``pytest-cov``.
+
+The next thing you may need to configure is `source mapping <https://coverage.readthedocs.io/en/latest/config.html#config-paths>`__ to map the source code in the temporary directory to the source code in the repository checkout.
+This is normally only needed when using ``coverage: github`` as the report is generated in a separate Github Actions job meaning the temporary directory is no longer present.
+
+An example of this is in the ``.coveragerc`` file::
+
+  [paths]
+  source =
+    test_package/
+    .tox/**/test_package
 
 .. _codecov-auth:
 
