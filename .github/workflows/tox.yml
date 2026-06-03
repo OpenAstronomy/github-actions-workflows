@@ -304,7 +304,8 @@ jobs:
         # Even if tox fails, upload coverage
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
         run: |
-          uvx coverage combine
+          # combine will exit 1 if it's a no-op which is ok for us
+          uvx coverage combine;
           uvx coverage xml -i
 
       - name: Upload to Codecov
@@ -353,7 +354,8 @@ jobs:
           ignore-empty-workdir: "true"
       - name: generate coverage report
         run: |
-          uvx coverage combine
+          # combine will exit 1 if it's a no-op which is ok for us
+          uvx coverage combine;
           uvx coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
