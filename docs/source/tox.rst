@@ -233,9 +233,15 @@ To use oidc you need to give the job the ``id-token: write`` permission, we reco
 conda_packages
 ^^^^^^^^^^^^^^
 
-If populated, will set up a conda environment and install the requested packages from `conda-forge`.
+If populated, will set up a conda environment and install the requested packages from ``conda-forge``.
+ 
+Remember to use ``allowlist_externals`` in your Tox configuration if using non-Python Conda packages.
 
-Remember to use `allowlist_externals` in your Tox configuration if using non-Python Conda packages.
+conda_channels
+^^^^^^^^^^^^^^
+
+Conda channel(s) to use with ``conda_packages`` (defaults to ``conda-forge``).
+If multiple, make sure they're separated by commas.
 
 setenv
 ^^^^^^

@@ -47,6 +47,11 @@ on:
         description: extra packages to install with `mamba`
         required: false
         default: ""
+      conda_channels:
+        type: string
+        description: Conda channel(s) to use when installing packages (separated by commas)
+        required: false
+        default: "conda-forge"
       setenv:
         description: A map of environment variables to be available when testing
         required: false
@@ -232,8 +237,7 @@ jobs:
         with:
           environment-name: test
           condarc: |
-            channels:
-              - conda-forge
+            channels: [${{ inputs.conda_channels }}]
             use_uv: true
           create-args: >-
             python=${{ matrix.python_version }}
