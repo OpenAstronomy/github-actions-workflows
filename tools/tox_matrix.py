@@ -184,14 +184,6 @@ def get_matrix_item(env, global_libraries, global_string_parameters, runs_on, de
     item["pytest_flag"] = ""
     sep = r"\\" if platform == "windows" else "/"
     if item["pytest"] == "true":
-        if "codecov" in item.get("coverage", ""):
-            # Note that we don't include --cov here as if it's provided to pytest twice it breaks cov reporting.
-            # Lots of users of this specify --cov in their tox.ini so it's been removed for backwards compatibility.
-            # https://github.com/OpenAstronomy/github-actions-workflows/issues/383
-            item["pytest_flag"] += (
-                rf"--cov-report=xml:${{GITHUB_WORKSPACE}}{sep}coverage.xml "
-            )
-
         if item["pytest-results-summary"] == "true":
             item["pytest_flag"] += rf"--junitxml ${{GITHUB_WORKSPACE}}{sep}results.xml "
 
