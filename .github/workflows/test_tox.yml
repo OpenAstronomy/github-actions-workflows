@@ -162,8 +162,11 @@ jobs:
     with:
       coverage: github
       envs: |
+         # covcheck uses an explicit coverage run
          - linux: py313-covcheck
-         - linux: py314-covcheck
+         # Now also test it works with pytest-cov
+         - linux: py314
+           posargs: --cov=test_package
 
   test_artifact_upload:
     uses: ./.github/workflows/tox.yml
