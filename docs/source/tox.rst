@@ -166,7 +166,7 @@ coverage
 The coverage option controls how coverage reports are made and processed after the tox job has completed.
 The default is to not upload coverage reports.
 This option has no effect if ``pytest`` is ``false``.
-This option takes a space separated list of coverage providers to upload to, either ``codecov``, ``codecov-oidc`` or ``github``.
+This option takes a space separated list of coverage providers to upload to, either ``codecov``, ``codecov-oidc``, or ``github``.
 
 As the workflows do not control how your tests are run, configuring coverage correctly may require changes to your tox.ini.
 The coverage collection is done inside the tox job, but the workflows handle generating reports and uploading to either codecov or github.
