@@ -164,8 +164,33 @@ jobs:
     with:
       coverage: github
       envs: |
+         # covcheck uses an explicit coverage run
          - linux: py313-covcheck
-         - linux: py314-covcheck
+         # Now also test it works with pytest-cov
+         - linux: py314
+           posargs: --cov=test_package
+         # And test it works if the pytest command isn't run in the toxinidir
+         - linux: py314-tmpdir
+           posargs: --cov=test_package
+
+  test_coverage_codecov:
+    uses: ./.github/workflows/tox.yml
+    permissions:
+      id-token: write
+    with:
+      coverage: codecov-oidc
+      envs: |
+         # covcheck uses an explicit coverage run
+         - linux: py313-covcheck
+         # Now also test it works with pytest-cov
+         - linux: py314
+           posargs: --cov=test_package
+         # And test it works if the pytest command isn't run in the toxinidir
+         - linux: py314-tmpdir
+           posargs: --cov=test_package
+         # This job should fail and print a warning
+         - linux: py314-tmpdir_warning
+           posargs: --cov=test_package
 
   test_artifact_upload:
     uses: ./.github/workflows/tox.yml
