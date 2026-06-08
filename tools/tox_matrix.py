@@ -6,10 +6,10 @@
 #     "pyyaml==6.0.2",
 # ]
 # ///
-import copy
 import json
 import os
 import re
+from copy import copy
 
 import click
 import yaml
