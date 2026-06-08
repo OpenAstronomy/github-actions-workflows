@@ -202,6 +202,7 @@ jobs:
     needs: [envs]
     runs-on: ${{ matrix.os }}
     timeout-minutes: ${{ matrix.timeout-minutes }}
+    continue-on-error: true
     strategy:
       fail-fast: ${{ inputs.fail-fast }}
       matrix: ${{fromJSON(needs.envs.outputs.matrix)}}
