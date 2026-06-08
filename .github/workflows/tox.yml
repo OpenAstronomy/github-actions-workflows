@@ -153,12 +153,12 @@ jobs:
     name: Load tox environments
     runs-on: ubuntu-latest
     steps:
-      - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # 8.1.0
+      - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
         with:
           enable-cache: false
           ignore-empty-workdir: "true"
       - if: inputs.fill
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           ref: ${{ inputs.checkout_ref }}
           persist-credentials: false
@@ -211,7 +211,7 @@ jobs:
         working-directory: ${{ inputs.working-directory }}
 
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 0
           lfs: true
@@ -237,7 +237,7 @@ jobs:
 
       - name: Setup Python ${{ matrix.python_version }}
         if: ${{ matrix.conda != 'true' }}
-        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # 8.1.0
+        uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
         with:
           python-version: ${{ matrix.python_version }}
           activate-environment: "true"
@@ -344,7 +344,7 @@ jobs:
     name: report overall test coverage
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           lfs: true
           submodules: ${{ inputs.submodules }}
@@ -357,7 +357,7 @@ jobs:
           pattern: coverage-data-${{ github.run_id }}-*
           merge-multiple: true
 
-      - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # 8.1.0
+      - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
         with:
           ignore-empty-workdir: "true"
 
