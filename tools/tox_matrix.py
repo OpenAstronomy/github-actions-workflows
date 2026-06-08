@@ -39,7 +39,7 @@ from packaging.version import Version
 @click.option("--runs-on", default="")
 @click.option("--default-python", default="")
 @click.option("--timeout-minutes", default="360")
-@click.option("--supported-pythons", default='["3"]')
+@click.option("--python-versions", default='["3"]')
 def load_tox_targets(
     envs,
     libraries,
@@ -62,14 +62,17 @@ def load_tox_targets(
     runs_on,
     default_python,
     timeout_minutes,
-    supported_pythons,
+    python_versions,
 ):
     """Script to load tox targets for GitHub Actions workflow."""
 
-    if not supported_pythons:
-        supported_pythons = ['3']
-    elif isinstance(supported_pythons, str):
-        supported_pythons = json.loads(supported_pythons)
+    if not python_versions:
+        python_versions= ['3']
+    elif isinstance(python_versions, str):
+        try:
+            python_versions= json.loads(python_versions)
+        except json.decoder.JSONDecodeError:
+            python_versions= python_versions.split()
 
     # Load envs config
     envs = yaml.load(envs.replace("\\n", "\n"), Loader=yaml.BaseLoader)
@@ -133,7 +136,7 @@ def load_tox_targets(
         # check if we need to expand python versions from a glob (i.e. py*, py3*, py31*, etc.)
         toxenv = matrix_item["toxenv"]
         if toxenv.startswith("py") and "*" in toxenv.split("-")[0]:
-            toxenvs = expand_python_versions(toxenv, python_versions=supported_pythons)
+            toxenvs = expand_python_versions(toxenv, python_versions=python_versions)
 
             for expanded_toxenv, python_version in toxenvs:
                 expanded_matrix_item = copy(matrix_item)

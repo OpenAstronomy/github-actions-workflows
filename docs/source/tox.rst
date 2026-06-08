@@ -89,14 +89,49 @@ a free-threaded Python interpreter will be used.
 Python Version Globs (``py*``)
 """"""""""""""""""""""""""""""
 
-You can use glob syntax for the Python version (i.e. ``py3*``) to expand into all active (not end-of-life) minor versions of Python retrieved from https://endoflife.date
+You can use glob syntax for the Python version (i.e. ``py3*``)
+to multiply a single env by ``python_versions`` (see below),
+preserving Tox factors, test platform, and other env parameters:
 
 Additionally, if your project has a ``pyproject.toml`` with a ``project.requires-python`` the Python versions will be constrained to respect that.
 
-For example:
-- ``py*`` for all active minor versions of Python supported by your package
-- ``py3*`` for all active minor versions of Python 3 supported by your package
-- ``py31*`` for all active minor versions of Python between ``3.10`` and ``3.19`` supported by your package
+For example with ``python_versions: 3.9 3.10 3.11 3.12 3.13 3.14`` and ``project.requires-python = ">=3.9,<3.14"``,
+
+.. code-block:: yaml
+
+  uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
+  with:
+    envs: |
+      - linux: check-style
+      - linux: py3*
+      - macos: py31*-cov-xdist
+
+expands into the following:
+
+.. code:: yaml
+
+  uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v2
+  with:
+    envs: |
+      - linux: check-style
+      - linux: py39
+      - linux: py310
+      - linux: py311
+      - linux: py312
+      - linux: py313
+      - linux: py314
+      - macos: py310-cov-xdist
+      - macos: py311-cov-xdist
+      - macos: py312-cov-xdist
+      - macos: py313-cov-xdist
+      - macos: py314-cov-xdist
+
+python_versions
+^^^^^^^^^^^^^^^
+
+Space-separated list of Python versions, i.e. ``3.11 3.12 3.14``,
+used to expand Python version globs (see above).
+Defaults to all active (not end-of-life) Python versions from https://endoflife.date
 
 libraries
 ^^^^^^^^^
