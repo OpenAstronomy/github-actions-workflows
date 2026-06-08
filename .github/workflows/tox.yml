@@ -311,8 +311,7 @@ jobs:
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
         run: |
           if [ ! -f ".coverage" ]; then
-            echo "> [!WARNING]" >> $GITHUB_STEP_SUMMARY
-            echo "> No `.coverage` file was found in the root directory, this is now a requirement for uploading coverage to Codecov. See the documentation for more information: https://github-actions-workflows.openastronomy.org/en/stable/tox.html#coverage" >> $GITHUB_STEP_SUMMARY
+            echo "::error title=Misconfigured coverage reporting::No .coverage file was found in the root directory, this is now a requirement for uploading coverage to Codecov. See the documentation for more information: https://github-actions-workflows.openastronomy.org/en/stable/tox.html#coverage"
           fi
           uvx coverage xml -i
 
