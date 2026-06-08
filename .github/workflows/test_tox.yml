@@ -110,6 +110,18 @@ jobs:
           posargs: 'rolldice -v && exit 1 || exit 0'
       pytest: false
 
+  test_external_clib:
+    uses: ./.github/workflows/tox.yml
+    with:
+      envs: |
+        - linux: libraries-clibrary
+          libraries:
+            apt:
+              - libffcall-dev
+        - linux: libraries-clibrary
+          conda_packages: libffcall
+        - linux: libraries-clibrary
+
   test_venv:
     uses: ./.github/workflows/tox.yml
     with:
