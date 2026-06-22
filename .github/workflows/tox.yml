@@ -154,8 +154,8 @@ jobs:
         id: supported-pythons
         uses: OpenAstronomy/supported-pythons@83fea1cbcd1df5494f6846152992a553def0325b # 2.0.4
         with:
-          package: ${{ job.workflow_repository }}
-          package-ref: ${{ job.workflow_sha }}
+          package: ${{ github.repository }}
+          package-ref: ${{ github.sha }}
       - id: set-outputs
         run: |  # zizmor: ignore[template-injection]
           uv run tox_matrix.py \
