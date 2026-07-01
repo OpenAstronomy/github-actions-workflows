@@ -142,7 +142,7 @@ jobs:
         with:
           enable-cache: false
           ignore-empty-workdir: "true"
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ inputs.checkout_ref }}
           persist-credentials: false
@@ -152,7 +152,7 @@ jobs:
       - run: cat tox_matrix.py
       - if: contains(inputs.envs, '*')
         id: supported-pythons
-        uses: OpenAstronomy/supported-pythons@83fea1cbcd1df5494f6846152992a553def0325b # 2.0.4
+        uses: OpenAstronomy/supported-pythons@e83f87c7b6e0fc54353ea5af635026ed23e7d1cc # 2.1.0
         with:
           package: ${{ github.repository }}
           package-ref: ${{ github.sha }}
@@ -194,7 +194,7 @@ jobs:
         working-directory: ${{ inputs.working-directory }}
 
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
           lfs: true
@@ -204,7 +204,7 @@ jobs:
 
       - name: Cache ${{ matrix.cache_key }}
         if: ${{ matrix.cache-path != '' && matrix.cache-key != '' }}
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{ matrix.cache-path }}
           key: ${{ matrix.cache-key }}
@@ -327,7 +327,7 @@ jobs:
     name: report overall test coverage
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           lfs: true
           submodules: ${{ inputs.submodules }}
