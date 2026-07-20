@@ -9,7 +9,6 @@
 import json
 import os
 import re
-import warnings
 from copy import copy
 
 import click
@@ -26,7 +25,8 @@ from packaging.version import Version
 @click.option("--pytest", default="true")
 @click.option("--pytest-results-summary", default="false")
 @click.option("--coverage", default="")
-@click.option("--conda", default="auto")
+@click.option("--conda-packages")
+@click.option("--conda-channels", default="conda-forge")
 @click.option("--setenv", default="")
 @click.option("--display", default="false")
 @click.option("--cache-path", default="")
@@ -49,7 +49,8 @@ def load_tox_targets(
     pytest,
     pytest_results_summary,
     coverage,
-    conda,
+    conda_packages,
+    conda_channels,
     setenv,
     display,
     cache_path,
@@ -106,7 +107,8 @@ def load_tox_targets(
         "pytest": pytest,
         "pytest-results-summary": pytest_results_summary,
         "coverage": coverage,
-        "conda": conda,
+        "conda_packages": conda_packages,
+        "conda_channels": json.dumps(conda_channels.split()),
         "setenv": setenv,
         "display": display,
         "cache-path": cache_path,
@@ -165,6 +167,7 @@ def get_matrix_item(env, global_libraries, global_string_parameters, runs_on, de
         "libraries_brew_cask": None,
         "libraries_apt": None,
         "libraries_choco": None,
+        "conda-packages": None,
         "cache-path": None,
         "cache-key": None,
         "cache-restore-keys": None,
@@ -212,6 +215,10 @@ def get_matrix_item(env, global_libraries, global_string_parameters, runs_on, de
         if item["pytest-results-summary"] == "true":
             item["pytest_flag"] += rf"--junitxml ${{GITHUB_WORKSPACE}}{sep}results.xml "
 
+    env_conda_channels = env.get("conda-channels")
+    if isinstance(env_conda_channels, str) and len(env_conda_channels.strip()) == 0:
+        item["conda-channels"] = json.dumps(env_conda_channels.split())
+
     # set libraries
     env_libraries = env.get("libraries")
     if isinstance(env_libraries, str) and len(env_libraries.strip()) == 0:
@@ -220,23 +227,11 @@ def get_matrix_item(env, global_libraries, global_string_parameters, runs_on, de
     for manager in ["brew", "brew_cask", "apt", "choco"]:
         item[f"libraries_{manager}"] = " ".join(libraries.get(manager, []))
 
-    if item["conda"]:
-        warnings.warn("`conda` parameter is deprecated")
-
-        # set "auto" conda value
-        if item["conda"] == "auto":
-            item["conda"] = "true" if "conda" in item["toxenv"] else "false"
-
-        # inject toxdeps for conda
-        if item["conda"] == "true" and "tox-conda" not in item["toxdeps"].lower():
-            item["toxdeps"] = ("tox-conda " + item["toxdeps"]).strip()
-
     # make timeout-minutes a number
     item["timeout-minutes"] = int(item["timeout-minutes"])
 
     # verify values
     assert item["pytest"] in {"true", "false"}
-    assert item["conda"] in {"true", "false"}
     assert item["display"] in {"true", "false"}
 
     return item
