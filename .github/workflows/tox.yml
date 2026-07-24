@@ -285,6 +285,7 @@ jobs:
         # Even if tox fails, upload coverage
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
         run: |
+          ls -altr
           if [ ! -f ".coverage" ]; then
             echo "::error title=Misconfigured coverage reporting::No .coverage file was found in the root directory, this is now a requirement for uploading coverage to Codecov. See the documentation for more information: https://github-actions-workflows.openastronomy.org/en/stable/tox.html#coverage"
           fi
