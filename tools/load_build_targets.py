@@ -1,5 +1,5 @@
-# /// script
-# requires-python = "==3.12"
+﻿# /// script
+# requires-python = ">=3.12, <3.13"
 # dependencies = [
 #     "click==8.2.1",
 #     "pyyaml==6.0.2",
