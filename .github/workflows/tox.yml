@@ -287,7 +287,7 @@ jobs:
         # If there's not multiple files to combine then this will error but that's ok
         continue-on-error: true
         run: |
-          uvx coverage combine
+          uv run coverage combine
 
       - name: Generate xml report for Codecov
         # Even if tox fails, upload coverage
@@ -296,7 +296,7 @@ jobs:
           if [ ! -f ".coverage" ]; then
             echo "::error title=Misconfigured coverage reporting::No .coverage file was found in the root directory, this is now a requirement for uploading coverage to Codecov. See the documentation for more information: https://github-actions-workflows.openastronomy.org/en/stable/tox.html#coverage"
           fi
-          uvx coverage xml -i
+          uv run coverage xml -i
 
       - name: Upload to Codecov
         # Even if tox fails, upload coverage
