@@ -346,10 +346,10 @@ jobs:
 
       - name: Combine Coverage
         continue-on-error: true
-        run: uvx coverage combine
+        run: uv run coverage combine
 
       - name: Combine Coverage
-        run: uvx coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
+        run: uv run coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
 
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
