@@ -26,7 +26,7 @@ def set_env(env):
         title = "`env` must be mapping"
         message = f"`env` must be mapping of env variables to values, got type {type(env)}"
         print(f"::error title={title}::{message}")
-        exit(1)
+        sys.exit(1)
 
     for k, v in env.items():
 
@@ -34,7 +34,7 @@ def set_env(env):
             title = "`env` values must be strings"
             message = f"`env` values must be strings, but value of {k} has type {type(v)}"
             print(f"::error title={title}::{message}")
-            exit(1)
+            sys.exit(1)
 
         v = v.split("\n")
 
