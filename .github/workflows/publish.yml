@@ -122,7 +122,7 @@ jobs:
       matrix: ${{ steps.set-outputs.outputs.matrix }}
       upload_to_pypi: ${{ steps.set-upload.outputs.upload_to_pypi }}
     steps:
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
       - run: echo $LOAD_BUILD_TARGETS_SCRIPT | base64 --decode > load_build_targets.py
@@ -154,7 +154,7 @@ jobs:
       fail-fast: ${{ inputs.fail-fast }}
       matrix: ${{fromJSON(needs.targets.outputs.matrix)}}
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           lfs: true
@@ -168,7 +168,7 @@ jobs:
           echo "uname_m=$(uname -m)" >> "$GITHUB_OUTPUT"
       - name: Set up QEMU
         if: ${{ runner.os == 'Linux' && (matrix.CIBW_ARCHS != 'auto' && matrix.CIBW_ARCHS != steps.uname_m.outputs.uname_m) }}
-        uses: docker/setup-qemu-action@06116385d9baf250c9f4dcb4858b16962ea869c3 # v4.1.0
+        uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.2.0
         with:
           platforms: all
       - name: Parse dependency groups
@@ -198,7 +198,7 @@ jobs:
             echo "EOF" >> $GITHUB_ENV
           fi
           cat $GITHUB_ENV
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         if: ${{ inputs.env != '' }}
         with:
           python-version: '3.12'
@@ -213,7 +213,7 @@ jobs:
           SET_ENV_SCRIPT: IyAvLy8gc2NyaXB0CiMgcmVxdWlyZXMtcHl0aG9uID0gIj49My4xMiwgPDMuMTMiCiMgZGVwZW5kZW5jaWVzID0gWwojICAgICAicHl5YW1sPT02LjAuMiIsCiMgXQojIC8vLwppbXBvcnQganNvbgppbXBvcnQgb3MKaW1wb3J0IHN5cwoKaW1wb3J0IHlhbWwKCkdJVEhVQl9FTlYgPSBvcy5nZXRlbnYoIkdJVEhVQl9FTlYiKQppZiBHSVRIVUJfRU5WIGlzIE5vbmU6CiAgICByYWlzZSBWYWx1ZUVycm9yKCJHSVRIVUJfRU5WIG5vdCBzZXQuIE11c3QgYmUgcnVuIGluc2lkZSBHaXRIdWIgQWN0aW9ucy4iKQoKREVMSU1JVEVSID0gIkVPRiIKCgpkZWYgc2V0X2VudihlbnYpOgoKICAgIGVudiA9IHlhbWwubG9hZChlbnYsIExvYWRlcj15YW1sLkJhc2VMb2FkZXIpCiAgICBwcmludChqc29uLmR1bXBzKGVudiwgaW5kZW50PTIpKQoKICAgIGlmIG5vdCBpc2luc3RhbmNlKGVudiwgZGljdCk6CiAgICAgICAgdGl0bGUgPSAiYGVudmAgbXVzdCBiZSBtYXBwaW5nIgogICAgICAgIG1lc3NhZ2UgPSBmImBlbnZgIG11c3QgYmUgbWFwcGluZyBvZiBlbnYgdmFyaWFibGVzIHRvIHZhbHVlcywgZ290IHR5cGUge3R5cGUoZW52KX0iCiAgICAgICAgcHJpbnQoZiI6OmVycm9yIHRpdGxlPXt0aXRsZX06OnttZXNzYWdlfSIpCiAgICAgICAgZXhpdCgxKQoKICAgIGZvciBrLCB2IGluIGVudi5pdGVtcygpOgoKICAgICAgICBpZiBub3QgaXNpbnN0YW5jZSh2LCBzdHIpOgogICAgICAgICAgICB0aXRsZSA9ICJgZW52YCB2YWx1ZXMgbXVzdCBiZSBzdHJpbmdzIgogICAgICAgICAgICBtZXNzYWdlID0gZiJgZW52YCB2YWx1ZXMgbXVzdCBiZSBzdHJpbmdzLCBidXQgdmFsdWUgb2Yge2t9IGhhcyB0eXBlIHt0eXBlKHYpfSIKICAgICAgICAgICAgcHJpbnQoZiI6OmVycm9yIHRpdGxlPXt0aXRsZX06OnttZXNzYWdlfSIpCiAgICAgICAgICAgIGV4aXQoMSkKCiAgICAgICAgdiA9IHYuc3BsaXQoIlxuIikKCiAgICAgICAgd2l0aCBvcGVuKEdJVEhVQl9FTlYsICJhIikgYXMgZjoKICAgICAgICAgICAgaWYgbGVuKHYpID09IDE6CiAgICAgICAgICAgICAgICBmLndyaXRlKGYie2t9PXt2WzBdfVxuIikKICAgICAgICAgICAgZWxzZToKICAgICAgICAgICAgICAgIGZvciBsaW5lIGluIHY6CiAgICAgICAgICAgICAgICAgICAgYXNzZXJ0IGxpbmUuc3RyaXAoKSAhPSBERUxJTUlURVIKICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7a308PHtERUxJTUlURVJ9XG4iKQogICAgICAgICAgICAgICAgZm9yIGxpbmUgaW4gdjoKICAgICAgICAgICAgICAgICAgICBmLndyaXRlKGYie2xpbmV9XG4iKQogICAgICAgICAgICAgICAgZi53cml0ZShmIntERUxJTUlURVJ9XG4iKQoKICAgICAgICBwcmludChmIntrfSB3cml0dGVuIHRvIEdJVEhVQl9FTlYiKQoKCmlmIF9fbmFtZV9fID09ICJfX21haW5fXyI6CiAgICBzZXRfZW52KHN5cy5hcmd2WzFdKQo=
           INPUTS_ENV: ${{ inputs.env }}
       - name: Run cibuildwheel
-        uses: pypa/cibuildwheel@f03ac7617d6cff873ccf24cc0d567ef5ba5a9e6d # v4.0.0
+        uses: pypa/cibuildwheel@4726cd35bb13f7bde50cf2761f2499ac7b3aa32c # v4.1.1
         with:
           output-dir: dist
           package-dir: ${{ inputs.working-directory }}
@@ -235,7 +235,7 @@ jobs:
     runs-on: ${{ inputs.sdist-runs-on }}
     timeout-minutes: ${{ inputs.timeout-minutes }}
     steps:
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         if: ${{ inputs.env != '' }}
         with:
           python-version: '3.12'
@@ -249,7 +249,7 @@ jobs:
         env:
           SET_ENV_SCRIPT: IyAvLy8gc2NyaXB0CiMgcmVxdWlyZXMtcHl0aG9uID0gIj49My4xMiwgPDMuMTMiCiMgZGVwZW5kZW5jaWVzID0gWwojICAgICAicHl5YW1sPT02LjAuMiIsCiMgXQojIC8vLwppbXBvcnQganNvbgppbXBvcnQgb3MKaW1wb3J0IHN5cwoKaW1wb3J0IHlhbWwKCkdJVEhVQl9FTlYgPSBvcy5nZXRlbnYoIkdJVEhVQl9FTlYiKQppZiBHSVRIVUJfRU5WIGlzIE5vbmU6CiAgICByYWlzZSBWYWx1ZUVycm9yKCJHSVRIVUJfRU5WIG5vdCBzZXQuIE11c3QgYmUgcnVuIGluc2lkZSBHaXRIdWIgQWN0aW9ucy4iKQoKREVMSU1JVEVSID0gIkVPRiIKCgpkZWYgc2V0X2VudihlbnYpOgoKICAgIGVudiA9IHlhbWwubG9hZChlbnYsIExvYWRlcj15YW1sLkJhc2VMb2FkZXIpCiAgICBwcmludChqc29uLmR1bXBzKGVudiwgaW5kZW50PTIpKQoKICAgIGlmIG5vdCBpc2luc3RhbmNlKGVudiwgZGljdCk6CiAgICAgICAgdGl0bGUgPSAiYGVudmAgbXVzdCBiZSBtYXBwaW5nIgogICAgICAgIG1lc3NhZ2UgPSBmImBlbnZgIG11c3QgYmUgbWFwcGluZyBvZiBlbnYgdmFyaWFibGVzIHRvIHZhbHVlcywgZ290IHR5cGUge3R5cGUoZW52KX0iCiAgICAgICAgcHJpbnQoZiI6OmVycm9yIHRpdGxlPXt0aXRsZX06OnttZXNzYWdlfSIpCiAgICAgICAgZXhpdCgxKQoKICAgIGZvciBrLCB2IGluIGVudi5pdGVtcygpOgoKICAgICAgICBpZiBub3QgaXNpbnN0YW5jZSh2LCBzdHIpOgogICAgICAgICAgICB0aXRsZSA9ICJgZW52YCB2YWx1ZXMgbXVzdCBiZSBzdHJpbmdzIgogICAgICAgICAgICBtZXNzYWdlID0gZiJgZW52YCB2YWx1ZXMgbXVzdCBiZSBzdHJpbmdzLCBidXQgdmFsdWUgb2Yge2t9IGhhcyB0eXBlIHt0eXBlKHYpfSIKICAgICAgICAgICAgcHJpbnQoZiI6OmVycm9yIHRpdGxlPXt0aXRsZX06OnttZXNzYWdlfSIpCiAgICAgICAgICAgIGV4aXQoMSkKCiAgICAgICAgdiA9IHYuc3BsaXQoIlxuIikKCiAgICAgICAgd2l0aCBvcGVuKEdJVEhVQl9FTlYsICJhIikgYXMgZjoKICAgICAgICAgICAgaWYgbGVuKHYpID09IDE6CiAgICAgICAgICAgICAgICBmLndyaXRlKGYie2t9PXt2WzBdfVxuIikKICAgICAgICAgICAgZWxzZToKICAgICAgICAgICAgICAgIGZvciBsaW5lIGluIHY6CiAgICAgICAgICAgICAgICAgICAgYXNzZXJ0IGxpbmUuc3RyaXAoKSAhPSBERUxJTUlURVIKICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7a308PHtERUxJTUlURVJ9XG4iKQogICAgICAgICAgICAgICAgZm9yIGxpbmUgaW4gdjoKICAgICAgICAgICAgICAgICAgICBmLndyaXRlKGYie2xpbmV9XG4iKQogICAgICAgICAgICAgICAgZi53cml0ZShmIntERUxJTUlURVJ9XG4iKQoKICAgICAgICBwcmludChmIntrfSB3cml0dGVuIHRvIEdJVEhVQl9FTlYiKQoKCmlmIF9fbmFtZV9fID09ICJfX21haW5fXyI6CiAgICBzZXRfZW52KHN5cy5hcmd2WzFdKQo=
           INPUTS_ENV: ${{ inputs.env }}
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           lfs: true
@@ -293,7 +293,7 @@ jobs:
           pattern: dist-*
           path: dist
           merge-multiple: true
-      - uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # v1.14.0
+      - uses: pypa/gh-action-pypi-publish@ba38be9e461d3875417946c167d0b5f3d385a247 # v1.14.1
         name: Upload to PyPI
         if: ${{ needs.targets.outputs.upload_to_pypi == 'true' }}
         with:
