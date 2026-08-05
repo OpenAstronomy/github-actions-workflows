@@ -2,6 +2,11 @@
 requires = ["setuptools>=61.2"]
 build-backend = "setuptools.build_meta"
 
+[tool.cibuildwheel]
+skip = [
+    "cp315t-*", # missing wheels for hypothesis
+]
+
 [tool.cibuildwheel.linux]
 environment-pass = ["GITHUB_WORKFLOW"]
 
