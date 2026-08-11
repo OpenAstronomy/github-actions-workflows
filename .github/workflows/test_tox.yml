@@ -189,6 +189,7 @@ jobs:
            posargs: --cov=test_package
          # This job should fail and print a warning
          - linux: py314-tmpdir_warning
+           name: py314-tmpdir_warning (expected failure)
            posargs: --cov=test_package
 
   test_artifact_upload:
