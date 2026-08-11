@@ -283,7 +283,7 @@ jobs:
 
       - run: uv tool install "coverage[toml]"
 
-      - name: Combine converage reports for Codecov
+      - name: Combine coverage reports for Codecov
         # Even if tox fails, upload coverage
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
         # If there's not multiple files to combine then this will error but that's ok
