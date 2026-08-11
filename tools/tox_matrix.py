@@ -208,9 +208,8 @@ def get_matrix_item(env, global_libraries, global_string_parameters, runs_on, de
     # set pytest_flag
     item["pytest_flag"] = ""
     sep = r"\\" if platform == "windows" else "/"
-    if item["pytest"] == "true":
-        if item["pytest-results-summary"] == "true":
-            item["pytest_flag"] += rf"--junitxml ${{GITHUB_WORKSPACE}}{sep}results.xml "
+    if item["pytest"] == "true" and item["pytest-results-summary"] == "true":
+        item["pytest_flag"] += rf"--junitxml ${{GITHUB_WORKSPACE}}{sep}results.xml "
 
     # set libraries
     env_libraries = env.get("libraries")
