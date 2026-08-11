@@ -281,13 +281,15 @@ jobs:
         with:
           paths: "**/results.xml"
 
+      - run: uv tool install "coverage[toml]"
+
       - name: Combine converage reports for Codecov
         # Even if tox fails, upload coverage
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
         # If there's not multiple files to combine then this will error but that's ok
         continue-on-error: true
         run: |
-          uvx coverage combine
+          coverage combine
 
       - name: Generate xml report for Codecov
         # Even if tox fails, upload coverage
@@ -296,7 +298,7 @@ jobs:
           if [ ! -f ".coverage" ]; then
             echo "::error title=Misconfigured coverage reporting::No .coverage file was found in the root directory, this is now a requirement for uploading coverage to Codecov. See the documentation for more information: https://github-actions-workflows.openastronomy.org/en/stable/tox.html#coverage"
           fi
-          uvx coverage xml -i
+          coverage xml -i
 
       - name: Upload to Codecov
         # Even if tox fails, upload coverage
@@ -344,12 +346,14 @@ jobs:
         with:
           ignore-empty-workdir: "true"
 
-      - name: Combine Coverage
-        continue-on-error: true
-        run: uvx coverage combine
+      - run: uv tool install "coverage[toml]"
 
       - name: Combine Coverage
-        run: uvx coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
+        continue-on-error: true
+        run: coverage combine
+
+      - name: Combine Coverage
+        run: coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
 
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
