@@ -106,7 +106,7 @@ jobs:
     runs-on: ${{ inputs.runs-on }}
     timeout-minutes: ${{ inputs.timeout-minutes }}
     steps:
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         if: ${{ inputs.env != '' }}
         with:
           python-version: '3.12'
@@ -120,7 +120,7 @@ jobs:
         env:
           SET_ENV_SCRIPT: IyAvLy8gc2NyaXB0CiMgcmVxdWlyZXMtcHl0aG9uID0gIj49My4xMiwgPDMuMTMiCiMgZGVwZW5kZW5jaWVzID0gWwojICAgICAicHl5YW1sPT02LjAuMiIsCiMgXQojIC8vLwppbXBvcnQganNvbgppbXBvcnQgb3MKaW1wb3J0IHN5cwoKaW1wb3J0IHlhbWwKCkdJVEhVQl9FTlYgPSBvcy5nZXRlbnYoIkdJVEhVQl9FTlYiKQppZiBHSVRIVUJfRU5WIGlzIE5vbmU6CiAgICByYWlzZSBWYWx1ZUVycm9yKCJHSVRIVUJfRU5WIG5vdCBzZXQuIE11c3QgYmUgcnVuIGluc2lkZSBHaXRIdWIgQWN0aW9ucy4iKQoKREVMSU1JVEVSID0gIkVPRiIKCgpkZWYgc2V0X2VudihlbnYpOgoKICAgIGVudiA9IHlhbWwubG9hZChlbnYsIExvYWRlcj15YW1sLkJhc2VMb2FkZXIpCiAgICBwcmludChqc29uLmR1bXBzKGVudiwgaW5kZW50PTIpKQoKICAgIGlmIG5vdCBpc2luc3RhbmNlKGVudiwgZGljdCk6CiAgICAgICAgdGl0bGUgPSAiYGVudmAgbXVzdCBiZSBtYXBwaW5nIgogICAgICAgIG1lc3NhZ2UgPSBmImBlbnZgIG11c3QgYmUgbWFwcGluZyBvZiBlbnYgdmFyaWFibGVzIHRvIHZhbHVlcywgZ290IHR5cGUge3R5cGUoZW52KX0iCiAgICAgICAgcHJpbnQoZiI6OmVycm9yIHRpdGxlPXt0aXRsZX06OnttZXNzYWdlfSIpCiAgICAgICAgc3lzLmV4aXQoMSkKCiAgICBmb3IgaywgdiBpbiBlbnYuaXRlbXMoKToKCiAgICAgICAgaWYgbm90IGlzaW5zdGFuY2Uodiwgc3RyKToKICAgICAgICAgICAgdGl0bGUgPSAiYGVudmAgdmFsdWVzIG11c3QgYmUgc3RyaW5ncyIKICAgICAgICAgICAgbWVzc2FnZSA9IGYiYGVudmAgdmFsdWVzIG11c3QgYmUgc3RyaW5ncywgYnV0IHZhbHVlIG9mIHtrfSBoYXMgdHlwZSB7dHlwZSh2KX0iCiAgICAgICAgICAgIHByaW50KGYiOjplcnJvciB0aXRsZT17dGl0bGV9Ojp7bWVzc2FnZX0iKQogICAgICAgICAgICBzeXMuZXhpdCgxKQoKICAgICAgICB2ID0gdi5zcGxpdCgiXG4iKQoKICAgICAgICB3aXRoIG9wZW4oR0lUSFVCX0VOViwgImEiKSBhcyBmOgogICAgICAgICAgICBpZiBsZW4odikgPT0gMToKICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7a309e3ZbMF19XG4iKQogICAgICAgICAgICBlbHNlOgogICAgICAgICAgICAgICAgZm9yIGxpbmUgaW4gdjoKICAgICAgICAgICAgICAgICAgICBhc3NlcnQgbGluZS5zdHJpcCgpICE9IERFTElNSVRFUgogICAgICAgICAgICAgICAgZi53cml0ZShmIntrfTw8e0RFTElNSVRFUn1cbiIpCiAgICAgICAgICAgICAgICBmb3IgbGluZSBpbiB2OgogICAgICAgICAgICAgICAgICAgIGYud3JpdGUoZiJ7bGluZX1cbiIpCiAgICAgICAgICAgICAgICBmLndyaXRlKGYie0RFTElNSVRFUn1cbiIpCgogICAgICAgIHByaW50KGYie2t9IHdyaXR0ZW4gdG8gR0lUSFVCX0VOViIpCgoKaWYgX19uYW1lX18gPT0gIl9fbWFpbl9fIjoKICAgIHNldF9lbnYoc3lzLmFyZ3ZbMV0pCg==
           INPUTS_ENV: ${{ inputs.env }}
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           lfs: true
