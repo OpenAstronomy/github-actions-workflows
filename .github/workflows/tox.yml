@@ -138,7 +138,7 @@ jobs:
     name: Load tox environments
     runs-on: ubuntu-latest
     steps:
-      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
         with:
           enable-cache: false
           ignore-empty-workdir: "true"
@@ -220,7 +220,7 @@ jobs:
 
       - name: Setup Python ${{ matrix.python_version }}
         if: ${{ matrix.conda != 'true' }}
-        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
         with:
           python-version: ${{ matrix.python_version }}
           activate-environment: "true"
@@ -228,7 +228,7 @@ jobs:
 
       - name: Setup conda (deprecated)
         if: ${{ matrix.conda == 'true' }}
-        uses: mamba-org/setup-micromamba@ce51e99f4bb8a82ab7158c4dc59ef4634c59c4f9 # v3.1.0
+        uses: mamba-org/setup-micromamba@f457c30a868e4760d3a6fcea5f25dc655b8edf39 # v3.2.1
         with:
           environment-name: test
           condarc: |
@@ -261,7 +261,7 @@ jobs:
 
       - name: Setup headless display
         if: ${{ matrix.display == 'true' }}
-        uses: pyvista/setup-headless-display-action@5bc8de3bc71fcda7a96439571287a554901541a0 # v4.3
+        uses: pyvista/setup-headless-display-action@b0bf9f57d62d2b3fee9f1c0e0c7e390f05e97a4e # v5.0.0
 
       - run: uv pip install tox ${{ matrix.toxdeps }} # zizmor: ignore[template-injection]
 
@@ -342,7 +342,7 @@ jobs:
           pattern: coverage-data-${{ github.run_id }}-*
           merge-multiple: true
 
-      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
         with:
           ignore-empty-workdir: "true"
 
