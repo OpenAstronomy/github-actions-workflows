@@ -46,6 +46,7 @@ jobs:
           runs-on: ubuntu-24.04-arm
         - cp313-manylinux_x86_64
         - target: cp311-manylinux_ppc64le
+        - cp314-pyodide_wasm32
       timeout-minutes: 30
   release_sdist_only:
     uses: ./.github/workflows/publish.yml
