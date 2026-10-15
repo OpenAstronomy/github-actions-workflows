@@ -1,5 +1,5 @@
 # /// script
-# requires-python = ">=3.12, <3.13"
+# requires-python = ">=3.12"
 # dependencies = [
 #     "click==8.2.1",
 #     "packaging==25.0",
@@ -144,6 +144,10 @@ def load_tox_targets(
                 expanded_matrix_item["python_version"] = python_version
                 matrix["include"].append(expanded_matrix_item)
         else:
+            if toxenv.split("-")[0] == "py3":
+                # replace py3 with latest supported Python
+                # see https://github.com/OpenAstronomy/github-actions-workflows/issues/427
+                matrix_item["python_version"] = supported_pythons[-1]
             matrix["include"].append(matrix_item)
 
     # Output matrix
