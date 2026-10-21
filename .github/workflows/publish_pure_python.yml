@@ -152,7 +152,7 @@ jobs:
         env:
           UPLOAD_TO_PYPI: ${{ inputs.upload_to_pypi }}
           UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'release' || github.event_name == 'create') && startsWith(github.ref, inputs.upload_to_pypi) }}
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: ${{ inputs.save_artifacts }}
         with:
           name: "dist-publish-pure"
