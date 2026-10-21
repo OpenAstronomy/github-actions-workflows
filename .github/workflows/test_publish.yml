@@ -19,14 +19,14 @@ permissions: {}
 
 jobs:
   release_default:
-    uses: ./.github/workflows/publish.yml
+    uses: $/.github/workflows/publish.yml
     with:
       test_groups: test, concurrency
       test_extras: recommended
       test_command: pytest --pyargs test_package
       timeout-minutes: 30
   release:
-    uses: ./.github/workflows/publish.yml
+    uses: $/.github/workflows/publish.yml
     with:
       save_artifacts: true
       upload_to_pypi: false
@@ -49,7 +49,7 @@ jobs:
         - cp314-pyodide_wasm32
       timeout-minutes: 30
   release_sdist_only:
-    uses: ./.github/workflows/publish.yml
+    uses: $/.github/workflows/publish.yml
     with:
       test_groups: test, concurrency
       test_extras: recommended
@@ -57,7 +57,7 @@ jobs:
       targets: ''
 
   release_working_directory:
-    uses: ./.github/workflows/publish.yml
+    uses: $/.github/workflows/publish.yml
     with:
       working-directory: packages/subpackage_c
       test_command: python -c "from subpackage_c import example_func; assert example_func() == 42"
