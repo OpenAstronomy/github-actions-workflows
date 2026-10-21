@@ -138,7 +138,7 @@ jobs:
     name: Load tox environments
     runs-on: ubuntu-latest
     steps:
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
         with:
           enable-cache: false
           ignore-empty-workdir: "true"
@@ -220,7 +220,7 @@ jobs:
 
       - name: Setup Python ${{ matrix.python_version }}
         if: ${{ matrix.conda != 'true' }}
-        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
         with:
           python-version: ${{ matrix.python_version }}
           activate-environment: "true"
@@ -268,7 +268,7 @@ jobs:
       - run: tox -e ${{ matrix.toxenv }} ${{ matrix.toxargs }} -- ${{ matrix.pytest_flag }} ${{ matrix.posargs }} # zizmor: ignore[template-injection]
 
       - if: ${{ (success() || failure()) && matrix.artifact-path != '' }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ${{ matrix.artifact-name }}
           path: ${{ matrix.artifact-path }}
@@ -312,7 +312,7 @@ jobs:
       - name: Upload coverage data to GitHub
         id: upload-coverage-gh
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'github') && matrix.pytest == 'true' }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: coverage-data-${{ github.run_id }}-${{ runner.os }}-${{ runner.arch }}-${{ matrix.toxenv }}
           path: |
@@ -337,12 +337,12 @@ jobs:
           persist-credentials: false
 
       - name: download coverage reports
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: coverage-data-${{ github.run_id }}-*
           merge-multiple: true
 
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
         with:
           ignore-empty-workdir: "true"
 
@@ -355,7 +355,7 @@ jobs:
       - name: Combine Coverage
         run: coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
 
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: coverage-report-${{ hashFiles('.coverage') }}
           path: .coverage
