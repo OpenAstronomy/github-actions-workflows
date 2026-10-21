@@ -23,7 +23,7 @@ permissions: {}
 
 jobs:
   test_pyos:
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     with:
       envs: |
         - linux: py314-inputs-linux
@@ -38,7 +38,7 @@ jobs:
       pytest: false
 
   test_global_override:
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     with:
       runs-on: |
         linux: ubuntu-22.04
@@ -53,7 +53,7 @@ jobs:
       timeout-minutes: 2
 
   test_default_python:
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     with:
       default_python: '3.9'
       envs: |
@@ -71,7 +71,7 @@ jobs:
       pytest: false
 
   test_python_version_glob:
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     with:
       envs: |
         - linux: pep8
@@ -80,7 +80,7 @@ jobs:
       pytest: false
 
   test_libraries:
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     with:
       libraries: |
         apt:
@@ -111,7 +111,7 @@ jobs:
       pytest: false
 
   test_venv:
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     with:
       envs: |
         - linux: pep8
@@ -122,7 +122,7 @@ jobs:
         - windows: py310
 
   test_conda:
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     with:
       envs: |
         - linux: py312-conda
@@ -130,7 +130,7 @@ jobs:
         - windows: py310-conda
 
   test_setenv:
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     with:
       setenv: |
         MY_VAR: global_value
@@ -141,7 +141,7 @@ jobs:
         - macos: setenv-global
 
   test_cache_setup:
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     with:
       cache-path: a/
       cache-key: cache-${{ github.run_id }}
@@ -150,7 +150,7 @@ jobs:
 
   test_cache_verify:
     needs: [test_cache_setup]
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     with:
       envs: |
         - linux: cache-verify
@@ -159,7 +159,7 @@ jobs:
           cache-key: cache-${{ github.run_id }}
 
   test_coverage_github:
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     with:
       coverage: github
       envs: |
@@ -173,7 +173,7 @@ jobs:
            posargs: --cov=test_package
 
   test_coverage_codecov:
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     permissions:
       id-token: write
     with:
@@ -193,7 +193,7 @@ jobs:
            posargs: --cov=test_package
 
   test_artifact_upload:
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     with:
       envs: |
         - linux: artifact-upload
@@ -217,20 +217,20 @@ jobs:
       - run: python -c "assert open('test.txt').read().strip() == 'hello world'"
 
   test_pytest_args:
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     with:
       envs: |
         - linux: py312-linux
           pytest-results-summary: true
 
   test_prereleases:
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     with:
       envs: |
         - linux: py312
 
   test_freethreaded:
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     with:
       envs: |
         - linux: py313t-linux
@@ -238,7 +238,7 @@ jobs:
         - windows: py313t-windows
 
   test_working_directory:
-    uses: ./.github/workflows/tox.yml
+    uses: $/.github/workflows/tox.yml
     with:
       working-directory: packages/subpackage
       envs: |

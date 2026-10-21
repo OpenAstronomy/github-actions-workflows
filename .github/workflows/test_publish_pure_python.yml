@@ -19,7 +19,7 @@ permissions: {}
 
 jobs:
   release:
-    uses: ./.github/workflows/publish_pure_python.yml
+    uses: $/.github/workflows/publish_pure_python.yml
     with:
       test_groups: test, concurrency
       test_extras: recommended
@@ -27,7 +27,7 @@ jobs:
       timeout-minutes: 5
 
   setenv:
-    uses: ./.github/workflows/publish_pure_python.yml
+    uses: $/.github/workflows/publish_pure_python.yml
     with:
       save_artifacts: true
       test_command: python -c "import os; assert os.getenv('CUSTOM_VAR') == 'custom value'"
@@ -35,7 +35,7 @@ jobs:
         CUSTOM_VAR: custom value
 
   release_working_directory:
-    uses: ./.github/workflows/publish_pure_python.yml
+    uses: $/.github/workflows/publish_pure_python.yml
     with:
       working-directory: packages/subpackage
       test_extras: test
