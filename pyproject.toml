@@ -54,3 +54,8 @@ line-length = 100
 extend-select = [
     "I", # isort
 ]
+
+[tool.pytest]
+minversion = "9.0"
+addopts = ["-m not failing_test"]
+markers = ["failing_test"]
