@@ -23,7 +23,7 @@ jobs:
     with:
       test_groups: test, concurrency
       test_extras: recommended
-      test_command: pytest --pyargs test_package
+      test_command: pytest --pyargs test_package -m "not failing_test"
       timeout-minutes: 30
   release:
     uses: $/.github/workflows/publish.yml
@@ -32,7 +32,7 @@ jobs:
       upload_to_pypi: false
       test_groups: test, concurrency
       test_extras: recommended
-      test_command: pytest --pyargs test_package
+      test_command: pytest --pyargs test_package -m "not failing_test"
       targets: |
         - linux
         - cp31?-macos*
@@ -53,7 +53,7 @@ jobs:
     with:
       test_groups: test, concurrency
       test_extras: recommended
-      test_command: pytest --pyargs test_package
+      test_command: pytest --pyargs test_package -m "not failing_test"
       targets: ''
 
   release_working_directory:

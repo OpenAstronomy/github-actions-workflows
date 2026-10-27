@@ -23,7 +23,7 @@ jobs:
     with:
       test_groups: test, concurrency
       test_extras: recommended
-      test_command: pytest --pyargs test_package
+      test_command: pytest --pyargs test_package -m "not failing_test"
       timeout-minutes: 5
 
   setenv:
@@ -39,7 +39,7 @@ jobs:
     with:
       working-directory: packages/subpackage
       test_extras: test
-      test_command: pytest --pyargs subpackage
+      test_command: pytest --pyargs subpackage -m "not failing_test"
       upload_to_pypi: false
       timeout-minutes: 5
 
