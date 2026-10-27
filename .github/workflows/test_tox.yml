@@ -125,9 +125,9 @@ jobs:
     uses: $/.github/workflows/tox.yml
     with:
       envs: |
-        - linux: py312-conda
-        - macos: py311-conda
-        - windows: py310-conda
+        - linux: py313-conda
+        - macos: py312-conda
+        - windows: py311-conda
 
   test_setenv:
     uses: $/.github/workflows/tox.yml
@@ -166,10 +166,10 @@ jobs:
          # covcheck uses an explicit coverage run
          - linux: py313-covcheck
          # Now also test it works with pytest-cov
-         - linux: py314
+         - linux: py314-test
            posargs: --cov=test_package
          # And test it works if the pytest command isn't run in the toxinidir
-         - linux: py314-tmpdir
+         - linux: py314-test-tmpdir
            posargs: --cov=test_package
 
   test_coverage_codecov:
@@ -182,14 +182,25 @@ jobs:
          # covcheck uses an explicit coverage run
          - linux: py313-covcheck
          # Now also test it works with pytest-cov
-         - linux: py314
+         - linux: py314-test
            posargs: --cov=test_package
          # And test it works if the pytest command isn't run in the toxinidir
-         - linux: py314-tmpdir
+         - linux: py314-test-tmpdir
            posargs: --cov=test_package
+
+  test_failures:
+    uses: $/.github/workflows/tox.yml
+    permissions:
+      id-token: write
+    with:
+      coverage: codecov-oidc
+      envs: |
          # This job should fail and print a warning
-         - linux: py314-tmpdir_warning
+         - linux: py314-test-tmpdir_warning
            name: py314-tmpdir_warning (expected failure)
+           posargs: --cov=test_package
+         - linux: py314-test-fail
+           name: py314-test-fail (expected failure)
            posargs: --cov=test_package
 
   test_artifact_upload:

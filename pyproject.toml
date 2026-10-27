@@ -34,11 +34,11 @@ concurrency = [
 covcheck = [
     "coverage[toml] ; python_version < '3.11'",
     "coverage>=7.11.3",
-    "pytest-cov>=7.0.0",
 ]
 test = [
     "hypothesis>=6.113.0",
     "pytest>=8.3.5",
+    "pytest-cov>=7.0.0",
 ]
 
 [tool.setuptools]
@@ -54,3 +54,8 @@ line-length = 100
 extend-select = [
     "I", # isort
 ]
+
+[tool.pytest]
+minversion = "9.0"
+addopts = ["-m not failing_test"]
+markers = ["failing_test"]
