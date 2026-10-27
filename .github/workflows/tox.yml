@@ -239,7 +239,7 @@ jobs:
           create-args: >-
             conda
             python=${{ matrix.python_version }}
-            uv=0.13.5
+            uv
           init-shell: bash
           cache-environment: true
           cache-downloads: true
