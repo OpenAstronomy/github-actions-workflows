@@ -125,9 +125,9 @@ jobs:
     uses: $/.github/workflows/tox.yml
     with:
       envs: |
-        - linux: py312-conda
-        - macos: py311-conda
-        - windows: py310-conda
+        - linux: py313-conda
+        - macos: py312-conda
+        - windows: py311-conda
 
   test_setenv:
     uses: $/.github/workflows/tox.yml
