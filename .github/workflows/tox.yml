@@ -281,15 +281,17 @@ jobs:
         with:
           paths: "**/results.xml"
 
-      - run: uv tool install "coverage[toml]"
+      - name: Install coverage
+        # Even if tox fails, upload coverage
+        if: ${{ (success() || failure()) && contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
+        run: uv tool install "coverage[toml]"
 
       - name: Combine coverage reports for Codecov
         # Even if tox fails, upload coverage
         if: ${{ (success() || failure()) && contains(matrix.coverage, 'codecov') && matrix.pytest == 'true' }}
         # If there's not multiple files to combine then this will error but that's ok
         continue-on-error: true
-        run: |
-          coverage combine
+        run: coverage combine
 
       - name: Generate xml report for Codecov
         # Even if tox fails, upload coverage
