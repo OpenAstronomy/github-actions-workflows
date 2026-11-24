@@ -26,12 +26,12 @@ jobs:
     uses: $/.github/workflows/tox.yml
     with:
       envs: |
-        - linux: py314-inputs-linux
+        - linux: py315-inputs-linux
           python-version: 3.14.5
-        - linux: py312-inputs-linux
-        - macos: py311-inputs-macos
-        - macos: py39-inputs-macos
-        - windows: py310-inputs-windows
+        - linux: py314-inputs-linux
+        - macos: py313-inputs-macos
+        - macos: py312-inputs-macos
+        - windows: py311-inputs-windows
           toxargs: '-v'
           runs-on: windows-2022
 
@@ -55,7 +55,7 @@ jobs:
   test_default_python:
     uses: $/.github/workflows/tox.yml
     with:
-      default_python: '3.9'
+      default_python: '3.11'
       envs: |
         - linux: default_python
           posargs: '9'
@@ -66,7 +66,7 @@ jobs:
           python-version: '3.13'
           posargs: 'CPython'
         - linux: pypy310-python_version
-          python-version: 'pypy-3.10'
+          python-version: 'pypy-3.11'
           posargs: 'PyPy'
       pytest: false
 
@@ -117,9 +117,9 @@ jobs:
         - linux: pep8
           name: style_check
           pytest: false
-        - linux: py312
-        - macos: py311
-        - windows: py310
+        - linux: py315
+        - macos: py313
+        - windows: py311
 
   test_conda:
     uses: $/.github/workflows/tox.yml
