@@ -349,14 +349,14 @@ jobs:
         with:
           ignore-empty-workdir: "true"
 
-      - run: uv tool install "coverage[toml]"
+      - run: uv sync --locked --only-group covcheck
 
       - name: Combine Coverage
         continue-on-error: true
-        run: coverage combine
+        run: uv run --no-sync covcheck coverage combine
 
       - name: Combine Coverage
-        run: coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
+        run: uv run --no-sync coverage report -i -m --format=markdown >> $GITHUB_STEP_SUMMARY
 
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
